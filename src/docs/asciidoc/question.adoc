@@ -4,8 +4,8 @@ include::{snippets}/test_질문_등록_성공/curl-request.adoc[]
 == 2. HTTP Request
 include::{snippets}/test_질문_등록_성공/http-request.adoc[]
 
-== 3. HTTP Request Headers
-include::{snippets}/test_질문_등록_성공/request-headers.adoc[]
+// == 3. HTTP Request Headers
+// include::{snippets}/test_질문_등록_성공/request-headers.adoc[]
 
 // == 4. HTTP Request Parameters
 
@@ -18,10 +18,10 @@ include::{snippets}/test_질문_등록_성공/request-headers.adoc[]
 // === 3) Form Parameters
 // include::{snippets}/test_질문_등록_성공/form-parameters.adoc[]
 
-== 4. HTTP Request Body
+== 3. HTTP Request Body
 include::{snippets}/test_질문_등록_성공/request-body.adoc[]
 // include::{snippets}/test_질문_등록_성공/request-fields.adoc[]
 
-== 5. HTTP Response Body
+== 4. HTTP Response Body
 include::{snippets}/test_질문_등록_성공/response-body.adoc[]
 // include::{snippets}/test_질문_등록_성공/response-fields.adoc[]
