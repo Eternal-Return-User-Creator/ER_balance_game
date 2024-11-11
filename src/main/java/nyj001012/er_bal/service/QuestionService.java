@@ -22,7 +22,8 @@ public class QuestionService {
      */
     public Question post(Question question) {
         validateQuestion(question);
-        return questionRepository.save(question);
+        questionRepository.save(question);
+        return question;
     }
 
     /**
