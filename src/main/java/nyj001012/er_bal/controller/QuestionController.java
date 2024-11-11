@@ -30,7 +30,7 @@ public class QuestionController {
         question.setUpdatedDate(date);
         question.setaChoiceCount(0L);
         question.setbChoiceCount(0L);
-        Question savedQuestion = questionService.post(question);
+        Question savedQuestion;
         try {
             savedQuestion = questionService.post(question);
         } catch (Exception e) {
