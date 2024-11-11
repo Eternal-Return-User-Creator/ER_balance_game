@@ -32,6 +32,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'io.rest-assured:rest-assured:5.3.0'
@@ -65,7 +68,7 @@ tasks.register('copyDocs', Copy) {
 // API 페이지 용 깃허브 서브트리인 er-bal-api.github.io 저장소에 커밋 및 푸시
 tasks.register('deployAPIDocs') {
     doLast {
-        def apiRepository = 'https://github.com/nyj001012/er-bal-api.github.io.git'
+        def apiRepository = 'https://github.com/Eternal-Return-User-Creator/er-bal-api.github.io.git'
         def apiDir = file('src/main/resources/static/docs')
 
         println('>> Deploying API Docs')
