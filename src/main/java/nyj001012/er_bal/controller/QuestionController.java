@@ -28,10 +28,10 @@ public class QuestionController {
         question.setQuestionB(questionPostRequestDTO.getQuestionB());
         question.setCreatedDate(date);
         question.setUpdatedDate(date);
-        question.setaChoiceCount(0L);
-        question.setbChoiceCount(0L);
+        question.setAChoiceCount(0L);
+        question.setBChoiceCount(0L);
         try {
-            questionService.post(question);
+            question = questionService.post(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
