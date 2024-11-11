@@ -25,8 +25,8 @@ public class QuestionRepositoryTest {
         question.setQuestionB("질문2");
         question.setCreatedDate(dateTime);
         question.setUpdatedDate(dateTime);
-        question.setaChoiceCount(0L);
-        question.setbChoiceCount(0L);
+        question.setAChoiceCount(0L);
+        question.setBChoiceCount(0L);
 
         questionRepository.save(question);
 
