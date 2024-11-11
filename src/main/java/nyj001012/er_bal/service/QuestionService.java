@@ -18,12 +18,11 @@ public class QuestionService {
     /**
      * 질문 등록
      * @param question 질문 객체
-     * @return 질문 객체의 id
+     * @return 등록된 질문 객체
      */
-    public Long post(Question question) {
+    public Question post(Question question) {
         validateQuestion(question);
-        questionRepository.save(question);
-        return question.getId();
+        return questionRepository.save(question);
     }
 
     /**
