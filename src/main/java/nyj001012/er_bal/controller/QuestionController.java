@@ -30,11 +30,12 @@ public class QuestionController {
         question.setUpdatedDate(date);
         question.setAChoiceCount(0L);
         question.setBChoiceCount(0L);
+        Long id;
         try {
-            question = questionService.post(question);
+            id = questionService.post(question);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(question);
+        return ResponseEntity.ok(id);
     }
 }
