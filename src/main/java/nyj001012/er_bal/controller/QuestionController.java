@@ -24,7 +24,6 @@ public class QuestionController {
     public ResponseEntity<?> post(@RequestBody QuestionPostRequestDTO questionPostRequestDTO) {
         Date date = new Date();
         Question question = new Question();
-        question.setId(1L);
         question.setQuestionA(questionPostRequestDTO.getQuestionA());
         question.setQuestionB(questionPostRequestDTO.getQuestionB());
         question.setCreatedDate(date);
