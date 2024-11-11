@@ -1,9 +1,13 @@
 package nyj001012.er_bal.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Setter
+@Getter
 @Entity
 public class Question {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,59 +31,4 @@ public class Question {
     @Column(name="b_choice_count")
     private Long bChoiceCount;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getQuestionA() {
-        return questionA;
-    }
-
-    public void setQuestionA(String questionA) {
-        this.questionA = questionA;
-    }
-
-    public String getQuestionB() {
-        return questionB;
-    }
-
-    public void setQuestionB(String questionB) {
-        this.questionB = questionB;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Long getaChoiceCount() {
-        return aChoiceCount;
-    }
-
-    public void setaChoiceCount(Long aChoiceCount) {
-        this.aChoiceCount = aChoiceCount;
-    }
-
-    public Long getbChoiceCount() {
-        return bChoiceCount;
-    }
-
-    public void setbChoiceCount(Long bChoiceCount) {
-        this.bChoiceCount = bChoiceCount;
-    }
 }

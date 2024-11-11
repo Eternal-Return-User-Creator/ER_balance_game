@@ -26,8 +26,8 @@ public class QuestionServiceTest {
         this.question = new Question();
         this.question.setQuestionA("질문A");
         this.question.setQuestionB("질문B");
-        this.question.setbChoiceCount(0L);
-        this.question.setaChoiceCount(0L);
+        this.question.setAChoiceCount(0L);
+        this.question.setBChoiceCount(0L);
         this.question.setCreatedDate(new Date());
         this.question.setUpdatedDate(new Date());
     }
