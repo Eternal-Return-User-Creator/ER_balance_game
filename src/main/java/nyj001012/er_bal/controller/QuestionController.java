@@ -28,6 +28,8 @@ public class QuestionController {
         question.setQuestionB(questionPostRequestDTO.getQuestionB());
         question.setCreatedDate(date);
         question.setUpdatedDate(date);
+        question.setaChoiceCount(0L);
+        question.setbChoiceCount(0L);
         try {
             questionService.post(question);
         } catch (Exception e) {
