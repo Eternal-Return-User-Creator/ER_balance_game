@@ -46,4 +46,20 @@ public class QuestionRepositoryTest {
         assertThat(savedQuestion.getQuestionB()).isEqualTo("질문2");
     }
 
+    @Test
+    public void 질문_랜덤_조회_테스트() {
+        for (int i = 0; i < 3; i++) {
+            Question question = new Question();
+            question.setQuestionA("질문A" + i);
+            question.setQuestionB("질문B" + (i + 1));
+            question.setAChoiceCount(0L);
+            question.setBChoiceCount(0L);
+            question.setCreatedDate(new Date());
+            question.setUpdatedDate(new Date());
+            questionRepository.save(question);
+        }
+
+        Question randomQuestion = questionRepository.findOneRandom();
+        assertThat(randomQuestion).isNotNull();
+    }
 }
