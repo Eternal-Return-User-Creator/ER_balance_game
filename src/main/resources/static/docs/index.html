@@ -449,13 +449,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_api">API</a>
 <ul class="sectlevel1">
 <li><a href="#_질문">질문</a></li>
-<li><a href="#_post_apiquestions">POST /api/questions</a>
+<li><a href="#_post_apiquestion">POST /api/question</a>
 <ul class="sectlevel2">
 <li><a href="#_1_curl_request">1. Curl Request</a></li>
 <li><a href="#_2_http_request">2. HTTP Request</a></li>
 <li><a href="#_3_http_request_body">3. HTTP Request Body</a></li>
 <li><a href="#_4_http_response">4. HTTP Response</a></li>
 <li><a href="#_5_http_response_body">5. HTTP Response Body</a></li>
+</ul>
+</li>
+<li><a href="#_get_apiquestion">GET /api/question</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request_2">1. Curl Request</a></li>
+<li><a href="#_2_http_request_2">2. HTTP Request</a></li>
+<li><a href="#_3_http_request_body_2">3. HTTP Request Body</a></li>
+<li><a href="#_4_http_response_2">4. HTTP Response</a></li>
+<li><a href="#_5_http_response_body_2">5. HTTP Response Body</a></li>
 </ul>
 </li>
 </ul>
@@ -472,7 +481,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_post_apiquestions"><a class="link" href="#_post_apiquestions">POST /api/questions</a></h2>
+<h2 id="_post_apiquestion"><a class="link" href="#_post_apiquestion">POST /api/question</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_1_curl_request"><a class="link" href="#_1_curl_request">1. Curl Request</a></h3>
@@ -536,8 +545,58 @@ Content-Length: 1
 <pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">0</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_get_apiquestion"><a class="link" href="#_get_apiquestion">GET /api/question</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_1_curl_request_2"><a class="link" href="#_1_curl_request_2">1. Curl Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/question' -i -X GET</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_http_request_2"><a class="link" href="#_2_http_request_2">2. HTTP Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/question HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_http_request_body_2"><a class="link" href="#_3_http_request_body_2">3. HTTP Request Body</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs"></code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Unresolved directive in src/docs/asciidoc/question.adoc - include::../../..//build/generated-snippets/질문_등록_성공/response-fields.adoc[]</p>
+<p>Unresolved directive in src/docs/asciidoc/question.adoc - include::../../..//build/generated-snippets/랜덤_질문_조회_성공/request-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_http_response_2"><a class="link" href="#_4_http_response_2">4. HTTP Response</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 4
+
+null</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_http_response_body_2"><a class="link" href="#_5_http_response_body_2">5. HTTP Response Body</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">null</code></pre>
+</div>
 </div>
 </div>
 </div>
