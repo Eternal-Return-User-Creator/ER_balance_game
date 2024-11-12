@@ -10,6 +10,6 @@ public interface IQuestionRepository {
     Optional<Question> findById(Long id);
     List<Question> findByQuestion(String question);
     Optional<Question> findByQuestionAB(String questionA, String questionB);
-    Question findOneRandom();
+    Optional<Question> findOneRandom();
     void deleteAll();
 }
