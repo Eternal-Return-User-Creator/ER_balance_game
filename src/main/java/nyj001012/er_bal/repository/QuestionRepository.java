@@ -74,6 +74,7 @@ public class QuestionRepository implements IQuestionRepository {
                 return Optional.of(question);
             }
         }
+        return Optional.empty();
     }
 
     @Override
