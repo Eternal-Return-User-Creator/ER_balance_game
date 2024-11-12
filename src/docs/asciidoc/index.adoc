@@ -10,16 +10,6 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
-= Common
-
-== 공통 API 응답 포맷
-
-== 응답 상태 코드 및 메세지
-
 = API
-
-== 로그인
-include::src/docs/asciidoc/login.adoc[]
-
 == 질문
 include::src/docs/asciidoc/question.adoc[]

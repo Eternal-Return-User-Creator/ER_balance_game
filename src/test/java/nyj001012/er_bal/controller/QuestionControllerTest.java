@@ -46,7 +46,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void test_질문_등록_성공() throws Exception {
+    public void 질문_등록_성공() throws Exception {
         String questionJson = "{\n" +
                 "  \"questionA\": \"질문A 입니다.\",\n" +
                 "  \"questionB\": \"질문B 입니다.\"\n" +
@@ -60,7 +60,7 @@ public class QuestionControllerTest {
     }
 
     @Test
-    public void test_랜덤_질문_조회_성공() throws Exception {
+    public void 랜덤_질문_조회_성공() throws Exception {
         mockMvc.perform(get("/api/question"))
                 .andExpect(result -> {
                     assertThat(result.getResponse().getStatus()).isEqualTo(200);
