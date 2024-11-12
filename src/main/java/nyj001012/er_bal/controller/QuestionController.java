@@ -33,9 +33,18 @@ public class QuestionController {
         Long id;
         try {
             id = questionService.post(question);
+            return ResponseEntity.ok(id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(id);
+    }
+
+    @GetMapping("question")
+    public ResponseEntity<?> get() {
+        try {
+            return ResponseEntity.ok(questionService.getRandom());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
