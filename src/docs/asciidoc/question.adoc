@@ -1,4 +1,4 @@
-== POST /api/questions
+== POST /api/question
 
 === 1. Curl Request
 include::{snippets}/질문_등록_성공/curl-request.adoc[]
@@ -15,4 +15,21 @@ include::{snippets}/질문_등록_성공/http-response.adoc[]
 
 === 5. HTTP Response Body
 include::{snippets}/질문_등록_성공/response-body.adoc[]
-include::{snippets}/질문_등록_성공/response-fields.adoc[]
+
+== GET /api/question
+
+=== 1. Curl Request
+include::{snippets}/랜덤_질문_조회_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/랜덤_질문_조회_성공/http-request.adoc[]
+
+=== 3. HTTP Request Body
+include::{snippets}/랜덤_질문_조회_성공/request-body.adoc[]
+include::{snippets}/랜덤_질문_조회_성공/request-fields.adoc[]
+
+=== 4. HTTP Response
+include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]
+
+=== 5. HTTP Response Body
+include::{snippets}/랜덤_질문_조회_성공/response-body.adoc[]
