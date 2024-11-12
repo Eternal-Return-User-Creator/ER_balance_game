@@ -51,6 +51,14 @@ public class QuestionRepository implements IQuestionRepository {
     }
 
     @Override
+    public Question findOneRandom() {
+        String jpql = "SELECT q FROM Question q ORDER BY FUNCTION('RAND')";
+        return entityManager.createQuery(jpql, Question.class)
+                .setMaxResults(1)
+                .getSingleResult();
+    }
+
+    @Override
     @Transactional
     public void deleteAll() {
         entityManager.createQuery("DELETE FROM Question").executeUpdate();
