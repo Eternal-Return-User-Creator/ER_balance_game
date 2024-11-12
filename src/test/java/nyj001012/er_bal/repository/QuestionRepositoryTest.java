@@ -2,6 +2,8 @@ package nyj001012.er_bal.repository;
 
 import jakarta.transaction.Transactional;
 import nyj001012.er_bal.domain.Question;
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +22,13 @@ public class QuestionRepositoryTest {
     @Autowired
     QuestionRepository questionRepository;
 
-    // TODO: 데이터베이스 초기화하는 Teardown 추가
+    @AfterEach
+    public void tearDown() {
+        questionRepository.deleteAll();
+    }
 
     @Test
-    void 질문_등록_테스트() {
+    public void 질문_등록_테스트() {
         Date dateTime = new Date();
         Question question = new Question();
         question.setQuestionA("질문1");
