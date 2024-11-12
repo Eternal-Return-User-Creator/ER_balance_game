@@ -58,4 +58,13 @@ public class QuestionControllerTest {
                     assertThat(result.getResponse().getStatus()).isEqualTo(200);
                 });
     }
+
+    @Test
+    public void test_랜덤_질문_조회_성공() throws Exception {
+        mockMvc.perform(get("/api/question"))
+                .andExpect(result -> {
+                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                    assertThat(result.getResponse().getContentAsString()).isNotEmpty();
+                });
+    }
 }
