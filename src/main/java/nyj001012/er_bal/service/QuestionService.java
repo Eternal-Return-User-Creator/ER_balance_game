@@ -6,6 +6,7 @@ import nyj001012.er_bal.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -84,5 +85,13 @@ public class QuestionService {
             || questionRepository.findByQuestionAB(questionB, questionA).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 질문입니다.");
         }
+    }
+
+    /**
+     * 랜덤으로 하나의 질문 조회
+     * @return 랜덤으로 조회된 질문
+     */
+    public Optional<Question> getRandom() {
+        return questionRepository.findOneRandom();
     }
 }
