@@ -446,12 +446,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel0">
-<li><a href="#_common">Common</a>
-<ul class="sectlevel1">
-<li><a href="#_공통_api_응답_포맷">공통 API 응답 포맷</a></li>
-<li><a href="#_응답_상태_코드_및_메세지">응답 상태 코드 및 메세지</a></li>
-</ul>
-</li>
 <li><a href="#_api">API</a>
 <ul class="sectlevel1">
 <li><a href="#_로그인">로그인</a></li>
@@ -467,29 +461,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_5_http_request_body">5. HTTP Request Body</a></li>
 <li><a href="#_6_http_response_body">6. HTTP Response Body</a></li>
 <li><a href="#_질문">질문</a></li>
+</ul>
+</li>
+<li><a href="#_post_apiquestions">POST /api/questions</a>
+<ul class="sectlevel1">
 <li><a href="#_1_curl_request_2">1. Curl Request</a></li>
 <li><a href="#_2_http_request_2">2. HTTP Request</a></li>
 <li><a href="#_3_http_request_body">3. HTTP Request Body</a></li>
-<li><a href="#_4_http_response_body">4. HTTP Response Body</a></li>
+<li><a href="#_4_http_response">4. HTTP Response</a></li>
+<li><a href="#_5_http_response_body">5. HTTP Response Body</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 <div id="content">
-<h1 id="_common" class="sect0"><a class="link" href="#_common">Common</a></h1>
-<div class="sect1">
-<h2 id="_공통_api_응답_포맷"><a class="link" href="#_공통_api_응답_포맷">공통 API 응답 포맷</a></h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_응답_상태_코드_및_메세지"><a class="link" href="#_응답_상태_코드_및_메세지">응답 상태 코드 및 메세지</a></h2>
-<div class="sectionbody">
-
-</div>
-</div>
 <h1 id="_api" class="sect0"><a class="link" href="#_api">API</a></h1>
 <div class="sect1">
 <h2 id="_로그인"><a class="link" href="#_로그인">로그인</a></h2>
@@ -563,6 +549,7 @@ Host: localhost:8080</code></pre>
 
 </div>
 </div>
+<h1 id="_post_apiquestions" class="sect0"><a class="link" href="#_post_apiquestions">POST /api/questions</a></h1>
 <div class="sect1">
 <h2 id="_1_curl_request_2"><a class="link" href="#_1_curl_request_2">1. Curl Request</a></h2>
 <div class="sectionbody">
@@ -610,12 +597,29 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect1">
-<h2 id="_4_http_response_body"><a class="link" href="#_4_http_response_body">4. HTTP Response Body</a></h2>
+<h2 id="_4_http_response"><a class="link" href="#_4_http_response">4. HTTP Response</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 1
+
+0</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_5_http_response_body"><a class="link" href="#_5_http_response_body">5. HTTP Response Body</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">0</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in src/docs/asciidoc/question.adoc - include::../../..//build/generated-snippets/test_질문_등록_성공/response-fields.adoc[]</p>
 </div>
 </div>
 </div>
@@ -623,7 +627,7 @@ Host: localhost:8080
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-11 21:52:27 +0900
+Last updated 2024-11-12 10:13:18 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
