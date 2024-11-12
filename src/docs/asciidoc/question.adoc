@@ -1,18 +1,18 @@
 == POST /api/questions
 
 === 1. Curl Request
-include::{snippets}/test_질문_등록_성공/curl-request.adoc[]
+include::{snippets}/질문_등록_성공/curl-request.adoc[]
 
 === 2. HTTP Request
-include::{snippets}/test_질문_등록_성공/http-request.adoc[]
+include::{snippets}/질문_등록_성공/http-request.adoc[]
 
 === 3. HTTP Request Body
-include::{snippets}/test_질문_등록_성공/request-body.adoc[]
-// include::{snippets}/test_질문_등록_성공/request-fields.adoc[]
+include::{snippets}/질문_등록_성공/request-body.adoc[]
+include::{snippets}/질문_등록_성공/request-fields.adoc[]
 
 === 4. HTTP Response
-include::{snippets}/test_질문_등록_성공/http-response.adoc[]
+include::{snippets}/질문_등록_성공/http-response.adoc[]
 
 === 5. HTTP Response Body
-include::{snippets}/test_질문_등록_성공/response-body.adoc[]
-include::{snippets}/test_질문_등록_성공/response-fields.adoc[]
+include::{snippets}/질문_등록_성공/response-body.adoc[]
+include::{snippets}/질문_등록_성공/response-fields.adoc[]
