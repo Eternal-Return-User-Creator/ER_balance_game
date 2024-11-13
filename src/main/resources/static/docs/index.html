@@ -482,6 +482,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_post_apiquestion"><a class="link" href="#_post_apiquestion">POST /api/question</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>질문을 등록한다.</p>
+</div>
 <div class="sect2">
 <h3 id="_1_curl_request"><a class="link" href="#_1_curl_request">1. Curl Request</a></h3>
 <div class="listingblock">
@@ -550,6 +553,9 @@ Content-Length: 2
 <div class="sect1">
 <h2 id="_get_apiquestion"><a class="link" href="#_get_apiquestion">GET /api/question</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>질문을 무작위로 조회한다.</p>
+</div>
 <div class="sect2">
 <h3 id="_1_curl_request_2"><a class="link" href="#_1_curl_request_2">1. Curl Request</a></h3>
 <div class="listingblock">
@@ -570,7 +576,7 @@ Host: localhost:8080</code></pre>
 <div class="sect2">
 <h3 id="_3_http_response"><a class="link" href="#_3_http_response">3. HTTP Response</a></h3>
 <div class="paragraph">
-<p>질문을 무작위로 조회한다. 더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.</p>
+<p>조회한 질문을 반환한다. 더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -578,7 +584,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/json
 Content-Length: 180
 
-{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-13T01:02:40.535+00:00","updatedDate":"2024-11-13T01:02:40.535+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
+{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-13T01:03:45.878+00:00","updatedDate":"2024-11-13T01:03:45.878+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
 </div>
 </div>
 </div>
@@ -586,7 +592,7 @@ Content-Length: 180
 <h3 id="_4_http_response_body"><a class="link" href="#_4_http_response_body">4. HTTP Response Body</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-13T01:02:40.535+00:00","updatedDate":"2024-11-13T01:02:40.535+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-13T01:03:45.878+00:00","updatedDate":"2024-11-13T01:03:45.878+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
 </div>
 </div>
 </div>
