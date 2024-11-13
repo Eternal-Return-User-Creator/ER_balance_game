@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -43,7 +44,11 @@ public class QuestionController {
     @GetMapping("question")
     public ResponseEntity<?> get() {
         try {
-            return ResponseEntity.ok(questionService.getRandom());
+            return questionService.getRandom().map(
+                    ResponseEntity::ok
+            ).orElseGet(
+                    () -> ResponseEntity.notFound().build()
+            );
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
