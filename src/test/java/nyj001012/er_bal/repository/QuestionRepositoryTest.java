@@ -62,4 +62,28 @@ public class QuestionRepositoryTest {
         Question randomQuestion = questionRepository.findOneRandom();
         assertThat(randomQuestion).isNotNull();
     }
+
+    @Test
+    public void 질문_선택지_카운트_증가_성공() {
+        Question question = new Question();
+        question.setQuestionA("질문A");
+        question.setQuestionB("질문B");
+        question.setAChoiceCount(0L);
+        question.setBChoiceCount(0L);
+        question.setCreatedDate(new Date());
+        question.setUpdatedDate(new Date());
+        questionRepository.save(question);
+
+        // A 선택지 카운트 증가
+        questionRepository.updateChoiceCount(question.getId(), 'A');
+        Question updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
+        assertThat(updatedQuestion).isNotNull();
+        assertThat(updatedQuestion.getAChoiceCount()).isEqualTo(1L);
+
+        // B 선택지 카운트 증가
+        questionRepository.updateChoiceCount(question.getId(), 'B');
+        updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
+        assertThat(updatedQuestion).isNotNull();
+        assertThat(updatedQuestion.getBChoiceCount()).isEqualTo(1L);
+    }
 }
