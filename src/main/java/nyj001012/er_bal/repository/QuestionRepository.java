@@ -111,6 +111,7 @@ public class QuestionRepository implements IQuestionRepository {
      * @param flag 선택지
      */
     @Override
+    @Transactional
     public void updateChoiceCount(Long id, char flag) {
         Question question = entityManager.find(Question.class, id);
         if (flag == 'A') {
