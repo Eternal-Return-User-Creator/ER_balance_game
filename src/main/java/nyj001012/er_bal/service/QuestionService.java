@@ -111,4 +111,16 @@ public class QuestionService {
         }
         return Optional.empty();
     }
+
+    /**
+     * 선택한 질문의 카운트 증가 (A, B 중 하나)
+     * @param questionId 질문 ID
+     * @param flag 선택한 질문의 A, B 여부
+     */
+    public void updateChoiceCount(Long questionId, char flag) {
+        if (flag != 'A' && flag != 'B') {
+            throw new IllegalArgumentException("flag는 A 또는 B여야 합니다.");
+        }
+        questionRepository.updateChoiceCount(questionId, flag);
+    }
 }
