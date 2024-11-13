@@ -64,7 +64,7 @@ public class QuestionControllerTest {
                         .contentType("application/json")
                         .content(questionJson))
                 .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                    assertThat(result.getResponse().getStatus()).isEqualTo(201);
                 });
     }
 
@@ -87,7 +87,7 @@ public class QuestionControllerTest {
 
         mockMvc.perform(get("/api/question"))
                 .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(201);
+                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
                     assertThat(result.getResponse().getContentAsString()).isNotEmpty();
                 });
     }
