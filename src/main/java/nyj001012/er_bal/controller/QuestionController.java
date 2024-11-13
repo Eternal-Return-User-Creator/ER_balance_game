@@ -4,11 +4,13 @@ import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.dto.QuestionPostRequestDTO;
 import nyj001012.er_bal.service.QuestionService;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +23,7 @@ public class QuestionController {
     }
 
     @PostMapping("question")
-    public ResponseEntity<?> post(@RequestBody QuestionPostRequestDTO questionPostRequestDTO) {
+    public ResponseEntity<?> post(@RequestBody QuestionPostRequestDTO questionPostRequestDTO, HttpEntity<Object> httpEntity) {
         Date date = new Date();
         Question question = new Question();
         question.setQuestionA(questionPostRequestDTO.getQuestionA());
@@ -33,7 +35,7 @@ public class QuestionController {
         Long id;
         try {
             id = questionService.post(question);
-            return ResponseEntity.ok(id);
+            return ResponseEntity.status(201).body(id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -42,7 +44,11 @@ public class QuestionController {
     @GetMapping("question")
     public ResponseEntity<?> get() {
         try {
-            return ResponseEntity.ok(questionService.getRandom());
+            return questionService.getRandom().map(
+                    ResponseEntity::ok
+            ).orElseGet(
+                    () -> ResponseEntity.notFound().build()
+            );
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }

@@ -64,7 +64,7 @@ public class QuestionControllerTest {
                         .contentType("application/json")
                         .content(questionJson))
                 .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                    assertThat(result.getResponse().getStatus()).isEqualTo(201);
                 });
     }
 

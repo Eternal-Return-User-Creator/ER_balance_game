@@ -443,6 +443,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="_post_apiquestion">POST /api/question</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>질문을 등록한다.</p>
+</div>
 <div class="sect2">
 <h3 id="_1_curl_request">1. Curl Request</h3>
 <div class="paragraph">
@@ -458,14 +461,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_3_http_request_body">3. HTTP Request Body</h3>
 <div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/request-body.adoc[]
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/request-fields.adoc[]</p>
+<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/request-body.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response">4. HTTP Response</h3>
 <div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/http-response.adoc[]</p>
+<p>등록된 질문의 ID를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -479,6 +482,9 @@ Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공
 <div class="sect1">
 <h2 id="_get_apiquestion">GET /api/question</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>질문을 무작위로 조회한다.</p>
+</div>
 <div class="sect2">
 <h3 id="_1_curl_request_2">1. Curl Request</h3>
 <div class="paragraph">
@@ -494,7 +500,8 @@ Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공
 <div class="sect2">
 <h3 id="_3_http_response">3. HTTP Response</h3>
 <div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]</p>
+<p>조회한 질문을 반환한다. 더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -509,7 +516,7 @@ Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-13 09:33:47 +0900
+Last updated 2024-11-13 10:03:38 +0900
 </div>
 </div>
 </body>
