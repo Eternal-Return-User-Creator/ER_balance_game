@@ -17,9 +17,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.sound.midi.SysexMessage;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -35,7 +40,8 @@ public class QuestionControllerTest {
     QuestionService questionService;
     @Autowired
     MockMvc mockMvc;
-    @Autowired private WebApplicationContext context;
+    @Autowired
+    private WebApplicationContext context;
 
     @BeforeEach
     public void setUp(RestDocumentationContextProvider restDocumentationContextProvider) {
@@ -51,6 +57,9 @@ public class QuestionControllerTest {
                 "  \"questionA\": \"질문A 입니다.\",\n" +
                 "  \"questionB\": \"질문B 입니다.\"\n" +
                 "}";
+        given(questionService.post(any(Question.class)))
+                .willReturn(12L);
+
         mockMvc.perform(post("/api/question")
                         .contentType("application/json")
                         .content(questionJson))
@@ -61,6 +70,21 @@ public class QuestionControllerTest {
 
     @Test
     public void 랜덤_질문_조회_성공() throws Exception {
+        Question question = new Question();
+        for (long i = 0; i < 3; i++) {
+            question.setId((long) i);
+            question.setQuestionA("질문A" + i);
+            question.setQuestionB("질문B" + i);
+            question.setCreatedDate(new Date());
+            question.setUpdatedDate(new Date());
+            question.setAChoiceCount(0L);
+            question.setBChoiceCount(0L);
+            questionRepository.save(question);
+        }
+        questionRepository.save(question);
+        given(questionService.getRandom())
+                .willReturn(Optional.of(question));
+
         mockMvc.perform(get("/api/question"))
                 .andExpect(result -> {
                     assertThat(result.getResponse().getStatus()).isEqualTo(200);
