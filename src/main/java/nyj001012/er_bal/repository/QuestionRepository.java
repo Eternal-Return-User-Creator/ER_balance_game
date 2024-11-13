@@ -105,6 +105,22 @@ public class QuestionRepository implements IQuestionRepository {
     }
 
     /**
+     * id에 해당하는 질문의 선택지 카운트를 증가시킨다.
+     * flag가 'A'이면 A 선택지 카운트를 증가시키고, 'B'이면 B 선택지 카운트를 증가시킨다.
+     * @param id 질문 id
+     * @param flag 선택지
+     */
+    @Override
+    public void updateChoiceCount(Long id, char flag) {
+        Question question = entityManager.find(Question.class, id);
+        if (flag == 'A') {
+            question.setAChoiceCount(question.getAChoiceCount() + 1);
+        } else {
+            question.setBChoiceCount(question.getBChoiceCount() + 1);
+        }
+    }
+
+    /**
      * 모든 질문을 삭제한다.
      */
     @Override
