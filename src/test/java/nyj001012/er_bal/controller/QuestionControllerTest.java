@@ -176,28 +176,41 @@ public class QuestionControllerTest {
         }
     }
 
-    @Test
-    public void 랜덤_질문_조회_성공() throws Exception {
-        Question question = new Question();
-        for (long i = 0; i < 3; i++) {
-            question.setId((long) i);
-            question.setQuestionA("질문A" + i);
-            question.setQuestionB("질문B" + i);
-            question.setCreatedDate(new Date());
-            question.setUpdatedDate(new Date());
-            question.setAChoiceCount(0L);
-            question.setBChoiceCount(0L);
+    @Nested
+    class 랜덤_질문_조회_테스트 {
+        @Test
+        public void 랜덤_질문_조회_성공() throws Exception {
+            Question question = new Question();
+            for (long i = 0; i < 3; i++) {
+                question.setId((long) i);
+                question.setQuestionA("질문A" + i);
+                question.setQuestionB("질문B" + i);
+                question.setCreatedDate(new Date());
+                question.setUpdatedDate(new Date());
+                question.setAChoiceCount(0L);
+                question.setBChoiceCount(0L);
+                questionRepository.save(question);
+            }
             questionRepository.save(question);
-        }
-        questionRepository.save(question);
-        given(questionService.getRandom())
-                .willReturn(Optional.of(question));
+            given(questionService.getRandom())
+                    .willReturn(Optional.of(question));
 
-        mockMvc.perform(get("/api/question"))
-                .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
-                    assertThat(result.getResponse().getContentAsString()).isNotEmpty();
-                });
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                        assertThat(result.getResponse().getContentAsString()).isNotEmpty();
+                    });
+        }
+
+        @Test
+        public void 랜덤_질문_조회_성공_더_이상_조회할_질문이_없는_경우() throws Exception {
+            given(questionService.getRandom())
+                    .willReturn(Optional.empty());
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(204);
+                    });
+        }
     }
 
     @Nested
