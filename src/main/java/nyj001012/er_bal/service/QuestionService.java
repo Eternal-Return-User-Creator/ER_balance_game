@@ -129,7 +129,7 @@ public class QuestionService {
      * @param questionId 질문 ID
      * @return 질문의 선택 결과 (A, B 선택 비율)
      */
-    public Map<String, Double> getChoiceResult(Long questionId) {
+    public Map<String, String> getChoiceResult(Long questionId) {
         if (questionRepository.findById(questionId).isEmpty()) {
             throw new IllegalArgumentException("존재하지 않는 질문입니다.");
         }
@@ -137,10 +137,10 @@ public class QuestionService {
         int choiceBCount = questionRepository.countChoiceOfQuestion(questionId, 'B');
         int totalCount = choiceACount + choiceBCount;
 
-        Double choiceAPercent = (double) choiceACount / totalCount * 100;
-        Double choiceBPercent = (double) choiceBCount / totalCount * 100;
+        String choiceAPercent = String.format("%.2f", (double) choiceACount / totalCount * 100);
+        String choiceBPercent = String.format("%.2f", (double) choiceBCount / totalCount * 100);
 
-        Map<String, Double> result = new HashMap<>();
+        Map<String, String> result = new HashMap<>();
         result.put("A", choiceAPercent);
         result.put("B", choiceBPercent);
         return result;
