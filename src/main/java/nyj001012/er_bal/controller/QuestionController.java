@@ -31,36 +31,23 @@ public class QuestionController {
         question.setUpdatedDate(date);
         question.setAChoiceCount(0L);
         question.setBChoiceCount(0L);
-        Long id;
-        try {
-            id = questionService.post(question);
-            return ResponseEntity.status(201).body(id);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        Long id = questionService.post(question);
+        return ResponseEntity.status(201).body(id);
     }
 
     @GetMapping("question")
     public ResponseEntity<?> get() {
-        try {
-            return questionService.getRandom().map(
-                    ResponseEntity::ok
-            ).orElseGet(
-                    () -> ResponseEntity.notFound().build()
-            );
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
-        }
+        return questionService.getRandom().map(
+                ResponseEntity::ok
+        ).orElseGet(
+                () -> ResponseEntity.notFound().build()
+        );
     }
 
     @PatchMapping("question/{id}/choice-count")
     public ResponseEntity<String> patch(@PathVariable("id") Long id, @RequestParam("flag") char flag) {
-        try {
-            questionService.updateChoiceCount(id, flag);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        questionService.updateChoiceCount(id, flag);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("question/{id}/choice-result")
