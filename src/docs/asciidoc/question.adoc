@@ -50,7 +50,7 @@ include::{snippets}/질문_선택_성공/http-response.adoc[]
 include::{snippets}/질문_선택_시_존재하지_않는_질문/http-response.adoc[]
 
 질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
-include::{snippets}/질문_선택_시_플래그가_잘못된_경우/http-response.adoc[]
+include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.adoc[]
 
 === 4. HTTP Response Body
 include::{snippets}/질문_선택_성공/response-body.adoc[]
