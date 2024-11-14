@@ -116,5 +116,15 @@ public class QuestionControllerTest {
                     });
             verify(questionService, times(1)).updateChoiceCount(1L, 'C');
         }
+
+        @Test
+        public void 질문_선택_시_존재하지_않는_질문() throws Exception {
+            doThrow(new IllegalArgumentException()).when(questionService).updateChoiceCount(1L, 'A');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=A"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
     }
 }

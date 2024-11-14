@@ -212,5 +212,10 @@ public class QuestionServiceTest {
             questionService.post(question);
             assertThrows(IllegalArgumentException.class, () -> questionService.updateChoiceCount(question.getId(), 'C'));
         }
+
+        @Test
+        public void 존재하지_않는_질문인_경우() {
+            assertThrows(IllegalArgumentException.class, () -> questionService.updateChoiceCount(1L, 'A'));
+        }
     }
 }
