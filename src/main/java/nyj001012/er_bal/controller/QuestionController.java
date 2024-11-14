@@ -40,7 +40,7 @@ public class QuestionController {
         return questionService.getRandom().map(
                 ResponseEntity::ok
         ).orElseGet(
-                () -> ResponseEntity.notFound().build()
+                () -> ResponseEntity.noContent().build()
         );
     }
 
