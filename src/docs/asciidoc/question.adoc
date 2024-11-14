@@ -54,3 +54,22 @@ include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.ad
 
 === 4. HTTP Response Body
 include::{snippets}/질문_선택_성공/response-body.adoc[]
+
+== GET /api/question/{id}/choice-result
+질문의 선택 결과를 조회한다.
+
+=== 1. Curl Request
+include::{snippets}/질문_선택_결과_조회_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/질문_선택_결과_조회_성공/http-request.adoc[]
+
+=== 3. HTTP Response
+성공 시, 조회한 질문의 선택 결과를 반환한다.
+include::{snippets}/질문_선택_결과_조회_성공/http-response.adoc[]
+
+존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
+include::{snippets}/존재하지_않는_질문_선택_결과_조회/http-response.adoc[]
+
+=== 4. HTTP Response Body
+include::{snippets}/질문_선택_결과_조회_성공/response-body.adoc[]
