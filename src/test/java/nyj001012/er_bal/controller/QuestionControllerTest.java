@@ -170,7 +170,25 @@ public class QuestionControllerTest {
                     .andExpect(result -> {
                         assertThat(result.getResponse().getStatus()).isEqualTo(400);
                         assertThat(result.getResponse().getContentAsString())
-                                .isEqualTo("이미 등록된 질문입니다.");
+                                .isEqualTo("같은 질문을 입력할 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_500번대() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문B 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
                     });
             verify(questionService, times(1)).post(any(Question.class));
         }
@@ -211,6 +229,16 @@ public class QuestionControllerTest {
                         assertThat(result.getResponse().getStatus()).isEqualTo(204);
                     });
         }
+
+        @Test
+        public void 랜덤_질문_조회_실패_500번대() throws Exception {
+            given(questionService.getRandom())
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
+                    });
+        }
     }
 
     @Nested
@@ -245,6 +273,16 @@ public class QuestionControllerTest {
                     });
             verify(questionService, times(1)).updateChoiceCount(1L, 'A');
         }
+
+        @Test
+        public void 질문_선택_실패_500번대() throws Exception {
+            doThrow(new RuntimeException()).when(questionService).updateChoiceCount(1L, 'A');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=A"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
     }
 
     @Nested
@@ -272,6 +310,16 @@ public class QuestionControllerTest {
             mockMvc.perform(get("/api/question/1/choice-result"))
                     .andExpect(result -> {
                         assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
+        }
+
+        @Test
+        public void 질문_선택_결과_조회_실패_500번대() throws Exception {
+            given(questionService.getChoiceResult(1L))
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(get("/api/question/1/choice-result"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
                     });
         }
     }
