@@ -60,10 +60,11 @@ public class QuestionControllerTest {
 
         @Test
         public void 질문_등록_성공() throws Exception {
-            String questionJson = "{\n" +
-                    "  \"questionA\": \"질문A 입니다.\",\n" +
-                    "  \"questionB\": \"질문B 입니다.\"\n" +
-                    "}";
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문B 입니다."
+                    }""";
             given(questionService.post(any(Question.class)))
                     .willReturn(12L);
 
@@ -77,10 +78,11 @@ public class QuestionControllerTest {
 
         @Test
         public void 질문_등록_실패_질문이_비어있는_경우() throws Exception {
-            String questionJson = "{\n" +
-                    "  \"questionA\": \"\",\n" +
-                    "  \"questionB\": \"\"\n" +
-                    "}";
+            String questionJson = """
+                    {
+                      "questionA": "",
+                      "questionB": ""
+                    }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("질문은 비어있을 수 없습니다."));
             mockMvc.perform(post("/api/question")
@@ -90,6 +92,25 @@ public class QuestionControllerTest {
                         assertThat(result.getResponse().getStatus()).isEqualTo(400);
                         assertThat(result.getResponse().getContentAsString())
                                 .isEqualTo("질문은 비어있을 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_질문의_길이가_100자를_넘을_경우() throws Exception {
+            String questionJson = "{\n" +
+                    "  \"questionA\": \"" + "a".repeat(101) + "\",\n" +
+                    "  \"questionB\": \"" + "b".repeat(101) + "\"\n" +
+                    "}";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("질문은 100자 이하이어야 합니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("질문은 100자 이하이어야 합니다.");
                     });
             verify(questionService, times(1)).post(any(Question.class));
         }
