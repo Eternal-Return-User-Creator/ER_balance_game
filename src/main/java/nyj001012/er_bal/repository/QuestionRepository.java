@@ -114,7 +114,8 @@ public class QuestionRepository implements IQuestionRepository {
     public int countChoiceOfQuestion(Long id, char flag) {
         String jpql = "SELECT SUM(CASE WHEN :flag = 'A' THEN q.aChoiceCount ELSE q.bChoiceCount END) FROM Question q WHERE q.id = :id";
         return entityManager.createQuery(jpql, Long.class)
-                .setParameter("flag", flag)
+                .setParameter("flag", String.valueOf(flag))
+                .setParameter("id", id)
                 .getSingleResult()
                 .intValue();
     }
