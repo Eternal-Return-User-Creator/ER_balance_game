@@ -52,7 +52,7 @@ public class QuestionController {
     }
 
     @PatchMapping("question/{id}/choice-count")
-    public ResponseEntity<String> patch(@PathVariable Long id, @RequestParam char flag) {
+    public ResponseEntity<String> patch(@PathVariable("id") Long id, @RequestParam("flag") char flag) {
         try {
             questionService.updateChoiceCount(id, flag);
             return ResponseEntity.ok().build();
