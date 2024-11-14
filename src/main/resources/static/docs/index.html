@@ -466,6 +466,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_4_http_response_body">4. HTTP Response Body</a></li>
 </ul>
 </li>
+<li><a href="#_patch_apiquestionidchoice_count">PATCH /api/question/{id}/choice-count</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request_3">1. Curl Request</a></li>
+<li><a href="#_2_http_request_3">2. HTTP Request</a></li>
+<li><a href="#_3_http_response_2">3. HTTP Response</a></li>
+<li><a href="#_4_http_response_body_2">4. HTTP Response Body</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -584,7 +592,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/json
 Content-Length: 180
 
-{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-14T00:15:25.238+00:00","updatedDate":"2024-11-14T00:15:25.238+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
+{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-14T00:24:12.809+00:00","updatedDate":"2024-11-14T00:24:12.809+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
 </div>
 </div>
 </div>
@@ -592,7 +600,65 @@ Content-Length: 180
 <h3 id="_4_http_response_body"><a class="link" href="#_4_http_response_body">4. HTTP Response Body</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-14T00:15:25.238+00:00","updatedDate":"2024-11-14T00:15:25.238+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="json" class="language-json hljs">{"id":2,"questionA":"질문A2","questionB":"질문B2","createdDate":"2024-11-14T00:24:12.809+00:00","updatedDate":"2024-11-14T00:24:12.809+00:00","achoiceCount":0,"bchoiceCount":0}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_patch_apiquestionidchoice_count"><a class="link" href="#_patch_apiquestionidchoice_count">PATCH /api/question/{id}/choice-count</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>질문의 선택지 카운트를 증가시킨다.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_curl_request_3"><a class="link" href="#_1_curl_request_3">1. Curl Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/question/1/choice-count?flag=A' -i -X PATCH \
+    -H 'Content-Type: application/x-www-form-urlencoded'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_http_request_3"><a class="link" href="#_2_http_request_3">2. HTTP Request</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/question/1/choice-count?flag=A HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_http_response_2"><a class="link" href="#_3_http_response_2">3. HTTP Response</a></h3>
+<div class="paragraph">
+<p>성공 시, 200 OK를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 400 Bad Request</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
+Unresolved directive in src/docs/asciidoc/question.adoc - include::../../..//build/generated-snippets/질문_선택_시_플래그가_잘못된_경우/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_http_response_body_2"><a class="link" href="#_4_http_response_body_2">4. HTTP Response Body</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs"></code></pre>
 </div>
 </div>
 </div>
