@@ -6,6 +6,7 @@ import nyj001012.er_bal.service.QuestionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -61,8 +62,8 @@ public class QuestionController {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler(InternalError.class)
-    public ResponseEntity<String> handleInternalError(InternalError e) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleInternalError(RuntimeException e) {
         return ResponseEntity.internalServerError().body(e.getMessage());
     }
 }
