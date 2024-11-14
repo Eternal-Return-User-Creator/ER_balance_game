@@ -19,8 +19,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class QuestionServiceTest {
-    @Autowired QuestionService questionService;
-    @Autowired QuestionRepository questionRepository;
+    @Autowired
+    QuestionService questionService;
+    @Autowired
+    QuestionRepository questionRepository;
     private Question question = new Question();
 
     @BeforeEach
@@ -179,5 +181,41 @@ public class QuestionServiceTest {
         }
         // 더 이상 조회되는 질문이 없어야 한다.
         assertThat(questionService.getRandom()).isEmpty();
+    }
+
+    @Nested
+    class 질문_선택_시_카운트_증가_테스트 {
+        @Test
+        public void 질문_A_선택_카운트_증가() {
+            questionService.post(question);
+            questionService.updateChoiceCount(question.getId(), 'A');
+            Optional<Question> savedQuestion = questionRepository.findById(question.getId());
+            savedQuestion.ifPresentOrElse(q -> {
+                assertThat(q.getAChoiceCount()).isEqualTo(1L);
+                assertThat(q.getBChoiceCount()).isEqualTo(0L);
+            }, Assertions::fail);
+        }
+
+        @Test
+        public void 질문_B_선택_카운트_증가() {
+            questionService.post(question);
+            questionService.updateChoiceCount(question.getId(), 'B');
+            Optional<Question> savedQuestion = questionRepository.findById(question.getId());
+            savedQuestion.ifPresentOrElse(q -> {
+                assertThat(q.getAChoiceCount()).isEqualTo(0L);
+                assertThat(q.getBChoiceCount()).isEqualTo(1L);
+            }, Assertions::fail);
+        }
+
+        @Test
+        public void 선택지가_올바르지_않은_경우() {
+            questionService.post(question);
+            assertThrows(IllegalArgumentException.class, () -> questionService.updateChoiceCount(question.getId(), 'C'));
+        }
+
+        @Test
+        public void 존재하지_않는_질문인_경우() {
+            assertThrows(IllegalArgumentException.class, () -> questionService.updateChoiceCount(1L, 'A'));
+        }
     }
 }

@@ -1,10 +1,12 @@
 package nyj001012.er_bal.controller;
 
+import jakarta.transaction.Transactional;
 import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.repository.QuestionRepository;
 import nyj001012.er_bal.service.QuestionService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -24,11 +27,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @WebMvcTest(QuestionController.class)
 @ExtendWith(RestDocumentationExtension.class)
@@ -90,5 +92,39 @@ public class QuestionControllerTest {
                     assertThat(result.getResponse().getStatus()).isEqualTo(200);
                     assertThat(result.getResponse().getContentAsString()).isNotEmpty();
                 });
+    }
+
+    @Nested
+    class 질문_선택_테스트 {
+
+        @Test
+        public void 질문_선택_성공() throws Exception {
+            doNothing().when(questionService).updateChoiceCount(1L, 'A');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=A"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
+
+        @Test
+        public void 질문_선택_플래그가_잘못된_경우() throws Exception {
+            doThrow(new IllegalArgumentException()).when(questionService).updateChoiceCount(1L, 'C');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=C"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'C');
+        }
+
+        @Test
+        public void 질문_선택_시_존재하지_않는_질문() throws Exception {
+            doThrow(new IllegalArgumentException()).when(questionService).updateChoiceCount(1L, 'A');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=A"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
     }
 }

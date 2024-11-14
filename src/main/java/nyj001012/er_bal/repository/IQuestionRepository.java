@@ -12,5 +12,6 @@ public interface IQuestionRepository {
     Optional<Question> findByQuestionAB(String questionA, String questionB);
     Question findOneRandom();
     int count();
+    void updateChoiceCount(Long id, char flag);
     void deleteAll();
 }

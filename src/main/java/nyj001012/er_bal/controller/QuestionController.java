@@ -3,14 +3,11 @@ package nyj001012.er_bal.controller;
 import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.dto.QuestionPostRequestDTO;
 import nyj001012.er_bal.service.QuestionService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -51,6 +48,16 @@ public class QuestionController {
             );
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("question/{id}/choice-count")
+    public ResponseEntity<String> patch(@PathVariable("id") Long id, @RequestParam("flag") char flag) {
+        try {
+            questionService.updateChoiceCount(id, flag);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
