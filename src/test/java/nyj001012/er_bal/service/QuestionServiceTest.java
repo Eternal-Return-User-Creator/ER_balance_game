@@ -218,4 +218,34 @@ public class QuestionServiceTest {
             assertThrows(IllegalArgumentException.class, () -> questionService.updateChoiceCount(1L, 'A'));
         }
     }
+
+    @Nested
+    class 질문_선택_결과_조회_테스트 {
+        @Test
+        public void 질문_선택_결과_조회_소수점_없음() {
+            questionService.post(question);
+            for (int i = 0; i < 4; i++) {
+                questionService.updateChoiceCount(question.getId(), 'A');
+            }
+            questionService.updateChoiceCount(question.getId(), 'B');
+
+            Optional<Question> savedQuestion = questionRepository.findById(question.getId());
+            savedQuestion.ifPresentOrElse(q -> {
+                questionService.getChoiceResult(q.getId()).forEach((k, v) -> {
+                    if (k.equals("A")) {
+                        assertThat(v).isEqualTo("80.00");
+                    } else if (k.equals("B")) {
+                        assertThat(v).isEqualTo("20.00");
+                    } else {
+                        fail();
+                    }
+                });
+            }, Assertions::fail);
+        }
+
+        @Test
+        public void 존재하지_않는_질문인_경우() {
+            assertThrows(IllegalArgumentException.class, () -> questionService.getChoiceResult(1L));
+        }
+    }
 }
