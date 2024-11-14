@@ -121,6 +121,9 @@ public class QuestionService {
         if (flag != 'A' && flag != 'B') {
             throw new IllegalArgumentException("flag는 A 또는 B여야 합니다.");
         }
+        if (questionRepository.findById(questionId).isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 질문입니다.");
+        }
         questionRepository.updateChoiceCount(questionId, flag);
     }
 }
