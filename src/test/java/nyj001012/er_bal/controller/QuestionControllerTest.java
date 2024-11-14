@@ -55,45 +55,190 @@ public class QuestionControllerTest {
                 .build();
     }
 
-    @Test
-    public void 질문_등록_성공() throws Exception {
-        String questionJson = "{\n" +
-                "  \"questionA\": \"질문A 입니다.\",\n" +
-                "  \"questionB\": \"질문B 입니다.\"\n" +
-                "}";
-        given(questionService.post(any(Question.class)))
-                .willReturn(12L);
+    @Nested
+    class 질문_등록 {
 
-        mockMvc.perform(post("/api/question")
-                        .contentType("application/json")
-                        .content(questionJson))
-                .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(201);
-                });
+        @Test
+        public void 질문_등록_성공() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문B 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willReturn(12L);
+
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(201);
+                    });
+        }
+
+        @Test
+        public void 질문_등록_실패_질문이_비어있는_경우() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "",
+                      "questionB": ""
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("질문은 비어있을 수 없습니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("질문은 비어있을 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_질문의_길이가_100자를_넘을_경우() throws Exception {
+            String questionJson = "{\n" +
+                    "  \"questionA\": \"" + "a".repeat(101) + "\",\n" +
+                    "  \"questionB\": \"" + "b".repeat(101) + "\"\n" +
+                    "}";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("질문은 100자 이하이어야 합니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("질문은 100자 이하이어야 합니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_질문에_비속어가_포함된_경우() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "ㅆㅂ이라고 욕한다.",
+                      "questionB": "욕설이 포함된 질문입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("욕설은 사용할 수 없습니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("욕설은 사용할 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_질문이_중복된_경우() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문B 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("이미 등록된 질문입니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("이미 등록된 질문입니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_질문이_서로_같은_경우() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문A 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("같은 질문을 입력할 수 없습니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("같은 질문을 입력할 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+
+        @Test
+        public void 질문_등록_실패_500번대() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문B 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
     }
 
-    @Test
-    public void 랜덤_질문_조회_성공() throws Exception {
-        Question question = new Question();
-        for (long i = 0; i < 3; i++) {
-            question.setId((long) i);
-            question.setQuestionA("질문A" + i);
-            question.setQuestionB("질문B" + i);
-            question.setCreatedDate(new Date());
-            question.setUpdatedDate(new Date());
-            question.setAChoiceCount(0L);
-            question.setBChoiceCount(0L);
+    @Nested
+    class 랜덤_질문_조회_테스트 {
+        @Test
+        public void 랜덤_질문_조회_성공() throws Exception {
+            Question question = new Question();
+            for (long i = 0; i < 3; i++) {
+                question.setId((long) i);
+                question.setQuestionA("질문A" + i);
+                question.setQuestionB("질문B" + i);
+                question.setCreatedDate(new Date());
+                question.setUpdatedDate(new Date());
+                question.setAChoiceCount(0L);
+                question.setBChoiceCount(0L);
+                questionRepository.save(question);
+            }
             questionRepository.save(question);
-        }
-        questionRepository.save(question);
-        given(questionService.getRandom())
-                .willReturn(Optional.of(question));
+            given(questionService.getRandom())
+                    .willReturn(Optional.of(question));
 
-        mockMvc.perform(get("/api/question"))
-                .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(200);
-                    assertThat(result.getResponse().getContentAsString()).isNotEmpty();
-                });
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                        assertThat(result.getResponse().getContentAsString()).isNotEmpty();
+                    });
+        }
+
+        @Test
+        public void 랜덤_질문_조회_성공_더_이상_조회할_질문이_없는_경우() throws Exception {
+            given(questionService.getRandom())
+                    .willReturn(Optional.empty());
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(204);
+                    });
+        }
+
+        @Test
+        public void 랜덤_질문_조회_실패_500번대() throws Exception {
+            given(questionService.getRandom())
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(get("/api/question"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
+                    });
+        }
     }
 
     @Nested
@@ -128,10 +273,21 @@ public class QuestionControllerTest {
                     });
             verify(questionService, times(1)).updateChoiceCount(1L, 'A');
         }
+
+        @Test
+        public void 질문_선택_실패_500번대() throws Exception {
+            doThrow(new RuntimeException()).when(questionService).updateChoiceCount(1L, 'A');
+            mockMvc.perform(patch("/api/question/1/choice-count?flag=A"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
+                    });
+            verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
     }
 
     @Nested
     class 질문_선택_결과_조회_테스트 {
+
         @Test
         public void 질문_선택_결과_조회_성공() throws Exception {
             Map<String, String> choiceResult = new HashMap<>();
@@ -154,6 +310,16 @@ public class QuestionControllerTest {
             mockMvc.perform(get("/api/question/1/choice-result"))
                     .andExpect(result -> {
                         assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
+        }
+
+        @Test
+        public void 질문_선택_결과_조회_실패_500번대() throws Exception {
+            given(questionService.getChoiceResult(1L))
+                    .willThrow(new RuntimeException());
+            mockMvc.perform(get("/api/question/1/choice-result"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(500);
                     });
         }
     }
