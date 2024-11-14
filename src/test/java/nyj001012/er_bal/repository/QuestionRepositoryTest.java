@@ -86,4 +86,22 @@ public class QuestionRepositoryTest {
         assertThat(updatedQuestion).isNotNull();
         assertThat(updatedQuestion.getBChoiceCount()).isEqualTo(1L);
     }
+
+    @Test
+    public void 질문_선택지_선택_수_조회() {
+        Question question = new Question();
+        question.setQuestionA("질문A");
+        question.setQuestionB("질문B");
+        question.setAChoiceCount(2L);
+        question.setBChoiceCount(1L);
+        question.setCreatedDate(new Date());
+        question.setUpdatedDate(new Date());
+        questionRepository.save(question);
+
+        int aChoiceCount = questionRepository.countChoiceOfQuestion(question.getId(), 'A');
+        int bChoiceCount = questionRepository.countChoiceOfQuestion(question.getId(), 'B');
+
+        assertThat(aChoiceCount).isEqualTo(2L);
+        assertThat(bChoiceCount).isEqualTo(1L);
+    }
 }
