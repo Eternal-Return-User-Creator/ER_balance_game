@@ -155,6 +155,27 @@ public class QuestionControllerTest {
             verify(questionService, times(1)).post(any(Question.class));
         }
 
+        @Test
+        public void 질문_등록_실패_질문이_서로_같은_경우() throws Exception {
+            String questionJson = """
+                    {
+                      "questionA": "질문A 입니다.",
+                      "questionB": "질문A 입니다."
+                    }""";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("같은 질문을 입력할 수 없습니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("이미 등록된 질문입니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
+    }
+
     @Test
     public void 랜덤_질문_조회_성공() throws Exception {
         Question question = new Question();
