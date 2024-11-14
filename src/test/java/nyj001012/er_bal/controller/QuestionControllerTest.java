@@ -55,21 +55,44 @@ public class QuestionControllerTest {
                 .build();
     }
 
-    @Test
-    public void 질문_등록_성공() throws Exception {
-        String questionJson = "{\n" +
-                "  \"questionA\": \"질문A 입니다.\",\n" +
-                "  \"questionB\": \"질문B 입니다.\"\n" +
-                "}";
-        given(questionService.post(any(Question.class)))
-                .willReturn(12L);
+    @Nested
+    class 질문_등록 {
 
-        mockMvc.perform(post("/api/question")
-                        .contentType("application/json")
-                        .content(questionJson))
-                .andExpect(result -> {
-                    assertThat(result.getResponse().getStatus()).isEqualTo(201);
-                });
+        @Test
+        public void 질문_등록_성공() throws Exception {
+            String questionJson = "{\n" +
+                    "  \"questionA\": \"질문A 입니다.\",\n" +
+                    "  \"questionB\": \"질문B 입니다.\"\n" +
+                    "}";
+            given(questionService.post(any(Question.class)))
+                    .willReturn(12L);
+
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(201);
+                    });
+        }
+
+        @Test
+        public void 질문_등록_실패_질문이_비어있는_경우() throws Exception {
+            String questionJson = "{\n" +
+                    "  \"questionA\": \"\",\n" +
+                    "  \"questionB\": \"\"\n" +
+                    "}";
+            given(questionService.post(any(Question.class)))
+                    .willThrow(new IllegalArgumentException("질문은 비어있을 수 없습니다."));
+            mockMvc.perform(post("/api/question")
+                            .contentType("application/json")
+                            .content(questionJson))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                        assertThat(result.getResponse().getContentAsString())
+                                .isEqualTo("질문은 비어있을 수 없습니다.");
+                    });
+            verify(questionService, times(1)).post(any(Question.class));
+        }
     }
 
     @Test
@@ -132,6 +155,7 @@ public class QuestionControllerTest {
 
     @Nested
     class 질문_선택_결과_조회_테스트 {
+
         @Test
         public void 질문_선택_결과_조회_성공() throws Exception {
             Map<String, String> choiceResult = new HashMap<>();
