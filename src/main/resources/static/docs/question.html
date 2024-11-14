@@ -542,7 +542,7 @@ Unresolved directive in question.adoc - include::{snippets}/질문_선택_시_�
 </div>
 <div class="paragraph">
 <p>질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_시_플래그가_잘못된_경우/http-response.adoc[]</p>
+Unresolved directive in question.adoc - include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -553,11 +553,48 @@ Unresolved directive in question.adoc - include::{snippets}/질문_선택_시_�
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_get_apiquestionidchoice_result">GET /api/question/{id}/choice-result</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>질문의 선택 결과를 조회한다.</p>
+</div>
+<div class="sect2">
+<h3 id="_1_curl_request_4">1. Curl Request</h3>
+<div class="paragraph">
+<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/curl-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_http_request_4">2. HTTP Request</h3>
+<div class="paragraph">
+<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/http-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_3_http_response_3">3. HTTP Response</h3>
+<div class="paragraph">
+<p>성공 시, 조회한 질문의 선택 결과를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/존재하지_않는_질문_선택_결과_조회/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_http_response_body_3">4. HTTP Response Body</h3>
+<div class="paragraph">
+<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/response-body.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-14 09:24:06 +0900
+Last updated 2024-11-14 10:43:10 +0900
 </div>
 </div>
 </body>

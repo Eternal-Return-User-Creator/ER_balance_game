@@ -22,6 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.sound.midi.SysexMessage;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -125,6 +127,34 @@ public class QuestionControllerTest {
                         assertThat(result.getResponse().getStatus()).isEqualTo(400);
                     });
             verify(questionService, times(1)).updateChoiceCount(1L, 'A');
+        }
+    }
+
+    @Nested
+    class 질문_선택_결과_조회_테스트 {
+        @Test
+        public void 질문_선택_결과_조회_성공() throws Exception {
+            Map<String, String> choiceResult = new HashMap<>();
+            choiceResult.put("A", "50.01");
+            choiceResult.put("B", "49.99");
+            given(questionService.getChoiceResult(1L))
+                    .willReturn(choiceResult);
+            mockMvc.perform(get("/api/question/1/choice-result"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(200);
+                        assertThat(result.getResponse().getContentAsString()).isNotEmpty();
+                    });
+            verify(questionService, times(1)).getChoiceResult(1L);
+        }
+
+        @Test
+        public void 존재하지_않는_질문_선택_결과_조회() throws Exception {
+            given(questionService.getChoiceResult(1L))
+                    .willThrow(new IllegalArgumentException());
+            mockMvc.perform(get("/api/question/1/choice-result"))
+                    .andExpect(result -> {
+                        assertThat(result.getResponse().getStatus()).isEqualTo(400);
+                    });
         }
     }
 }

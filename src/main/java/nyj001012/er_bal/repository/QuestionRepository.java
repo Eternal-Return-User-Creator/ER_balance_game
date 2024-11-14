@@ -105,6 +105,22 @@ public class QuestionRepository implements IQuestionRepository {
     }
 
     /**
+     * id에 해당하는 질문의 선택지 카운트를 조회한다.
+     * @param id 질문 id
+     * @param flag 선택지 (A 또는 B)
+     * @return id에 해당하는 질문의 선택지 카운트
+     */
+    @Override
+    public int countChoiceOfQuestion(Long id, char flag) {
+        String jpql = "SELECT SUM(CASE WHEN :flag = 'A' THEN q.aChoiceCount ELSE q.bChoiceCount END) FROM Question q WHERE q.id = :id";
+        return entityManager.createQuery(jpql, Long.class)
+                .setParameter("flag", String.valueOf(flag))
+                .setParameter("id", id)
+                .getSingleResult()
+                .intValue();
+    }
+
+    /**
      * id에 해당하는 질문의 선택지 카운트를 증가시킨다.
      * flag가 'A'이면 A 선택지 카운트를 증가시키고, 'B'이면 B 선택지 카운트를 증가시킨다.
      * @param id 질문 id

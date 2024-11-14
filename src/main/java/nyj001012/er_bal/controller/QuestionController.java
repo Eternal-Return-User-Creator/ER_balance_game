@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -59,5 +61,21 @@ public class QuestionController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("question/{id}/choice-result")
+    public ResponseEntity<?> getChoiceResult(@PathVariable("id") Long id) {
+        Map<String, String> result = questionService.getChoiceResult(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(InternalError.class)
+    public ResponseEntity<String> handleInternalError(InternalError e) {
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 }
