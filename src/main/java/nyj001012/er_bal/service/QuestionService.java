@@ -5,10 +5,7 @@ import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class QuestionService {
@@ -125,5 +122,27 @@ public class QuestionService {
             throw new IllegalArgumentException("존재하지 않는 질문입니다.");
         }
         questionRepository.updateChoiceCount(questionId, flag);
+    }
+
+    /**
+     * 질문의 선택 결과 조회
+     * @param questionId 질문 ID
+     * @return 질문의 선택 결과 (A, B 선택 비율)
+     */
+    public Map<String, Double> getChoiceResult(Long questionId) {
+        if (questionRepository.findById(questionId).isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 질문입니다.");
+        }
+        int choiceACount = questionRepository.countChoiceOfQuestion(questionId, 'A');
+        int choiceBCount = questionRepository.countChoiceOfQuestion(questionId, 'B');
+        int totalCount = choiceACount + choiceBCount;
+
+        Double choiceAPercent = (double) choiceACount / totalCount * 100;
+        Double choiceBPercent = (double) choiceBCount / totalCount * 100;
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("A", choiceAPercent);
+        result.put("B", choiceBPercent);
+        return result;
     }
 }
