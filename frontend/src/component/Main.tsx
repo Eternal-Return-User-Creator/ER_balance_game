@@ -1,6 +1,6 @@
 import './App.css'
 
-function App() {
+function Main() {
   return (
     <main>
       <h1>Main</h1>
@@ -8,4 +8,4 @@ function App() {
   )
 }
 
-export default App
+export default Main
