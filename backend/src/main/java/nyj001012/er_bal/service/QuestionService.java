@@ -48,10 +48,14 @@ public class QuestionService {
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionLength(Question question) {
-        if (question.getChoiceA().isEmpty() || question.getChoiceB().isEmpty()) {
+        if (question.getQuestionText().isEmpty()
+                || question.getChoiceA().isEmpty()
+                || question.getChoiceB().isEmpty()) {
             throw new IllegalArgumentException("질문은 비어있을 수 없습니다.");
         }
-        if (question.getChoiceA().length() > 100 || question.getChoiceB().length() > 100) {
+        if (question.getQuestionText().length() > 100
+                || question.getChoiceA().length() > 100
+                || question.getChoiceB().length() > 100) {
             throw new IllegalArgumentException("질문은 100자 이하이어야 합니다.");
         }
     }
@@ -64,7 +68,8 @@ public class QuestionService {
     public void validateQuestionProfanity(Question question) {
         BadWordFiltering badWordFiltering = new BadWordFiltering();
 
-        if (badWordFiltering.blankCheck(question.getChoiceA())
+        if (badWordFiltering.blankCheck(question.getQuestionText())
+                || badWordFiltering.blankCheck(question.getChoiceA())
                 || badWordFiltering.blankCheck(question.getChoiceB())) {
             throw new IllegalArgumentException("욕설은 사용할 수 없습니다.");
         }
@@ -95,6 +100,7 @@ public class QuestionService {
     /**
      * 랜덤으로 하나의 질문 조회
      * 중복 조회되지 않도록 selectedQuestionIds에 조회된 질문의 id를 저장
+     *
      * @return 랜덤으로 조회된 질문
      */
     public Optional<Question> getRandom() {
@@ -111,8 +117,9 @@ public class QuestionService {
 
     /**
      * 선택한 질문의 카운트 증가 (A, B 중 하나)
+     *
      * @param questionId 질문 ID
-     * @param flag 선택한 질문의 A, B 여부
+     * @param flag       선택한 질문의 A, B 여부
      */
     public void updateChoiceCount(Long questionId, char flag) {
         if (flag != 'A' && flag != 'B') {
@@ -126,6 +133,7 @@ public class QuestionService {
 
     /**
      * 질문의 선택 결과 조회
+     *
      * @param questionId 질문 ID
      * @return 질문의 선택 결과 (A, B 선택 비율)
      */
