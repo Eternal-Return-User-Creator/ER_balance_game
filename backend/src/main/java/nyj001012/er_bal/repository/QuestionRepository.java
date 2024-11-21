@@ -60,18 +60,20 @@ public class QuestionRepository implements IQuestionRepository {
     }
 
     /**
-     * 두 질문을 동시에 만족하는 질문을 조회한다.
-     * 즉, 질문A가 choiceA이고 질문B가 choiceB 이거나, 질문A가 choiceB이고 질문B가 choiceA인 질문을 조회한다.
-     *
-     * @param choiceA 질문A
-     * @param choiceB 질문B
-     * @return 두 질문을 동시에 만족하는 질문
+     * 질문 내용과 선택지 A, B를 동시에 만족하는 질문을 조회한다.
+     * 즉, 질문 내용이 questionText이고, 선택지 A가 choiceA이고 선택지 B가 choiceB 이거나,
+     * 질문 내용이 questionText이고, 선택지 A가 choiceB이고 선택지 B가 choiceA인 질문을 조회한다.
+     * @param questionText 질문 내용
+     * @param choiceA 선택지 A
+     * @param choiceB 선택지 B
+     * @return 질문 내용과 선택지 A, B를 동시에 만족하는 질문
      * @apiNote 두 질문이 동시에 만족하는 질문이 없을 경우 Optional.empty()를 반환한다.
      */
     @Override
-    public Optional<Question> findByChoiceAB(String choiceA, String choiceB) {
-        String jpql = "SELECT q FROM Question q WHERE (q.choiceA = :choiceA AND q.choiceB = :choiceB) OR (q.choiceA = :choiceB AND q.choiceB = :choiceA)";
+    public Optional<Question> findByQuestionTextAndChoiceAB(String questionText, String choiceA, String choiceB) {
+        String jpql = "SELECT q FROM Question q WHERE q.questionText = :questionText AND ((q.choiceA = :choiceA AND q.choiceB = :choiceB) OR (q.choiceA = :choiceB AND q.choiceB = :choiceA))";
         List<Question> question = entityManager.createQuery(jpql, Question.class)
+                .setParameter("questionText", questionText)
                 .setParameter("choiceA", choiceA)
                 .setParameter("choiceB", choiceB)
                 .getResultList();
