@@ -470,6 +470,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>등록된 질문의 ID를 반환한다.
 Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/http-response.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>질문의 길이가 0인 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_비어있는_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>질문의 길이가 100자를 넘을 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문의_길이가_100자를_넘을_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>질문에 비속어가 포함된 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문에_비속어가_포함된_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>질문이 이미 존재하는 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_중복된_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>등록하려는 질문의 선택지가 서로 같은 경우, 400 Bad Request를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_서로_같은_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_500번대/http-response.adoc[]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_5_http_response_body">5. HTTP Response Body</h3>
@@ -500,8 +524,16 @@ Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공
 <div class="sect2">
 <h3 id="_3_http_response">3. HTTP Response</h3>
 <div class="paragraph">
-<p>조회한 질문을 반환한다. 더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.
+<p>조회한 질문을 반환한다.
 Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공_더_이상_조회할_질문이_없는_경우/http-response.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_실패_500번대/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -544,6 +576,10 @@ Unresolved directive in question.adoc - include::{snippets}/질문_선택_시_�
 <p>질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
 Unresolved directive in question.adoc - include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_선택_실패_500번대/http-response.adoc[]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response_body_2">4. HTTP Response Body</h3>
@@ -581,6 +617,10 @@ Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과
 <p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
 Unresolved directive in question.adoc - include::{snippets}/존재하지_않는_질문_선택_결과_조회/http-response.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_실패_500번대/http-response.adoc[]</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response_body_3">4. HTTP Response Body</h3>
@@ -594,7 +634,7 @@ Unresolved directive in question.adoc - include::{snippets}/존재하지_않는_
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-14 10:43:10 +0900
+Last updated 2024-11-14 20:07:45 +0900
 </div>
 </div>
 </body>
