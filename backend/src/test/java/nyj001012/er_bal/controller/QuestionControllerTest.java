@@ -58,8 +58,8 @@ public class QuestionControllerTest {
         public void 질문_등록_성공() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "질문A 입니다.",
-                      "questionB": "질문B 입니다."
+                      "choiceA": "선택지 A 입니다.",
+                      "choiceB": "선택지 B 입니다."
                     }""";
             given(questionService.post(any(Question.class)))
                     .willReturn(12L);
@@ -76,8 +76,8 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_비어있는_경우() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "",
-                      "questionB": ""
+                      "choiceA": "",
+                      "choiceB": ""
                     }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("질문은 비어있을 수 없습니다."));
@@ -95,8 +95,8 @@ public class QuestionControllerTest {
         @Test
         public void 질문_등록_실패_질문의_길이가_100자를_넘을_경우() throws Exception {
             String questionJson = "{\n" +
-                    "  \"questionA\": \"" + "a".repeat(101) + "\",\n" +
-                    "  \"questionB\": \"" + "b".repeat(101) + "\"\n" +
+                    "  \"choiceA\": \"" + "a".repeat(101) + "\",\n" +
+                    "  \"choiceB\": \"" + "b".repeat(101) + "\"\n" +
                     "}";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("질문은 100자 이하이어야 합니다."));
@@ -115,8 +115,8 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문에_비속어가_포함된_경우() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "ㅆㅂ이라고 욕한다.",
-                      "questionB": "욕설이 포함된 질문입니다."
+                      "choiceA": "ㅆㅂ이라고 욕한다.",
+                      "choiceB": "욕설이 포함된 질문입니다."
                     }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("욕설은 사용할 수 없습니다."));
@@ -135,8 +135,8 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_중복된_경우() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "질문A 입니다.",
-                      "questionB": "질문B 입니다."
+                      "choiceA": "선택지 A 입니다.",
+                      "choiceB": "선택지 B 입니다."
                     }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("이미 등록된 질문입니다."));
@@ -155,8 +155,8 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_서로_같은_경우() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "질문A 입니다.",
-                      "questionB": "질문A 입니다."
+                      "choiceA": "선택지 A 입니다.",
+                      "choiceB": "선택지 A 입니다."
                     }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new IllegalArgumentException("같은 질문을 입력할 수 없습니다."));
@@ -175,8 +175,8 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_500번대() throws Exception {
             String questionJson = """
                     {
-                      "questionA": "질문A 입니다.",
-                      "questionB": "질문B 입니다."
+                      "choiceA": "선택지 A 입니다.",
+                      "choiceB": "선택지 B 입니다."
                     }""";
             given(questionService.post(any(Question.class)))
                     .willThrow(new RuntimeException());
@@ -197,12 +197,12 @@ public class QuestionControllerTest {
             Question question = new Question();
             for (long i = 0; i < 3; i++) {
                 question.setId((long) i);
-                question.setQuestionA("질문A" + i);
-                question.setQuestionB("질문B" + i);
+                question.setChoiceA("선택지 A" + i);
+                question.setChoiceB("선택지 B" + i);
                 question.setCreatedDate(new Date());
                 question.setUpdatedDate(new Date());
-                question.setAChoiceCount(0L);
-                question.setBChoiceCount(0L);
+                question.setChoiceACount(0L);
+                question.setChoiceBCount(0L);
                 questionRepository.save(question);
             }
             questionRepository.save(question);

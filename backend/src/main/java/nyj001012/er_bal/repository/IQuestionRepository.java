@@ -9,7 +9,7 @@ public interface IQuestionRepository {
     Question save(Question question);
     Optional<Question> findById(Long id);
     List<Question> findByQuestion(String question);
-    Optional<Question> findByQuestionAB(String questionA, String questionB);
+    Optional<Question> findByChoiceAB(String choiceA, String choiceB);
     Question findOneRandom();
     int count();
     int countChoiceOfQuestion(Long id, char flag);

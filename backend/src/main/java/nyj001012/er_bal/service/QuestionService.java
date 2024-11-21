@@ -48,10 +48,10 @@ public class QuestionService {
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionLength(Question question) {
-        if (question.getQuestionA().isEmpty() || question.getQuestionB().isEmpty()) {
+        if (question.getChoiceA().isEmpty() || question.getChoiceB().isEmpty()) {
             throw new IllegalArgumentException("질문은 비어있을 수 없습니다.");
         }
-        if (question.getQuestionA().length() > 100 || question.getQuestionB().length() > 100) {
+        if (question.getChoiceA().length() > 100 || question.getChoiceB().length() > 100) {
             throw new IllegalArgumentException("질문은 100자 이하이어야 합니다.");
         }
     }
@@ -64,8 +64,8 @@ public class QuestionService {
     public void validateQuestionProfanity(Question question) {
         BadWordFiltering badWordFiltering = new BadWordFiltering();
 
-        if (badWordFiltering.blankCheck(question.getQuestionA())
-                || badWordFiltering.blankCheck(question.getQuestionB())) {
+        if (badWordFiltering.blankCheck(question.getChoiceA())
+                || badWordFiltering.blankCheck(question.getChoiceB())) {
             throw new IllegalArgumentException("욕설은 사용할 수 없습니다.");
         }
     }
@@ -78,16 +78,16 @@ public class QuestionService {
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionDuplicate(Question question) {
-        String questionA = question.getQuestionA();
-        String questionB = question.getQuestionB();
+        String choiceA = question.getChoiceA();
+        String choiceB = question.getChoiceB();
 
         // question A와 B가 같은 질문인지 검증
-        if (Objects.equals(questionA, questionB)) {
+        if (Objects.equals(choiceA, choiceB)) {
             throw new IllegalArgumentException("같은 질문을 입력할 수 없습니다.");
         }
         // 이미 등록된 질문인지 검증
-        if (questionRepository.findByQuestionAB(questionA, questionB).isPresent()
-                || questionRepository.findByQuestionAB(questionB, questionA).isPresent()) {
+        if (questionRepository.findByChoiceAB(choiceA, choiceB).isPresent()
+                || questionRepository.findByChoiceAB(choiceB, choiceA).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 질문입니다.");
         }
     }
