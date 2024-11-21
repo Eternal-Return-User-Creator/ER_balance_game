@@ -19,7 +19,7 @@ public class Question {
     @Column(name="choice_a")
     private String choiceA;
 
-    @Column(name="choice_a")
+    @Column(name="choice_b")
     private String choiceB;
 
     @Column(name="created_date")
