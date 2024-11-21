@@ -26,8 +26,9 @@ public class QuestionServiceTest {
     @BeforeEach
     public void setUp() {
         this.question = new Question();
-        this.question.setChoiceA("질문A");
-        this.question.setChoiceB("질문B");
+        this.question.setQuestionText("질문");
+        this.question.setChoiceA("선택지 A");
+        this.question.setChoiceB("선택지 B");
         this.question.setChoiceACount(0L);
         this.question.setChoiceBCount(0L);
         this.question.setCreatedDate(new Date());
@@ -55,7 +56,7 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
 
             // choiceA, choiceB가 101자인 경우
-            question.setChoiceA("질문A");
+            question.setChoiceA("선택지 A");
             question.setChoiceB("b".repeat(101));
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
@@ -79,7 +80,7 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
 
             // choiceB가 비어있는 경우
-            question.setChoiceA("질문A");
+            question.setChoiceA("선택지 A");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
@@ -121,24 +122,25 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_A와_B가_같은_경우() {
-            question.setChoiceA("같은 질문");
-            question.setChoiceB("같은 질문");
+            question.setChoiceA("같은 선택지");
+            question.setChoiceB("같은 선택지");
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
-            assertThat(e.getMessage()).isEqualTo("같은 질문을 입력할 수 없습니다.");
+            assertThat(e.getMessage()).isEqualTo("같은 선택지를 입력할 수 없습니다.");
         }
 
         @Test
         public void 이미_등록된_질문인_경우() {
-            question.setChoiceA("질문A");
-            question.setChoiceB("질문B");
+            question.setQuestionText("이미 등록된 질문");
+            question.setChoiceA("선택지 A");
+            question.setChoiceB("선택지 B");
             questionRepository.save(question);
 
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
 
             // 질문 내용은 같은데, A와 B가 반대인 경우
-            question.setChoiceA("질문B");
-            question.setChoiceB("질문A");
+            question.setChoiceA("선택지 B");
+            question.setChoiceB("선택지 A");
 
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
@@ -161,8 +163,9 @@ public class QuestionServiceTest {
         for (int i = 0; i < 3; i++) {
             Date dateTime = new Date();
             Question question = new Question();
-            question.setChoiceA("질문 A" + i);
-            question.setChoiceB("질문 B" + (i + 1));
+            question.setQuestionText("질문" + i);
+            question.setChoiceA("선택지 A" + i);
+            question.setChoiceB("선택지 B" + (i + 1));
             question.setCreatedDate(dateTime);
             question.setUpdatedDate(dateTime);
             question.setChoiceACount(0L);

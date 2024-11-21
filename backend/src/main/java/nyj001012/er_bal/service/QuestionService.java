@@ -72,22 +72,22 @@ public class QuestionService {
 
     /**
      * 질문 중복 검증
-     * 1. 질문 A와 B가 같은 질문인지 검증
+     * 1. 질문 A와 B가 같은 선택지인지 검증
      * 2. 이미 등록된 질문인지 검증
      *
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionDuplicate(Question question) {
+        String questionText = question.getQuestionText();
         String choiceA = question.getChoiceA();
         String choiceB = question.getChoiceB();
 
         // question A와 B가 같은 질문인지 검증
         if (Objects.equals(choiceA, choiceB)) {
-            throw new IllegalArgumentException("같은 질문을 입력할 수 없습니다.");
+            throw new IllegalArgumentException("같은 선택지를 입력할 수 없습니다.");
         }
         // 이미 등록된 질문인지 검증
-        if (questionRepository.findByChoiceAB(choiceA, choiceB).isPresent()
-                || questionRepository.findByChoiceAB(choiceB, choiceA).isPresent()) {
+        if (questionRepository.findByQuestionTextAndChoiceAB(questionText, choiceA, choiceB).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 질문입니다.");
         }
     }

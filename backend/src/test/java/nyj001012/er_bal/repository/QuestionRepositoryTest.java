@@ -24,8 +24,9 @@ public class QuestionRepositoryTest {
     public void 질문_등록_테스트() {
         Date dateTime = new Date();
         Question question = new Question();
-        question.setChoiceA("질문1");
-        question.setChoiceB("질문2");
+        question.setQuestionText("질문");
+        question.setChoiceA("선택지 A");
+        question.setChoiceB("선택지 B");
         question.setCreatedDate(dateTime);
         question.setUpdatedDate(dateTime);
         question.setChoiceACount(0L);
@@ -35,16 +36,18 @@ public class QuestionRepositoryTest {
 
         Question savedQuestion = questionRepository.findById(question.getId()).orElse(null);
         assertThat(savedQuestion).isNotNull();
-        assertThat(savedQuestion.getChoiceA()).isEqualTo("질문1");
-        assertThat(savedQuestion.getChoiceB()).isEqualTo("질문2");
+        assertThat(savedQuestion.getQuestionText()).isEqualTo("질문");
+        assertThat(savedQuestion.getChoiceA()).isEqualTo("선택지 A");
+        assertThat(savedQuestion.getChoiceB()).isEqualTo("선택지 B");
     }
 
     @Test
     public void 질문_랜덤_조회_테스트() {
         for (int i = 0; i < 3; i++) {
             Question question = new Question();
-            question.setChoiceA("질문A" + i);
-            question.setChoiceB("질문B" + (i + 1));
+            question.setQuestionText("질문" + i);
+            question.setChoiceA("선택지 A" + i);
+            question.setChoiceB("선택지 B" + (i + 1));
             question.setChoiceACount(0L);
             question.setChoiceBCount(0L);
             question.setCreatedDate(new Date());
@@ -59,8 +62,9 @@ public class QuestionRepositoryTest {
     @Test
     public void 질문_선택지_카운트_증가_성공() {
         Question question = new Question();
-        question.setChoiceA("질문A");
-        question.setChoiceB("질문B");
+        question.setQuestionText("질문");
+        question.setChoiceA("선택지 A");
+        question.setChoiceB("선택지 B");
         question.setChoiceACount(0L);
         question.setChoiceBCount(0L);
         question.setCreatedDate(new Date());
@@ -83,8 +87,9 @@ public class QuestionRepositoryTest {
     @Test
     public void 질문_선택지_선택_수_조회() {
         Question question = new Question();
-        question.setChoiceA("질문A");
-        question.setChoiceB("질문B");
+        question.setQuestionText("질문");
+        question.setChoiceA("선택지 A");
+        question.setChoiceB("선택지 B");
         question.setChoiceACount(2L);
         question.setChoiceBCount(1L);
         question.setCreatedDate(new Date());
