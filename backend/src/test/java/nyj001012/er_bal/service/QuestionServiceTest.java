@@ -50,9 +50,17 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_길이가_100자를_넘는_경우() {
+            // questionText가 101자인 경우
+            question.setQuestionText("q".repeat(101));
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
+
+            // questionText 초기화
+            question.setQuestionText("질문");
+
             // choiceA가 101자인 경우
             question.setChoiceA("a".repeat(101));
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
 
             // choiceA, choiceB가 101자인 경우
@@ -69,9 +77,17 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문이_비어있을_경우() {
+            // questionText가 비어있는 경우
+            question.setQuestionText("");
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
+
+            // questionText 초기화
+            question.setQuestionText("질문");
+
             // choiceA가 비어있는 경우
             question.setChoiceA("");
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
 
             // choiceA, choiceB가 비어있는 경우
@@ -96,9 +112,17 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문에_비속어가_포함되어_있을_때() {
+            // questionText에 비속어가 포함된 경우
+            question.setQuestionText("ㅆㅂ이라고 욕한다.");
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
+            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
+
+            // questionText 초기화
+            question.setQuestionText("질문");
+
             // choiceA에 비속어가 포함된 경우
             question.setChoiceA("ㅆㅂ이라고 욕한다.");
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
 
             // choiceA, choiceB에 비속어가 포함된 경우
