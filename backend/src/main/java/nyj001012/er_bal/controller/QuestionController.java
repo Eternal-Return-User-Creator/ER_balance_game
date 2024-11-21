@@ -24,6 +24,7 @@ public class QuestionController {
     public ResponseEntity<?> post(@RequestBody QuestionPostRequestDTO questionPostRequestDTO, HttpEntity<Object> httpEntity) {
         Date date = new Date();
         Question question = new Question();
+        question.setQuestionText(questionPostRequestDTO.getQuestionText());
         question.setChoiceA(questionPostRequestDTO.getChoiceA());
         question.setChoiceB(questionPostRequestDTO.getChoiceB());
         question.setCreatedDate(date);
