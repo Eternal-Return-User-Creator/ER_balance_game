@@ -58,6 +58,7 @@ public class QuestionControllerTest {
         public void 질문_등록_성공() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "질문입니다.",
                       "choiceA": "선택지 A 입니다.",
                       "choiceB": "선택지 B 입니다."
                     }""";
@@ -76,6 +77,7 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_비어있는_경우() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "",
                       "choiceA": "",
                       "choiceB": ""
                     }""";
@@ -95,6 +97,7 @@ public class QuestionControllerTest {
         @Test
         public void 질문_등록_실패_질문의_길이가_100자를_넘을_경우() throws Exception {
             String questionJson = "{\n" +
+                    "  \"questionText\": \"" + "q".repeat(101) + "\",\n" +
                     "  \"choiceA\": \"" + "a".repeat(101) + "\",\n" +
                     "  \"choiceB\": \"" + "b".repeat(101) + "\"\n" +
                     "}";
@@ -115,6 +118,7 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문에_비속어가_포함된_경우() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "욕설이 포함된 질문입니다.",
                       "choiceA": "ㅆㅂ이라고 욕한다.",
                       "choiceB": "욕설이 포함된 질문입니다."
                     }""";
@@ -135,6 +139,7 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_중복된_경우() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "질문입니다.",
                       "choiceA": "선택지 A 입니다.",
                       "choiceB": "선택지 B 입니다."
                     }""";
@@ -155,6 +160,7 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_질문이_서로_같은_경우() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "질문입니다!",
                       "choiceA": "선택지 A 입니다.",
                       "choiceB": "선택지 A 입니다."
                     }""";
@@ -175,6 +181,7 @@ public class QuestionControllerTest {
         public void 질문_등록_실패_500번대() throws Exception {
             String questionJson = """
                     {
+                      "questionText": "질문입니다?",
                       "choiceA": "선택지 A 입니다.",
                       "choiceB": "선택지 B 입니다."
                     }""";
@@ -197,6 +204,7 @@ public class QuestionControllerTest {
             Question question = new Question();
             for (long i = 0; i < 3; i++) {
                 question.setId((long) i);
+                question.setQuestionText("질문" + i);
                 question.setChoiceA("선택지 A" + i);
                 question.setChoiceB("선택지 B" + i);
                 question.setCreatedDate(new Date());
