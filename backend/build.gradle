@@ -99,14 +99,25 @@ tasks.register('deployAPIDocs') {
                 commandLine 'git', 'commit', '-m', 'Update API Docs'
             }
 
-            exec {
-                workingDir gitRootDir
-                commandLine 'git', 'subtree', 'push', '--prefix=backend/src/main/resources/static/docs', apiRepository, 'main'
+            try {
+                // Pull the latest changes from the remote repository
+                exec {
+                    workingDir gitRootDir
+                    commandLine 'git', 'pull', '--rebase', apiRepository, 'main'
+                }
+
+                // Push the changes to the remote repository
+                exec {
+                    workingDir gitRootDir
+                    commandLine 'git', 'subtree', 'push', '--prefix=backend/src/main/resources/static/docs', apiRepository, 'main'
+                }
+            } catch (e) {
+                println('* Failed to push API Docs ' + e)
+                throw e
             }
         }
     }
 }
-
 build {
     dependsOn 'copyDocs'
     dependsOn 'deployAPIDocs'
