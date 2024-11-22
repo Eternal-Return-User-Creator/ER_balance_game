@@ -448,57 +448,136 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="sect2">
 <h3 id="_1_curl_request">1. Curl Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/curl-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/question' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{
+  "questionText": "질문입니다.",
+  "choiceA": "선택지 A 입니다.",
+  "choiceB": "선택지 B 입니다."
+}'</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_2_http_request">2. HTTP Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/question HTTP/1.1
+Content-Type: application/json
+Content-Length: 118
+Host: localhost:8080
+
+{
+  "questionText": "질문입니다.",
+  "choiceA": "선택지 A 입니다.",
+  "choiceB": "선택지 B 입니다."
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_3_http_request_body">3. HTTP Request Body</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/request-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">{
+  "questionText": "질문입니다.",
+  "choiceA": "선택지 A 입니다.",
+  "choiceB": "선택지 B 입니다."
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response">4. HTTP Response</h3>
 <div class="paragraph">
-<p>등록된 질문의 ID를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/http-response.adoc[]</p>
+<p>등록된 질문의 ID를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 2
+
+12</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>질문의 길이가 0인 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_비어있는_경우/http-response.adoc[]</p>
+<p>질문의 길이가 0인 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 40
+
+질문은 비어있을 수 없습니다.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>질문의 길이가 100자를 넘을 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문의_길이가_100자를_넘을_경우/http-response.adoc[]</p>
+<p>질문의 길이가 100자를 넘을 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 43
+
+질문은 100자 이하이어야 합니다.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>질문에 비속어가 포함된 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문에_비속어가_포함된_경우/http-response.adoc[]</p>
+<p>질문에 비속어가 포함된 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 37
+
+욕설은 사용할 수 없습니다.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>질문이 이미 존재하는 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_중복된_경우/http-response.adoc[]</p>
+<p>질문이 이미 존재하는 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 33
+
+이미 등록된 질문입니다.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>등록하려는 질문의 선택지가 서로 같은 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_질문이_서로_같은_경우/http-response.adoc[]</p>
+<p>등록하려는 질문의 선택지가 서로 같은 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 44
+
+같은 질문을 입력할 수 없습니다.</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패_500번대/http-response.adoc[]</p>
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 500 Internal Server Error</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_5_http_response_body">5. HTTP Response Body</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_등록_성공/response-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">12</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -511,35 +590,58 @@ Unresolved directive in question.adoc - include::{snippets}/질문_등록_실패
 </div>
 <div class="sect2">
 <h3 id="_1_curl_request_2">1. Curl Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/curl-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/question' -i -X GET</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_2_http_request_2">2. HTTP Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/question HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_3_http_response">3. HTTP Response</h3>
 <div class="paragraph">
-<p>조회한 질문을 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]</p>
+<p>조회한 질문을 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 209
+
+{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:22:08.608+00:00","updatedDate":"2024-11-22T01:22:08.608+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공_더_이상_조회할_질문이_없는_경우/http-response.adoc[]</p>
+<p>더 이상 조회할 질문이 없을 경우 204 No Content를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_실패_500번대/http-response.adoc[]</p>
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 500 Internal Server Error</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response_body">4. HTTP Response Body</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회_성공/response-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:22:08.608+00:00","updatedDate":"2024-11-22T01:22:08.608+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -552,39 +654,64 @@ Unresolved directive in question.adoc - include::{snippets}/랜덤_질문_조회
 </div>
 <div class="sect2">
 <h3 id="_1_curl_request_3">1. Curl Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_성공/curl-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/question/1/choice-count?flag=A' -i -X PATCH \
+    -H 'Content-Type: application/x-www-form-urlencoded'</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_2_http_request_3">2. HTTP Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_성공/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/question/1/choice-count?flag=A HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Host: localhost:8080</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_3_http_response_2">3. HTTP Response</h3>
 <div class="paragraph">
-<p>성공 시, 200 OK를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_성공/http-response.adoc[]</p>
+<p>성공 시, 200 OK를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_시_존재하지_않는_질문/http-response.adoc[]</p>
+<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.adoc[]</p>
+<p>질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_실패_500번대/http-response.adoc[]</p>
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 500 Internal Server Error</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response_body_2">4. HTTP Response Body</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_성공/response-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -597,35 +724,58 @@ Unresolved directive in question.adoc - include::{snippets}/질문_선택_실패
 </div>
 <div class="sect2">
 <h3 id="_1_curl_request_4">1. Curl Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/curl-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/question/1/choice-result' -i -X GET</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_2_http_request_4">2. HTTP Request</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/question/1/choice-result HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_3_http_response_3">3. HTTP Response</h3>
 <div class="paragraph">
-<p>성공 시, 조회한 질문의 선택 결과를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/http-response.adoc[]</p>
+<p>성공 시, 조회한 질문의 선택 결과를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 25
+
+{"A":"50.01","B":"49.99"}</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/존재하지_않는_질문_선택_결과_조회/http-response.adoc[]</p>
+<p>존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
-Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_실패_500번대/http-response.adoc[]</p>
+<p>RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 500 Internal Server Error</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_4_http_response_body_3">4. HTTP Response Body</h3>
-<div class="paragraph">
-<p>Unresolved directive in question.adoc - include::{snippets}/질문_선택_결과_조회_성공/response-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">{"A":"50.01","B":"49.99"}</code></pre>
+</div>
 </div>
 </div>
 </div>
