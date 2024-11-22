@@ -436,8 +436,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_이터널_리턴_밸런스_게임er_bal_api_명세서">이터널 리턴 밸런스 게임(ER_BAL) API 명세서</a></li>
+<li><a href="#_api">API</a>
+<ul class="sectlevel1">
+<li><a href="#_질문">질문</a></li>
+<li><a href="#_post_apiquestion">POST /api/question</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request">1. Curl Request</a></li>
+<li><a href="#_2_http_request">2. HTTP Request</a></li>
+<li><a href="#_3_http_request_body">3. HTTP Request Body</a></li>
+<li><a href="#_4_http_response">4. HTTP Response</a></li>
+<li><a href="#_5_http_response_body">5. HTTP Response Body</a></li>
+</ul>
+</li>
+<li><a href="#_get_apiquestion">GET /api/question</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request_2">1. Curl Request</a></li>
+<li><a href="#_2_http_request_2">2. HTTP Request</a></li>
+<li><a href="#_3_http_response">3. HTTP Response</a></li>
+<li><a href="#_4_http_response_body">4. HTTP Response Body</a></li>
+</ul>
+</li>
+<li><a href="#_patch_apiquestionidchoice_count">PATCH /api/question/{id}/choice-count</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request_3">1. Curl Request</a></li>
+<li><a href="#_2_http_request_3">2. HTTP Request</a></li>
+<li><a href="#_3_http_response_2">3. HTTP Response</a></li>
+<li><a href="#_4_http_response_body_2">4. HTTP Response Body</a></li>
+</ul>
+</li>
+<li><a href="#_get_apiquestionidchoice_result">GET /api/question/{id}/choice-result</a>
+<ul class="sectlevel2">
+<li><a href="#_1_curl_request_4">1. Curl Request</a></li>
+<li><a href="#_2_http_request_4">2. HTTP Request</a></li>
+<li><a href="#_3_http_response_3">3. HTTP Response</a></li>
+<li><a href="#_4_http_response_body_3">4. HTTP Response Body</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
 <h1 id="_이터널_리턴_밸런스_게임er_bal_api_명세서" class="sect0">이터널 리턴 밸런스 게임(ER_BAL) API 명세서</h1>
@@ -625,7 +669,7 @@ Host: localhost:8080</code></pre>
 Content-Type: application/json
 Content-Length: 209
 
-{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:28:27.572+00:00","updatedDate":"2024-11-22T01:28:27.572+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
+{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:30:18.011+00:00","updatedDate":"2024-11-22T01:30:18.011+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -649,7 +693,7 @@ Content-Length: 209
 <h3 id="_4_http_response_body"><a class="link" href="#_4_http_response_body">4. HTTP Response Body</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-json" data-lang="json">{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:28:27.572+00:00","updatedDate":"2024-11-22T01:28:27.572+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
+<pre class="highlight nowrap"><code class="language-json" data-lang="json">{"id":2,"questionText":"질문2","choiceA":"선택지 A2","choiceB":"선택지 B2","createdDate":"2024-11-22T01:30:18.011+00:00","updatedDate":"2024-11-22T01:30:18.011+00:00","choiceACount":0,"choiceBCount":0}</code></pre>
 </div>
 </div>
 </div>
@@ -793,7 +837,7 @@ Content-Length: 25
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-11-22 10:27:30 +0900
+Last updated 2024-11-22 10:29:57 +0900
 </div>
 </div>
 </body>
