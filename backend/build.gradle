@@ -54,7 +54,7 @@ asciidoctor {
     baseDirFollowsSourceDir()
     inputs.dir snippetsDir
     dependsOn test
-    attributes 'snippets': snippetsDir
+    attributes 'snippets': snippetsDir, 'toc': 'left'
 }
 
 asciidoctor.doFirst {
