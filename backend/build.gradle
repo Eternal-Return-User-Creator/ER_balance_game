@@ -113,11 +113,15 @@ tasks.register('deployAPIDocs') {
                 }
             } catch (e) {
                 println('* Failed to push API Docs ' + e)
+                if (e.message.contains('CONFLICT')) {
+                    println('* Merge conflict detected. Please resolve conflicts manually.')
+                }
                 throw e
             }
         }
     }
 }
+
 build {
     dependsOn 'copyDocs'
     dependsOn 'deployAPIDocs'
