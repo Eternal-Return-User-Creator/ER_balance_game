@@ -51,8 +51,10 @@ tasks.named('test') {
 }
 
 asciidoctor {
+    baseDirFollowsSourceDir()
     inputs.dir snippetsDir
     dependsOn test
+    attributes 'snippets': snippetsDir
 }
 
 asciidoctor.doFirst {
