@@ -100,13 +100,6 @@ tasks.register('deployAPIDocs') {
             }
 
             try {
-                // Pull the latest changes from the remote repository
-                exec {
-                    workingDir gitRootDir
-                    commandLine 'git', 'pull', '--rebase', apiRepository, 'main'
-                }
-
-                // Push the changes to the remote repository
                 exec {
                     workingDir gitRootDir
                     commandLine 'git', 'subtree', 'push', '--prefix=backend/src/main/resources/static/docs', apiRepository, 'main'
