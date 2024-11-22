@@ -48,10 +48,14 @@ public class QuestionService {
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionLength(Question question) {
-        if (question.getQuestionA().isEmpty() || question.getQuestionB().isEmpty()) {
+        if (question.getQuestionText().isEmpty()
+                || question.getChoiceA().isEmpty()
+                || question.getChoiceB().isEmpty()) {
             throw new IllegalArgumentException("질문은 비어있을 수 없습니다.");
         }
-        if (question.getQuestionA().length() > 100 || question.getQuestionB().length() > 100) {
+        if (question.getQuestionText().length() > 100
+                || question.getChoiceA().length() > 100
+                || question.getChoiceB().length() > 100) {
             throw new IllegalArgumentException("질문은 100자 이하이어야 합니다.");
         }
     }
@@ -64,30 +68,31 @@ public class QuestionService {
     public void validateQuestionProfanity(Question question) {
         BadWordFiltering badWordFiltering = new BadWordFiltering();
 
-        if (badWordFiltering.blankCheck(question.getQuestionA())
-                || badWordFiltering.blankCheck(question.getQuestionB())) {
+        if (badWordFiltering.blankCheck(question.getQuestionText())
+                || badWordFiltering.blankCheck(question.getChoiceA())
+                || badWordFiltering.blankCheck(question.getChoiceB())) {
             throw new IllegalArgumentException("욕설은 사용할 수 없습니다.");
         }
     }
 
     /**
      * 질문 중복 검증
-     * 1. 질문 A와 B가 같은 질문인지 검증
+     * 1. 질문 A와 B가 같은 선택지인지 검증
      * 2. 이미 등록된 질문인지 검증
      *
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionDuplicate(Question question) {
-        String questionA = question.getQuestionA();
-        String questionB = question.getQuestionB();
+        String questionText = question.getQuestionText();
+        String choiceA = question.getChoiceA();
+        String choiceB = question.getChoiceB();
 
         // question A와 B가 같은 질문인지 검증
-        if (Objects.equals(questionA, questionB)) {
-            throw new IllegalArgumentException("같은 질문을 입력할 수 없습니다.");
+        if (Objects.equals(choiceA, choiceB)) {
+            throw new IllegalArgumentException("같은 선택지를 입력할 수 없습니다.");
         }
         // 이미 등록된 질문인지 검증
-        if (questionRepository.findByQuestionAB(questionA, questionB).isPresent()
-                || questionRepository.findByQuestionAB(questionB, questionA).isPresent()) {
+        if (questionRepository.findByQuestionTextAndChoiceAB(questionText, choiceA, choiceB).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 질문입니다.");
         }
     }
@@ -95,6 +100,7 @@ public class QuestionService {
     /**
      * 랜덤으로 하나의 질문 조회
      * 중복 조회되지 않도록 selectedQuestionIds에 조회된 질문의 id를 저장
+     *
      * @return 랜덤으로 조회된 질문
      */
     public Optional<Question> getRandom() {
@@ -111,8 +117,9 @@ public class QuestionService {
 
     /**
      * 선택한 질문의 카운트 증가 (A, B 중 하나)
+     *
      * @param questionId 질문 ID
-     * @param flag 선택한 질문의 A, B 여부
+     * @param flag       선택한 질문의 A, B 여부
      */
     public void updateChoiceCount(Long questionId, char flag) {
         if (flag != 'A' && flag != 'B') {
@@ -126,6 +133,7 @@ public class QuestionService {
 
     /**
      * 질문의 선택 결과 조회
+     *
      * @param questionId 질문 ID
      * @return 질문의 선택 결과 (A, B 선택 비율)
      */

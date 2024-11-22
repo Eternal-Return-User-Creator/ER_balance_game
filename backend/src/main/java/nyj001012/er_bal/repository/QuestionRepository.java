@@ -53,27 +53,29 @@ public class QuestionRepository implements IQuestionRepository {
      */
     @Override
     public List<Question> findByQuestion(String question) {
-        String jpql = "SELECT q FROM Question q WHERE q.questionA = :question OR q.questionB = :question";
+        String jpql = "SELECT q FROM Question q WHERE q.choiceA = :question OR q.choiceB = :question";
         return entityManager.createQuery(jpql, Question.class)
                 .setParameter("question", question)
                 .getResultList();
     }
 
     /**
-     * 두 질문을 동시에 만족하는 질문을 조회한다.
-     * 즉, 질문A가 questionA이고 질문B가 questionB 이거나, 질문A가 questionB이고 질문B가 questionA인 질문을 조회한다.
-     *
-     * @param questionA 질문A
-     * @param questionB 질문B
-     * @return 두 질문을 동시에 만족하는 질문
+     * 질문 내용과 선택지 A, B를 동시에 만족하는 질문을 조회한다.
+     * 즉, 질문 내용이 questionText이고, 선택지 A가 choiceA이고 선택지 B가 choiceB 이거나,
+     * 질문 내용이 questionText이고, 선택지 A가 choiceB이고 선택지 B가 choiceA인 질문을 조회한다.
+     * @param questionText 질문 내용
+     * @param choiceA 선택지 A
+     * @param choiceB 선택지 B
+     * @return 질문 내용과 선택지 A, B를 동시에 만족하는 질문
      * @apiNote 두 질문이 동시에 만족하는 질문이 없을 경우 Optional.empty()를 반환한다.
      */
     @Override
-    public Optional<Question> findByQuestionAB(String questionA, String questionB) {
-        String jpql = "SELECT q FROM Question q WHERE (q.questionA = :questionA AND q.questionB = :questionB) OR (q.questionA = :questionB AND q.questionB = :questionA)";
+    public Optional<Question> findByQuestionTextAndChoiceAB(String questionText, String choiceA, String choiceB) {
+        String jpql = "SELECT q FROM Question q WHERE q.questionText = :questionText AND ((q.choiceA = :choiceA AND q.choiceB = :choiceB) OR (q.choiceA = :choiceB AND q.choiceB = :choiceA))";
         List<Question> question = entityManager.createQuery(jpql, Question.class)
-                .setParameter("questionA", questionA)
-                .setParameter("questionB", questionB)
+                .setParameter("questionText", questionText)
+                .setParameter("choiceA", choiceA)
+                .setParameter("choiceB", choiceB)
                 .getResultList();
         return question.stream().findAny();
     }
@@ -112,7 +114,7 @@ public class QuestionRepository implements IQuestionRepository {
      */
     @Override
     public int countChoiceOfQuestion(Long id, char flag) {
-        String jpql = "SELECT SUM(CASE WHEN :flag = 'A' THEN q.aChoiceCount ELSE q.bChoiceCount END) FROM Question q WHERE q.id = :id";
+        String jpql = "SELECT SUM(CASE WHEN :flag = 'A' THEN q.choiceACount ELSE q.choiceBCount END) FROM Question q WHERE q.id = :id";
         return entityManager.createQuery(jpql, Long.class)
                 .setParameter("flag", String.valueOf(flag))
                 .setParameter("id", id)
@@ -131,9 +133,9 @@ public class QuestionRepository implements IQuestionRepository {
     public void updateChoiceCount(Long id, char flag) {
         Question question = entityManager.find(Question.class, id);
         if (flag == 'A') {
-            question.setAChoiceCount(question.getAChoiceCount() + 1);
+            question.setChoiceACount(question.getChoiceACount() + 1);
         } else {
-            question.setBChoiceCount(question.getBChoiceCount() + 1);
+            question.setChoiceBCount(question.getChoiceBCount() + 1);
         }
     }
 

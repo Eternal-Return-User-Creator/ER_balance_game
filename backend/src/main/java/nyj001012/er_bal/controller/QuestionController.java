@@ -24,12 +24,13 @@ public class QuestionController {
     public ResponseEntity<?> post(@RequestBody QuestionPostRequestDTO questionPostRequestDTO, HttpEntity<Object> httpEntity) {
         Date date = new Date();
         Question question = new Question();
-        question.setQuestionA(questionPostRequestDTO.getQuestionA());
-        question.setQuestionB(questionPostRequestDTO.getQuestionB());
+        question.setQuestionText(questionPostRequestDTO.getQuestionText());
+        question.setChoiceA(questionPostRequestDTO.getChoiceA());
+        question.setChoiceB(questionPostRequestDTO.getChoiceB());
         question.setCreatedDate(date);
         question.setUpdatedDate(date);
-        question.setAChoiceCount(0L);
-        question.setBChoiceCount(0L);
+        question.setChoiceACount(0L);
+        question.setChoiceBCount(0L);
         Long id = questionService.post(question);
         return ResponseEntity.status(201).body(id);
     }

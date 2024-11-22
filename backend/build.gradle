@@ -20,7 +20,7 @@ configurations {
 }
 
 ext {
-    set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("backend/build/generated-snippets"))
 }
 
 repositories {
@@ -73,32 +73,43 @@ tasks.register('deployAPIDocs') {
 
         println('>> Deploying API Docs')
 
+        // .git 폴더가 있는 최상위 디렉터리를 명시적으로 설정
+        def gitRootDir = file(rootDir.parentFile)
+
         // 변경 사항 확인
         def changes = new ByteArrayOutputStream()
         exec {
+            workingDir gitRootDir
             commandLine 'git', 'status', '--porcelain', apiDir
             standardOutput = changes
         }
 
         println(changes.toString())
 
-        // 변경 사항이 없으면 커밋하지 않음
         if (changes.toString().isEmpty()) {
             println('* No changes to commit')
         } else {
-            // 변경 사항 추가
             exec {
+                workingDir gitRootDir
                 commandLine 'git', 'add', apiDir
             }
 
-            // 변경 사항 커밋
             exec {
+                workingDir gitRootDir
                 commandLine 'git', 'commit', '-m', 'Update API Docs'
             }
 
-            // 변경 사항 push
-            exec {
-                commandLine 'git', 'subtree', 'push', '--prefix=src/main/resources/static/docs',  apiRepository, 'main'
+            try {
+                exec {
+                    workingDir gitRootDir
+                    commandLine 'git', 'subtree', 'push', '--prefix=backend/src/main/resources/static/docs', apiRepository, 'main'
+                }
+            } catch (e) {
+                println('* Failed to push API Docs ' + e)
+                if (e.message.contains('CONFLICT')) {
+                    println('* Merge conflict detected. Please resolve conflicts manually.')
+                }
+                throw e
             }
         }
     }

@@ -13,11 +13,14 @@ public class Question {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="question_a")
-    private String questionA;
+    @Column(name="question_text")
+    private String questionText;
 
-    @Column(name="question_b")
-    private String questionB;
+    @Column(name="choice_a")
+    private String choiceA;
+
+    @Column(name="choice_b")
+    private String choiceB;
 
     @Column(name="created_date")
     private Date createdDate;
@@ -25,10 +28,10 @@ public class Question {
     @Column(name="updated_date")
     private Date updatedDate;
 
-    @Column(name="a_choice_count")
-    private Long aChoiceCount;
+    @Column(name="choice_a_count")
+    private Long choiceACount;
 
-    @Column(name="b_choice_count")
-    private Long bChoiceCount;
+    @Column(name="choice_b_count")
+    private Long choiceBCount;
 
 }

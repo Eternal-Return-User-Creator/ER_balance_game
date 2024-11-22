@@ -26,10 +26,11 @@ public class QuestionServiceTest {
     @BeforeEach
     public void setUp() {
         this.question = new Question();
-        this.question.setQuestionA("질문A");
-        this.question.setQuestionB("질문B");
-        this.question.setAChoiceCount(0L);
-        this.question.setBChoiceCount(0L);
+        this.question.setQuestionText("질문");
+        this.question.setChoiceA("선택지 A");
+        this.question.setChoiceB("선택지 B");
+        this.question.setChoiceACount(0L);
+        this.question.setChoiceBCount(0L);
         this.question.setCreatedDate(new Date());
         this.question.setUpdatedDate(new Date());
     }
@@ -49,37 +50,53 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_길이가_100자를_넘는_경우() {
-            // questionA가 101자인 경우
-            question.setQuestionA("a".repeat(101));
+            // questionText가 101자인 경우
+            question.setQuestionText("q".repeat(101));
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
 
-            // questionA, questionB가 101자인 경우
-            question.setQuestionA("질문A");
-            question.setQuestionB("b".repeat(101));
+            // questionText 초기화
+            question.setQuestionText("질문");
+
+            // choiceA가 101자인 경우
+            question.setChoiceA("a".repeat(101));
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
 
-            // questionB가 101자인 경우
-            question.setQuestionA("a");
+            // choiceA, choiceB가 101자인 경우
+            question.setChoiceA("선택지 A");
+            question.setChoiceB("b".repeat(101));
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
+
+            // choiceB가 101자인 경우
+            question.setChoiceA("a");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
         }
 
         @Test
         public void 질문이_비어있을_경우() {
-            // questionA가 비어있는 경우
-            question.setQuestionA("");
+            // questionText가 비어있는 경우
+            question.setQuestionText("");
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
 
-            // questionA, questionB가 비어있는 경우
-            question.setQuestionB("");
+            // questionText 초기화
+            question.setQuestionText("질문");
+
+            // choiceA가 비어있는 경우
+            question.setChoiceA("");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
 
-            // questionB가 비어있는 경우
-            question.setQuestionA("질문A");
+            // choiceA, choiceB가 비어있는 경우
+            question.setChoiceB("");
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
+            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
+
+            // choiceB가 비어있는 경우
+            question.setChoiceA("선택지 A");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
@@ -95,18 +112,26 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문에_비속어가_포함되어_있을_때() {
-            // questionA에 비속어가 포함된 경우
-            question.setQuestionA("ㅆㅂ이라고 욕한다.");
+            // questionText에 비속어가 포함된 경우
+            question.setQuestionText("ㅆㅂ이라고 욕한다.");
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
 
-            // questionA, questionB에 비속어가 포함된 경우
-            question.setQuestionB("채팅으로 존나 못하네라고 한다.");
+            // questionText 초기화
+            question.setQuestionText("질문");
+
+            // choiceA에 비속어가 포함된 경우
+            question.setChoiceA("ㅆㅂ이라고 욕한다.");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
 
-            // questionB에 비속어가 포함된 경우
-            question.setQuestionA("예쁜말..!");
+            // choiceA, choiceB에 비속어가 포함된 경우
+            question.setChoiceB("채팅으로 존나 못하네라고 한다.");
+            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
+            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
+
+            // choiceB에 비속어가 포함된 경우
+            question.setChoiceA("예쁜말..!");
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
         }
@@ -121,24 +146,25 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_A와_B가_같은_경우() {
-            question.setQuestionA("같은 질문");
-            question.setQuestionB("같은 질문");
+            question.setChoiceA("같은 선택지");
+            question.setChoiceB("같은 선택지");
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
-            assertThat(e.getMessage()).isEqualTo("같은 질문을 입력할 수 없습니다.");
+            assertThat(e.getMessage()).isEqualTo("같은 선택지를 입력할 수 없습니다.");
         }
 
         @Test
         public void 이미_등록된_질문인_경우() {
-            question.setQuestionA("질문A");
-            question.setQuestionB("질문B");
+            question.setQuestionText("이미 등록된 질문");
+            question.setChoiceA("선택지 A");
+            question.setChoiceB("선택지 B");
             questionRepository.save(question);
 
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
 
             // 질문 내용은 같은데, A와 B가 반대인 경우
-            question.setQuestionA("질문B");
-            question.setQuestionB("질문A");
+            question.setChoiceA("선택지 B");
+            question.setChoiceB("선택지 A");
 
             e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
@@ -150,8 +176,8 @@ public class QuestionServiceTest {
         questionService.post(question);
         Optional<Question> savedQuestion = questionRepository.findById(question.getId());
         savedQuestion.ifPresentOrElse(q -> {
-            assertThat(q.getQuestionA()).isEqualTo(question.getQuestionA());
-            assertThat(q.getQuestionB()).isEqualTo(question.getQuestionB());
+            assertThat(q.getChoiceA()).isEqualTo(question.getChoiceA());
+            assertThat(q.getChoiceB()).isEqualTo(question.getChoiceB());
         }, Assertions::fail);
     }
 
@@ -161,12 +187,13 @@ public class QuestionServiceTest {
         for (int i = 0; i < 3; i++) {
             Date dateTime = new Date();
             Question question = new Question();
-            question.setQuestionA("질문 A" + i);
-            question.setQuestionB("질문 B" + (i + 1));
+            question.setQuestionText("질문" + i);
+            question.setChoiceA("선택지 A" + i);
+            question.setChoiceB("선택지 B" + (i + 1));
             question.setCreatedDate(dateTime);
             question.setUpdatedDate(dateTime);
-            question.setAChoiceCount(0L);
-            question.setBChoiceCount(0L);
+            question.setChoiceACount(0L);
+            question.setChoiceBCount(0L);
             questionRepository.save(question);
         }
 
@@ -189,8 +216,8 @@ public class QuestionServiceTest {
             questionService.updateChoiceCount(question.getId(), 'A');
             Optional<Question> savedQuestion = questionRepository.findById(question.getId());
             savedQuestion.ifPresentOrElse(q -> {
-                assertThat(q.getAChoiceCount()).isEqualTo(1L);
-                assertThat(q.getBChoiceCount()).isEqualTo(0L);
+                assertThat(q.getChoiceACount()).isEqualTo(1L);
+                assertThat(q.getChoiceBCount()).isEqualTo(0L);
             }, Assertions::fail);
         }
 
@@ -200,8 +227,8 @@ public class QuestionServiceTest {
             questionService.updateChoiceCount(question.getId(), 'B');
             Optional<Question> savedQuestion = questionRepository.findById(question.getId());
             savedQuestion.ifPresentOrElse(q -> {
-                assertThat(q.getAChoiceCount()).isEqualTo(0L);
-                assertThat(q.getBChoiceCount()).isEqualTo(1L);
+                assertThat(q.getChoiceACount()).isEqualTo(0L);
+                assertThat(q.getChoiceBCount()).isEqualTo(1L);
             }, Assertions::fail);
         }
 
