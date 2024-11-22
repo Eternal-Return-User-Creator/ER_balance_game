@@ -1,5 +1,5 @@
 ifndef::snippets[]
-:snippets: backend/build/generated-snippets
+:snippets: ../../../../build/generated-snippets
 endif::[]
 
 = 이터널 리턴 밸런스 게임(ER_BAL) API 명세서

@@ -20,7 +20,7 @@ configurations {
 }
 
 ext {
-    set('snippetsDir', file("backend/build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets"))
 }
 
 repositories {
@@ -51,8 +51,10 @@ tasks.named('test') {
 }
 
 asciidoctor {
+    baseDirFollowsSourceDir()
     inputs.dir snippetsDir
     dependsOn test
+    attributes 'snippets': snippetsDir, 'toc': 'left'
 }
 
 asciidoctor.doFirst {
