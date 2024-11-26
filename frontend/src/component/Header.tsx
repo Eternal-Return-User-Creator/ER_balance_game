@@ -6,7 +6,11 @@ export default function Header() {
         <ul>
           <li>
             <a href={'#'}>처음으로</a>
+          </li>
+          <li>
             <a href={'#'}>게임시작</a>
+          </li>
+          <li>
             <a href={'#'}>만들기</a>
           </li>
         </ul>
