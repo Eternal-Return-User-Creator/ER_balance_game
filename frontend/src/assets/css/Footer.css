@@ -1,0 +1,23 @@
+footer {
+    background-color: #4a4a4a;
+    padding: 1rem 2rem;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-top: 1px solid #0a0a0a;
+    font-family: "IBMPlexSans", sans-serif;
+    font-size: 0.8rem;
+}
+
+footer p {
+    color: #aaaaaa;
+    margin: 0;
+}
+
+footer a {
+    color: #dedede;
+    text-decoration: none;
+}
