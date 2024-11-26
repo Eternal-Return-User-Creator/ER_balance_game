@@ -1,5 +1,5 @@
 footer {
-    background-color: #4a4a4a;
+    background-color: #0a0a0a;
     padding: 1rem 2rem;
     width: 100%;
     position: fixed;
@@ -7,7 +7,6 @@ footer {
     left: 0;
     right: 0;
     z-index: 1000;
-    border-top: 1px solid #0a0a0a;
     font-family: "IBMPlexSans", sans-serif;
     font-size: 0.8rem;
 }
