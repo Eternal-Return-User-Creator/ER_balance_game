@@ -1,7 +1,8 @@
 export default function Header() {
   return (
     <header>
-      <h1>ER-BAL</h1>
+      <h1>ER</h1>
+      <h1>-BAL</h1>
       <nav>
         <ul>
           <li>
