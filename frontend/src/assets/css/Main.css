@@ -1,3 +1,5 @@
 main {
+    flex: 1;
     background: linear-gradient(to bottom, #0a0a0a, #4a4a4a);
+    padding: 0 2rem;
 }
