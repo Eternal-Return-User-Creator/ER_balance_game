@@ -8,7 +8,7 @@ export default function Header() {
       <nav>
         <ul>
           <li>
-            <a href={'#'}>처음으로</a>
+            <Link to="/">처음으로</Link>
           </li>
           <li>
             <a href={'#'}>게임시작</a>
