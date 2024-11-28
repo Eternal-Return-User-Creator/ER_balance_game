@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Header() {
   return (
     <header>
@@ -12,7 +14,7 @@ export default function Header() {
             <a href={'#'}>게임시작</a>
           </li>
           <li>
-            <a href={'#'}>만들기</a>
+            <Link to="/create">만들기</Link>
           </li>
         </ul>
       </nav>
