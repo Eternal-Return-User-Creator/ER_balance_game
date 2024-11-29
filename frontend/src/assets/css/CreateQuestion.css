@@ -67,3 +67,18 @@ p.title {
     border-left: 3px solid #67c6df;
     padding-left: 0.5rem;
 }
+
+input {
+    width: 20rem;
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 0.5rem;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+    border-color: #67c6df;
+}
