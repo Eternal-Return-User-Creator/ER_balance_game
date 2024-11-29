@@ -27,14 +27,14 @@ export default function CreateQuestion() {
             <form>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
-                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요" }/>
+                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요" } tabIndex={1}/>
                 <p>선택지 A</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" }/>
+                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" } tabIndex={2}/>
                 <p>선택지 B</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" }/>
+                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" } tabIndex={3}/>
               </div>
               <div>
-                <button type={ "submit" }>만들기</button>
+                <button type={ "submit" } tabIndex={4}>만들기</button>
               </div>
             </form>
           </div>
