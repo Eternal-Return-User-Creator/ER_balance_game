@@ -13,8 +13,8 @@ export default function CreateQuestion() {
             </div>
             <div className={ "guide-section" }>
               <div className={ "speech-bubble" }>
-                <p className={"title"}>질문 만들기</p>
-                <p className={"description"}>질문을 작성하시는 걸 도와드릴게요!</p>
+                <p className={ "title" }>질문 만들기</p>
+                <p className={ "description" }>질문을 작성하시는 걸 도와드릴게요!</p>
               </div>
               <div className={ "helper" }>
                 <img src={ Default } alt={ "캐릭터 기본 이미지" } className={ "helper-img" }/>
@@ -27,14 +27,17 @@ export default function CreateQuestion() {
             <form>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
-                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요" } tabIndex={1}/>
+                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
+                       maxLength={ 100 } minLength={ 1 }/>
                 <p>선택지 A</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" } tabIndex={2}/>
+                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
+                       maxLength={ 100 } minLength={ 1 }/>
                 <p>선택지 B</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요" } tabIndex={3}/>
+                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
+                       maxLength={ 100 } minLength={ 1 }/>
               </div>
               <div>
-                <button type={ "submit" } tabIndex={4}>만들기</button>
+                <button type={ "submit" } tabIndex={ 4 }>만들기</button>
               </div>
             </form>
           </div>
