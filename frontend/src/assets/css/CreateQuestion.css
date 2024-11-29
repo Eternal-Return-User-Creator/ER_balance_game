@@ -76,9 +76,14 @@ input {
     border-bottom: 2px solid white;
     padding: 0.5rem;
     color: white;
+    margin-bottom: 1.2rem;
 }
 
 input:focus {
     outline: none;
     border-color: #67c6df;
+}
+
+form > div.input-wrapper > p {
+    margin: 0.5rem 0;
 }
