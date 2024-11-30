@@ -7,7 +7,7 @@ export default function Footer() {
       <p>The typography of this site uses IBM Plex Fonts and Black Han Sans, licensed under the <a href="https://scripts.sil.org/OFL">SIL Open Font License</a>.
       </p>
       <p>
-        Banner image © NIMBLE NEURON CORPORATION. All rights reserved.
+        Banner image, icon, character image © NIMBLE NEURON CORPORATION. All rights reserved.
       </p>
     </footer>
   )
