@@ -92,7 +92,7 @@ form > div.input-wrapper > p {
     margin: 0.5rem 0;
 }
 
-button {
+button.create-question {
     width: 100%;
     background: rgba(0, 140, 255, 0.24);
     border: 2px solid rgba(46, 125, 184, 0.85);

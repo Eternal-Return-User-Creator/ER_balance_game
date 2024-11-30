@@ -57,7 +57,7 @@ export default function CreateQuestion() {
                        maxLength={ 100 } minLength={ 1 } onFocus={ describeChoice }/>
               </div>
               <div>
-                <button type={ "submit" } tabIndex={ 4 }>만들기</button>
+                <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
               </div>
             </form>
           </div>
