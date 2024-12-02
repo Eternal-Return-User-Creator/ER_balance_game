@@ -30,11 +30,11 @@ export default function CreateQuestion() {
   function validateContent(event: any) {
     event.preventDefault();
     if (question === "") {
-      setDescription(<>{ charlotteErrorMessages.emptyInputQuestion }</>);
+      setDescription(charlotteErrorMessages.emptyInputQuestion);
       return;
     }
     if (choiceA === "" || choiceB === "") {
-      setDescription(<>{ charlotteErrorMessages.emptyInputChoice }</>);
+      setDescription(charlotteErrorMessages.emptyInputChoice);
       return;
     }
   }
