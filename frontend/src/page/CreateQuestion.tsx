@@ -2,6 +2,7 @@ import Icon from "../assets/images/helper-icon.png"
 import Default from "../assets/images/character/Charlotte/280. Prayge.png"
 import "../assets/css/CreateQuestion.css"
 import { useState } from "react";
+import { charlotteErrorMessages } from "../common/message/charlotteMessage.ts";
 
 export default function CreateQuestion() {
   const [ description, setDescription ] = useState(<>질문을 작성하시는 걸 도와드릴게요!</>);
@@ -26,6 +27,18 @@ export default function CreateQuestion() {
     );
   }
 
+  function validateContent(event: any) {
+    event.preventDefault();
+    if (question === "") {
+      setDescription(<>{charlotteErrorMessages.emptyInputQuestion}</>);
+      return;
+    }
+    if (choiceA === "" || choiceB === "") {
+      setDescription(<>{charlotteErrorMessages.emptyInputChoice}</>);
+      return;
+    }
+  }
+
   return (
     <div className={ "content-wrapper" }>
       <div className={ "wrapper" }>
@@ -47,17 +60,17 @@ export default function CreateQuestion() {
             </div>
           </div>
           <div className={ "question-wrapper" }>
-            <form>
+            <form onSubmit={validateContent}>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
                 <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
-                       maxLength={ 100 } minLength={ 1 } onFocus={ describeQuestion } value={ question }/>
+                       maxLength={ 100 } onFocus={ describeQuestion } value={ question }/>
                 <p>선택지 A</p>
                 <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
-                       maxLength={ 100 } minLength={ 1 } onFocus={ describeChoice } value={ choiceA }/>
+                       maxLength={ 100 } onFocus={ describeChoice } value={ choiceA }/>
                 <p>선택지 B</p>
                 <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
-                       maxLength={ 100 } minLength={ 1 } onFocus={ describeChoice } value={ choiceB }/>
+                       maxLength={ 100 } onFocus={ describeChoice } value={ choiceB }/>
               </div>
               <div>
                 <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
