@@ -90,6 +90,11 @@ input:focus {
     border-color: #67c6df;
 }
 
+input:disabled {
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+}
+
 form > div.input-wrapper > p {
     margin: 0.5rem 0;
 }
@@ -109,11 +114,4 @@ button:hover, button:focus {
     outline: none;
     background: #008CFF72;
     border-color: rgb(97, 183, 255);
-}
-
-button.create-question:disabled {
-    background: rgba(0, 140, 255, 0.24);
-    border-color: rgba(46, 125, 184, 0.85);
-    color: rgba(255, 255, 255, 0.5);
-    cursor: not-allowed;
 }
