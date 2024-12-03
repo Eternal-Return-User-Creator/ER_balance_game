@@ -31,7 +31,7 @@ export default function CreateQuestion() {
    * @param event - form submit event
    * @returns {boolean} - 입력값이 유효한 경우 true, 그렇지 않은 경우 false
    */
-  function validateContent(event: any) {
+  function validateContent(event: any): boolean {
     event.preventDefault();
     if (question === "") {
       const questionInput = document.querySelector(".question") as HTMLInputElement;
