@@ -75,6 +75,8 @@ export default function CreateQuestion() {
           setDescription(charlotteErrorMessages.sameChoice);
         } else if (errorMessage === "이미 등록된 질문입니다.") {
           setDescription(charlotteErrorMessages.duplicateQuestion);
+        } else {
+          setDescription(charlotteErrorMessages.serverError);
         }
         setImage(Fail);
       }
