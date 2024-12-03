@@ -33,12 +33,7 @@ export default function CreateQuestion() {
     }
     if (choiceA === "" || choiceB === "") {
       const choiceInputs = document.querySelectorAll(".choice");
-      if (choiceA === "") {
-        (choiceInputs[0] as HTMLInputElement).focus();
-      }
-      else {
-        (choiceInputs[1] as HTMLInputElement).focus();
-      }
+      choiceA === "" ? (choiceInputs[0] as HTMLInputElement).focus() : (choiceInputs[1] as HTMLInputElement).focus();
       setDescription(charlotteErrorMessages.emptyInputChoice);
       setImage(Error);
       return;
