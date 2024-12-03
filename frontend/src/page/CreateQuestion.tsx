@@ -53,7 +53,7 @@ export default function CreateQuestion() {
   async function callCreateQuestionAPI() {
     setDescription(charlotteMessages.createDescription);
     setImage(Default);
-    const response = await fetch(`${localBackendURL}/question`, {
+    const response = await fetch(`${ localBackendURL }/question`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,6 +67,12 @@ export default function CreateQuestion() {
     if (response.ok) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
+    } else if (response.status === 400) {
+      const errorMessage = await response.text();
+      if (errorMessage === "욕설은 사용할 수 없습니다.") {
+        setDescription(charlotteErrorMessages.badWordInput);
+        setImage(Fail);
+      }
     }
   }
 
