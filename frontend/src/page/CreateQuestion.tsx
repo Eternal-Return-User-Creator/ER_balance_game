@@ -22,6 +22,11 @@ export default function CreateQuestion() {
     setImage(Default);
   }
 
+  /**
+   * 질문과 선택지 A, B의 입력값을 검증합니다.
+   * 입력값이 없을 경우, 해당 입력란에 포커스를 맞추고 에러 메시지를 출력합니다.
+   * @param event - form submit event
+   */
   function validateContent(event: any) {
     event.preventDefault();
     if (question === "") {
