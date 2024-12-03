@@ -6,6 +6,8 @@ div.content-wrapper {
 }
 
 div.wrapper {
+    display: flex;
+    justify-content: center;
     max-width: 60rem;
     width: fit-content;
     padding: 1rem;
@@ -88,11 +90,16 @@ input:focus {
     border-color: #67c6df;
 }
 
+input:disabled {
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+}
+
 form > div.input-wrapper > p {
     margin: 0.5rem 0;
 }
 
-button.create-question {
+button {
     width: 100%;
     background: rgba(0, 140, 255, 0.24);
     border: 2px solid rgba(46, 125, 184, 0.85);
