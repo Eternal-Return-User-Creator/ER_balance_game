@@ -18,4 +18,6 @@ export const charlotteErrorMessages = {
     다시 입력해주세요.</>,
   sameChoice: <>선택지가 같아서는 안돼요.<br/>
     서로 다른 선택지를 입력해주세요.</>,
+  duplicateQuestion: <>이미 등록된 질문이에요.<br/>
+    다른 질문을 입력해주세요.</>,
 }

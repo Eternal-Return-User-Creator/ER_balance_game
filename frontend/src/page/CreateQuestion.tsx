@@ -73,6 +73,8 @@ export default function CreateQuestion() {
           setDescription(charlotteErrorMessages.badWordInput);
         } else if (errorMessage === "같은 선택지를 입력할 수 없습니다.") {
           setDescription(charlotteErrorMessages.sameChoice);
+        } else if (errorMessage === "이미 등록된 질문입니다.") {
+          setDescription(charlotteErrorMessages.duplicateQuestion);
         }
         setImage(Fail);
       }
