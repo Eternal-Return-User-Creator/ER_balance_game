@@ -110,3 +110,10 @@ button:hover, button:focus {
     background: #008CFF72;
     border-color: rgb(97, 183, 255);
 }
+
+button.create-question:disabled {
+    background: rgba(0, 140, 255, 0.24);
+    border-color: rgba(46, 125, 184, 0.85);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: not-allowed;
+}

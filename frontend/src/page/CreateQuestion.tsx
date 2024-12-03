@@ -51,6 +51,18 @@ export default function CreateQuestion() {
   }
 
   /**
+   * 입력란을 비활성화합니다.
+   */
+  function setInputsDisabled() {
+    const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => {
+      input.disabled = true;
+    });
+    const button = document.querySelector(".create-question") as HTMLButtonElement;
+    button.disabled = true;
+  }
+
+  /**
    * API 요청 결과에 따라 캐릭터 이미지와 설명을 변경합니다.
    * @param response - API 요청 결과
    */
@@ -58,8 +70,7 @@ export default function CreateQuestion() {
     if (response.ok) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
-      const button = document.querySelector(".create-question") as HTMLButtonElement;
-      button.disabled = true;
+      setInputsDisabled();
     } else {
       const errorMessage = await response.text();
       if (errorMessage === "욕설은 사용할 수 없습니다.") {
