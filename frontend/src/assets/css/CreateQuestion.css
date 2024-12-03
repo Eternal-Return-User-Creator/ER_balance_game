@@ -99,7 +99,7 @@ form > div.input-wrapper > p {
     margin: 0.5rem 0;
 }
 
-button {
+button.create-question, button.reset {
     width: 100%;
     background: rgba(0, 140, 255, 0.24);
     border: 2px solid rgba(46, 125, 184, 0.85);
@@ -110,8 +110,13 @@ button {
     margin-top: 1rem;
 }
 
-button:hover, button:focus {
+button.create-question:hover, button.create-question:focus,
+button.reset:hover, button.reset:focus {
     outline: none;
     background: #008CFF72;
     border-color: rgb(97, 183, 255);
+}
+
+button.reset {
+    display: none;
 }
