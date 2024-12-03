@@ -1,9 +1,12 @@
 import Icon from "../assets/images/helper-icon.png"
 import Default from "../assets/images/character/Charlotte/280. Prayge.png"
 import Error from "../assets/images/character/Charlotte/278. No Way!.png"
+import Fail from "../assets/images/character/Charlotte/279. Heartbroken.png"
+import Success from "../assets/images/character/Charlotte/277. A Pure Heart.png"
 import "../assets/css/CreateQuestion.css"
 import { useState } from "react";
 import { charlotteMessages, charlotteErrorMessages } from "../common/message/charlotteMessage.tsx";
+import { localBackendURL } from "../common/constants.ts";
 
 export default function CreateQuestion() {
   const [ description, setDescription ] = useState(charlotteMessages.defaultDescription);
@@ -28,7 +31,7 @@ export default function CreateQuestion() {
    * @param event - form submit event
    * @returns {boolean} - 입력값이 유효한 경우 true, 그렇지 않은 경우 false
    */
-  function validateContent(event: any)  {
+  function validateContent(event: any) {
     event.preventDefault();
     if (question === "") {
       const questionInput = document.querySelector(".question") as HTMLInputElement;
@@ -47,9 +50,31 @@ export default function CreateQuestion() {
     return true;
   }
 
-  function handleSubmit(event: any) {
-    if (validateContent(event)) {
+  async function callCreateQuestionAPI() {
+    setDescription(charlotteMessages.createDescription);
+    setImage(Default);
+    const response = await fetch(`${localBackendURL}/question`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        questionText: question,
+        choiceA: choiceA,
+        choiceB: choiceB,
+      }),
+    });
+    if (response.ok) {
+      setDescription(charlotteMessages.createSuccessDescription);
+      setImage(Success);
     }
+  }
+
+  async function handleSubmit(event: any) {
+    if (!validateContent(event)) {
+      return;
+    }
+    await callCreateQuestionAPI();
   }
 
   return (
