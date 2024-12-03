@@ -58,6 +58,8 @@ export default function CreateQuestion() {
     if (response.ok) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
+      const button = document.querySelector(".create-question") as HTMLButtonElement;
+      button.disabled = true;
     } else {
       const errorMessage = await response.text();
       if (errorMessage === "욕설은 사용할 수 없습니다.") {
