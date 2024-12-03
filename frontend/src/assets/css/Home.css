@@ -55,6 +55,11 @@ div.home button:hover {
 }
 
 .button-animation {
-    animation-delay: 1s;
+    animation-delay: 500ms;
+}
+
+button.animate.button-animation > a,
+button.animate.button-animation > a:visited {
+    color: black;
 }
 

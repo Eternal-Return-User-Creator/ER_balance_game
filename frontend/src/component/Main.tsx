@@ -1,6 +1,7 @@
 import '../assets/css/Home.css'
 import Banner from '../assets/images/banner.png'
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [ isAnimated, setIsAnimated ] = useState(false);
@@ -12,10 +13,12 @@ function Main() {
   }, []);
 
   return (
-    <div className={"home"}>
+    <div className={ "home" }>
       <img src={ Banner } alt="배너 이미지" className={ `hidden ${ isAnimated ? `animate img-animation` : `` }` }/>
       <h1 className={ `hidden ${ isAnimated ? `animate title-animation` : `` }` }>이터널 리턴 밸런스 게임</h1>
-      <button className={ `hidden ${ isAnimated ? `animate button-animation` : `` }` }>게임 시작</button>
+      <button className={ `hidden ${ isAnimated ? `animate button-animation` : `` }` }>
+        <Link to="/game">게임 시작</Link>
+      </button>
     </div>
   );
 }
