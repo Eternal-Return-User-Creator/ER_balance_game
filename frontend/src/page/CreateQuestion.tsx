@@ -6,7 +6,6 @@ import Success from "../assets/images/character/Charlotte/277. A Pure Heart.png"
 import "../assets/css/CreateQuestion.css"
 import { useState } from "react";
 import { charlotteMessages, charlotteErrorMessages } from "../common/message/charlotteMessage.tsx";
-import { localBackendURL } from "../common/constants.ts";
 
 export default function CreateQuestion() {
   const [ description, setDescription ] = useState(charlotteMessages.defaultDescription);
@@ -17,6 +16,7 @@ export default function CreateQuestion() {
   const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
   const createButton = document.querySelector(".create-question") as HTMLButtonElement;
   const resetButton = document.querySelector(".reset") as HTMLButtonElement;
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   function describeQuestion() {
     setDescription(charlotteMessages.questionDescription);
@@ -94,7 +94,7 @@ export default function CreateQuestion() {
   async function callCreateQuestionAPI() {
     setDescription(charlotteMessages.createDescription);
     setImage(Default);
-    await fetch(`${ localBackendURL }/question`, {
+    await fetch(`${ backendURL }/question`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
