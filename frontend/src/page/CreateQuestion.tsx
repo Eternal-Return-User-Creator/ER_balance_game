@@ -50,6 +50,32 @@ export default function CreateQuestion() {
     return true;
   }
 
+  /**
+   * API 요청 결과에 따라 캐릭터 이미지와 설명을 변경합니다.
+   * @param response - API 요청 결과
+   */
+  async function handleResult(response: any) {
+    if (response.ok) {
+      setDescription(charlotteMessages.createSuccessDescription);
+      setImage(Success);
+    } else {
+      const errorMessage = await response.text();
+      if (errorMessage === "욕설은 사용할 수 없습니다.") {
+        setDescription(charlotteErrorMessages.badWordInput);
+      } else if (errorMessage === "같은 선택지를 입력할 수 없습니다.") {
+        setDescription(charlotteErrorMessages.sameChoice);
+      } else if (errorMessage === "이미 등록된 질문입니다.") {
+        setDescription(charlotteErrorMessages.duplicateQuestion);
+      } else {
+        setDescription(charlotteErrorMessages.serverError);
+      }
+      setImage(Fail);
+    }
+  }
+
+  /**
+   * 질문을 생성하는 API를 호출합니다.
+   */
   async function callCreateQuestionAPI() {
     setDescription(charlotteMessages.createDescription);
     setImage(Default);
@@ -64,22 +90,7 @@ export default function CreateQuestion() {
         choiceB: choiceB,
       }),
     }).then(async (response) => {
-      if (response.ok) {
-        setDescription(charlotteMessages.createSuccessDescription);
-        setImage(Success);
-      } else {
-        const errorMessage = await response.text();
-        if (errorMessage === "욕설은 사용할 수 없습니다.") {
-          setDescription(charlotteErrorMessages.badWordInput);
-        } else if (errorMessage === "같은 선택지를 입력할 수 없습니다.") {
-          setDescription(charlotteErrorMessages.sameChoice);
-        } else if (errorMessage === "이미 등록된 질문입니다.") {
-          setDescription(charlotteErrorMessages.duplicateQuestion);
-        } else {
-          setDescription(charlotteErrorMessages.serverError);
-        }
-        setImage(Fail);
-      }
+      await handleResult(response);
     });
   }
 
