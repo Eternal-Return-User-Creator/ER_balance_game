@@ -14,6 +14,9 @@ export default function CreateQuestion() {
   const [ question, setQuestion ] = useState("");
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
+  const createButton = document.querySelector(".create-question") as HTMLButtonElement;
+  const resetButton = document.querySelector(".reset") as HTMLButtonElement;
 
   function describeQuestion() {
     setDescription(charlotteMessages.questionDescription);
@@ -54,13 +57,10 @@ export default function CreateQuestion() {
    * 입력란을 비활성화합니다.
    */
   function setInputsDisabled() {
-    const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
     inputs.forEach((input) => {
       input.disabled = true;
     });
-    const button = document.querySelector(".create-question") as HTMLButtonElement;
-    button.style.display = "none";
-    const resetButton = document.querySelector(".reset") as HTMLButtonElement;
+    createButton.style.display = "none";
     resetButton.style.display = "block";
   }
 
@@ -126,14 +126,11 @@ export default function CreateQuestion() {
     setChoiceB("");
     setDescription(charlotteMessages.defaultDescription);
     setImage(Default);
-    const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
     inputs.forEach((input) => {
       input.disabled = false;
     });
-    const createButton = document.querySelector(".create-question") as HTMLButtonElement;
     createButton.disabled = false;
     createButton.style.display = "block";
-    const resetButton = document.querySelector(".reset") as HTMLButtonElement;
     resetButton.style.display = "none";
   }
 
@@ -178,7 +175,7 @@ export default function CreateQuestion() {
               </div>
               <div>
                 <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
-                <button className={ "reset" } type={ "button" } tabIndex={ 5 } onClick={reset}>다시 작성</button>
+                <button className={ "reset" } type={ "button" } tabIndex={ 5 } onClick={ reset }>다시 작성</button>
               </div>
             </form>
           </div>
