@@ -16,4 +16,6 @@ export const charlotteErrorMessages = {
     질문에 대한 답변을 두 가지로 나눠주세요.</>,
   badWordInput: <>욕설이나 무례한 말은 사용하실 수 없어요.<br/>
     다시 입력해주세요.</>,
+  sameChoice: <>선택지가 같아서는 안돼요.<br/>
+    서로 다른 선택지를 입력해주세요.</>,
 }

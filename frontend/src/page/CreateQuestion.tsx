@@ -53,7 +53,7 @@ export default function CreateQuestion() {
   async function callCreateQuestionAPI() {
     setDescription(charlotteMessages.createDescription);
     setImage(Default);
-    const response = await fetch(`${ localBackendURL }/question`, {
+    await fetch(`${ localBackendURL }/question`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,17 +63,20 @@ export default function CreateQuestion() {
         choiceA: choiceA,
         choiceB: choiceB,
       }),
-    });
-    if (response.ok) {
-      setDescription(charlotteMessages.createSuccessDescription);
-      setImage(Success);
-    } else if (response.status === 400) {
-      const errorMessage = await response.text();
-      if (errorMessage === "욕설은 사용할 수 없습니다.") {
-        setDescription(charlotteErrorMessages.badWordInput);
+    }).then(async (response) => {
+      if (response.ok) {
+        setDescription(charlotteMessages.createSuccessDescription);
+        setImage(Success);
+      } else {
+        const errorMessage = await response.text();
+        if (errorMessage === "욕설은 사용할 수 없습니다.") {
+          setDescription(charlotteErrorMessages.badWordInput);
+        } else if (errorMessage === "같은 선택지를 입력할 수 없습니다.") {
+          setDescription(charlotteErrorMessages.sameChoice);
+        }
         setImage(Fail);
       }
-    }
+    });
   }
 
   async function handleSubmit(event: any) {
