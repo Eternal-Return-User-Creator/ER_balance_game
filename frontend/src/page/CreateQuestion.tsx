@@ -26,22 +26,29 @@ export default function CreateQuestion() {
    * 질문과 선택지 A, B의 입력값을 검증합니다.
    * 입력값이 없을 경우, 해당 입력란에 포커스를 맞추고 에러 메시지를 출력합니다.
    * @param event - form submit event
+   * @returns {boolean} - 입력값이 유효한 경우 true, 그렇지 않은 경우 false
    */
-  function validateContent(event: any) {
+  function validateContent(event: any)  {
     event.preventDefault();
     if (question === "") {
       const questionInput = document.querySelector(".question") as HTMLInputElement;
       questionInput.focus();
       setDescription(charlotteErrorMessages.emptyInputQuestion);
       setImage(Error);
-      return;
+      return false;
     }
     if (choiceA === "" || choiceB === "") {
       const choiceInputs = document.querySelectorAll(".choice");
       choiceA === "" ? (choiceInputs[0] as HTMLInputElement).focus() : (choiceInputs[1] as HTMLInputElement).focus();
       setDescription(charlotteErrorMessages.emptyInputChoice);
       setImage(Error);
-      return;
+      return false;
+    }
+    return true;
+  }
+
+  function handleSubmit(event: any) {
+    if (validateContent(event)) {
     }
   }
 
@@ -66,7 +73,7 @@ export default function CreateQuestion() {
             </div>
           </div>
           <div className={ "question-wrapper" }>
-            <form onSubmit={ validateContent }>
+            <form onSubmit={ handleSubmit }>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
                 <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
