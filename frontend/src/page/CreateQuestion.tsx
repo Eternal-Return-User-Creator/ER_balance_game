@@ -94,6 +94,10 @@ export default function CreateQuestion() {
     });
   }
 
+  /**
+   * form submit 이벤트를 처리합니다.
+   * @param event - form submit event
+   */
   async function handleSubmit(event: any) {
     if (!validateContent(event)) {
       return;
