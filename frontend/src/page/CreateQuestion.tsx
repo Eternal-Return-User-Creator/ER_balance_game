@@ -14,7 +14,6 @@ export default function CreateQuestion() {
   const [ question, setQuestion ] = useState("");
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
-  const [ buttonValue, setButtonValue ] = useState("만들기");
 
   function describeQuestion() {
     setDescription(charlotteMessages.questionDescription);
@@ -60,11 +59,8 @@ export default function CreateQuestion() {
       input.disabled = true;
     });
     const button = document.querySelector(".create-question") as HTMLButtonElement;
-    setButtonValue("새로 만들기");
     button.blur();
-    button.onclick = () => {
-      window.location.reload();
-    };
+    button.disabled = true;
   }
 
   /**
@@ -163,7 +159,7 @@ export default function CreateQuestion() {
                 } }/>
               </div>
               <div>
-                <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>{buttonValue}</button>
+                <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
               </div>
             </form>
           </div>
