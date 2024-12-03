@@ -59,8 +59,9 @@ export default function CreateQuestion() {
       input.disabled = true;
     });
     const button = document.querySelector(".create-question") as HTMLButtonElement;
-    button.blur();
-    button.disabled = true;
+    button.style.display = "none";
+    const resetButton = document.querySelector(".reset") as HTMLButtonElement;
+    resetButton.style.display = "block";
   }
 
   /**
@@ -119,6 +120,23 @@ export default function CreateQuestion() {
     await callCreateQuestionAPI();
   }
 
+  function reset() {
+    setQuestion("");
+    setChoiceA("");
+    setChoiceB("");
+    setDescription(charlotteMessages.defaultDescription);
+    setImage(Default);
+    const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => {
+      input.disabled = false;
+    });
+    const createButton = document.querySelector(".create-question") as HTMLButtonElement;
+    createButton.disabled = false;
+    createButton.style.display = "block";
+    const resetButton = document.querySelector(".reset") as HTMLButtonElement;
+    resetButton.style.display = "none";
+  }
+
   return (
     <div className={ "content-wrapper" }>
       <div className={ "wrapper" }>
@@ -160,6 +178,7 @@ export default function CreateQuestion() {
               </div>
               <div>
                 <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
+                <button className={ "reset" } type={ "button" } tabIndex={ 5 } onClick={reset}>다시 작성</button>
               </div>
             </form>
           </div>

@@ -99,7 +99,7 @@ form > div.input-wrapper > p {
     margin: 0.5rem 0;
 }
 
-button.create-question {
+button {
     width: 100%;
     background: rgba(0, 140, 255, 0.24);
     border: 2px solid rgba(46, 125, 184, 0.85);
@@ -114,11 +114,4 @@ button:hover, button:focus {
     outline: none;
     background: #008CFF72;
     border-color: rgb(97, 183, 255);
-}
-
-button:disabled {
-    background: rgba(0, 140, 255, 0.14);
-    border: 2px solid rgba(46, 125, 184, 0.6);
-    color: rgba(255, 255, 255, 0.5);
-    cursor: not-allowed;
 }
