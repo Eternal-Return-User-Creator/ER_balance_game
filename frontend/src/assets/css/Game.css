@@ -8,6 +8,25 @@ div.content-wrapper {
 }
 
 div.question-wrapper {
-    font-size: 2rem;
+    font-size: 2.5rem;
     text-align: center;
+}
+
+button.choice {
+    font-size: 1.8rem;
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
+    margin: 1rem;
+    text-align: left;
+}
+
+button.choice:focus, button.choice:hover {
+    color: black;
+    background-color: rgba(255, 214, 33, 0.8);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
 }
