@@ -33,6 +33,17 @@ button.choice:focus, button.choice:hover {
     box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
 }
 
+button.choice:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: unset;
+}
+
+button.choice.chosen {
+    background-color: rgba(255, 214, 33, 0.8);
+    color: black;
+}
+
 div.next-button-wrapper {
     position: fixed;
     right: 2rem;
