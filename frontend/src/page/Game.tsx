@@ -3,7 +3,7 @@ import "../assets/css/Game.css";
 
 export default function Game() {
   const [ question, setQuestion ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
-  const [ choiceA, setChoiceA ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
+  const [ choiceA, setChoiceA ] = useState("Lorem");
   const [ choiceB, setChoiceB ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
 
   return (
