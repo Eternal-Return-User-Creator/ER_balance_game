@@ -9,6 +9,7 @@ import Main from './component/Main.tsx';
 import Header from './component/Header.tsx';
 import Footer from './component/Footer.tsx';
 import CreateQuestion from './page/CreateQuestion.tsx';
+import Game from "./page/Game.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={ <Main/> }/>
           <Route path="/create" element={ <CreateQuestion/> }/>
+          <Route path="/game" element={ <Game/> }/>
         </Routes>
       </main>
       <Footer/>

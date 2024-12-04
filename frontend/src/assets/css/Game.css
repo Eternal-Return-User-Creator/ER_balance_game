@@ -1,0 +1,87 @@
+main {
+    padding: 0 10rem;
+}
+
+div.content-wrapper {
+    display: flex;
+    font-family: "IBMPlexSans-Bold", sans-serif;
+}
+
+div.question-wrapper {
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+button.choice {
+    font-size: 1.8rem;
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
+    text-align: left;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+button.choice:focus, button.choice:hover {
+    color: black;
+    background-color: rgba(255, 214, 33, 0.8);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
+}
+
+button.choice:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: unset;
+}
+
+button.choice.chosen {
+    background-color: rgba(255, 214, 33, 0.8);
+    color: black;
+}
+
+div.next-button-wrapper {
+    position: fixed;
+    right: 2rem;
+    top: calc(50% - 3rem);
+}
+
+button.next-button {
+    animation: shake 1500ms ease-in-out infinite;
+    user-select: none;
+    -webkit-user-drag: none;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 4rem;
+    width: 6rem;
+    height: 6rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #dedede;
+}
+
+button.next-button:focus, button.next-button:hover {
+    animation-play-state: paused;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

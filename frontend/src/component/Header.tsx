@@ -11,7 +11,7 @@ export default function Header() {
             <Link to="/">처음으로</Link>
           </li>
           <li>
-            <a href={'#'}>게임시작</a>
+            <Link to="/game">게임시작</Link>
           </li>
           <li>
             <Link to="/create">만들기</Link>
