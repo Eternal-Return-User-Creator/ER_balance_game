@@ -10,6 +10,7 @@ div.content-wrapper {
 div.question-wrapper {
     font-size: 2.5rem;
     text-align: center;
+    width: 100%;
 }
 
 button.choice {
@@ -21,8 +22,9 @@ button.choice {
     border: none;
     background-color: rgba(0, 0, 0, 0.3);
     box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
-    margin: 1rem;
     text-align: left;
+    margin: 1rem 0;
+    width: 100%;
 }
 
 button.choice:focus, button.choice:hover {
