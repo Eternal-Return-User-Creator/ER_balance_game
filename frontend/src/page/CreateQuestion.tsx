@@ -69,7 +69,8 @@ export default function CreateQuestion() {
    * @param response - API 요청 결과
    */
   async function handleResult(response: any) {
-    if (response.ok) {
+    console.log(response);
+    if (response.status === 201) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
       setInputsDisabled();
