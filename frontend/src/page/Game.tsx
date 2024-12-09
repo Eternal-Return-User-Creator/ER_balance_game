@@ -17,15 +17,15 @@ export default function Game() {
   }
 
   return (
-    <div className={ "content-wrapper" }>
-      <div className={ "question-wrapper" }>
-        <p className={ "question" }>{ question }</p>
+    <div className={ "in-game content-wrapper" }>
+      <div className={ "in-game question-wrapper" }>
+        <p className={ "in-game question" }>{ question }</p>
       </div>
-      <div className={ "choice-wrapper" }>
+      <div className={ "in-game choice-wrapper" }>
         <form>
-          <button className={ "choice" } type={ "submit" } name={ "choiceA" } tabIndex={ 1 }
+          <button className={ "in-game choice" } type={ "submit" } name={ "choiceA" } tabIndex={ 1 }
                   onClick={ handleClick }>A. { choiceA }</button>
-          <button className={ "choice" } type={ "submit" } name={ "choiceB" } tabIndex={ 2 }
+          <button className={ "in-game choice" } type={ "submit" } name={ "choiceB" } tabIndex={ 2 }
                   onClick={ handleClick }>B. { choiceB }</button>
         </form>
       </div>
