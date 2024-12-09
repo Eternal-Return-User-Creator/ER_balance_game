@@ -10,7 +10,6 @@ import java.util.*;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
-    private final Set<Long> selectedQuestionIds = new HashSet<>();
 
     public QuestionService(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
@@ -103,16 +102,8 @@ public class QuestionService {
      *
      * @return 랜덤으로 조회된 질문
      */
-    public Optional<Question> getRandom() {
-        int totalSize = questionRepository.count();
-        while (selectedQuestionIds.size() < totalSize) {
-            Question question = questionRepository.findOneRandom();
-            if (!selectedQuestionIds.contains(question.getId())) {
-                selectedQuestionIds.add(question.getId());
-                return Optional.of(question);
-            }
-        }
-        return Optional.empty();
+    public Question getRandom() {
+        return questionRepository.findOneRandom();
     }
 
     /**

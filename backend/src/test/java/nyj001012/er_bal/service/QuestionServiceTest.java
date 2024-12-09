@@ -197,15 +197,11 @@ public class QuestionServiceTest {
             questionRepository.save(question);
         }
 
-        // 3개의 랜덤한 질문이 조회되고
-        Set<Long> selectedQuestionIds = new HashSet<>();
+        // 조회된 내용은 비어있으면 안 된다
         for (int i = 0; i < 3; i++) {
-            Optional<Question> question = questionService.getRandom();
-            assertThat(question).isPresent();
-            assertThat(selectedQuestionIds).doesNotContain(question.get().getId());
+            Question question = questionService.getRandom();
+            assertThat(question).isNotNull();
         }
-        // 더 이상 조회되는 질문이 없어야 한다.
-        assertThat(questionService.getRandom()).isEmpty();
     }
 
     @Nested

@@ -13,9 +13,9 @@ export default function CreateQuestion() {
   const [ question, setQuestion ] = useState("");
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
-  const inputs = document.querySelectorAll("input") as NodeListOf<HTMLInputElement>;
-  const createButton = document.querySelector(".create-question") as HTMLButtonElement;
-  const resetButton = document.querySelector(".reset") as HTMLButtonElement;
+  const [ isDisabled, setIsDisabled ] = useState(false);
+  const [ submitButtonDisplay, setSubmitButtonDisplay ] = useState("block");
+  const [ resetButtonDisplay, setResetButtonDisplay ] = useState("none");
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   function describeQuestion() {
@@ -57,11 +57,9 @@ export default function CreateQuestion() {
    * 입력란을 비활성화합니다.
    */
   function setInputsDisabled() {
-    inputs.forEach((input) => {
-      input.disabled = true;
-    });
-    createButton.style.display = "none";
-    resetButton.style.display = "block";
+    setIsDisabled(true);
+    setSubmitButtonDisplay("none");
+    setResetButtonDisplay("block");
   }
 
   /**
@@ -69,7 +67,7 @@ export default function CreateQuestion() {
    * @param response - API 요청 결과
    */
   async function handleResult(response: any) {
-    if (response.ok) {
+    if (response.status === 201) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
       setInputsDisabled();
@@ -126,16 +124,13 @@ export default function CreateQuestion() {
     setChoiceB("");
     setDescription(charlotteMessages.defaultDescription);
     setImage(Default);
-    inputs.forEach((input) => {
-      input.disabled = false;
-    });
-    createButton.disabled = false;
-    createButton.style.display = "block";
-    resetButton.style.display = "none";
+    setIsDisabled(false)
+    setSubmitButtonDisplay("block");
+    setResetButtonDisplay("none");
   }
 
   return (
-    <div className={ "content-wrapper" }>
+    <div className={ "create-question content-wrapper" }>
       <div className={ "wrapper" }>
         <div className={ "wrapper-pattern" }>
           <div className={ "helper-wrapper" }>
@@ -155,27 +150,34 @@ export default function CreateQuestion() {
             </div>
           </div>
           <div className={ "question-wrapper" }>
-            <form onSubmit={ handleSubmit }>
+            <form className={ "create-question" } onSubmit={ handleSubmit }>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
-                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
+                <input className={ "question" } type={ "text" } disabled={ isDisabled }
+                       placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
                        maxLength={ 100 } onFocus={ describeQuestion } value={ question } onChange={ (e) => {
                   setQuestion(e.target.value)
                 } }/>
                 <p>선택지 A</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
+                <input className={ "choice" } type={ "text" } disabled={ isDisabled }
+                       placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
                        maxLength={ 100 } onFocus={ describeChoice } value={ choiceA } onChange={ (e) => {
                   setChoiceA(e.target.value)
                 } }/>
                 <p>선택지 B</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
+                <input className={ "choice" } type={ "text" } disabled={ isDisabled }
+                       placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
                        maxLength={ 100 } onFocus={ describeChoice } value={ choiceB } onChange={ (e) => {
                   setChoiceB(e.target.value)
                 } }/>
               </div>
               <div>
-                <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }>만들기</button>
-                <button className={ "reset" } type={ "button" } tabIndex={ 5 } onClick={ reset }>다시 작성</button>
+                <button className={ "create-question" } type={ "submit" } tabIndex={ 4 }
+                        style={ {display: submitButtonDisplay} }>만들기
+                </button>
+                <button className={ "reset" } type={ "button" } tabIndex={ 5 } onClick={ reset }
+                        style={ {display: resetButtonDisplay} }>다시 작성
+                </button>
               </div>
             </form>
           </div>

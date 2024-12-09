@@ -1,4 +1,4 @@
-div.content-wrapper {
+div.create-question.content-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,6 +30,7 @@ div.helper-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     height: 100%;
     margin-right: 3rem;
 }
@@ -68,13 +69,27 @@ div.speech-bubble p {
     margin: 0 0 1rem 0;
 }
 
-p.title {
+div.speech-bubble p.title {
     color: #67c6df;
     border-left: 3px solid #67c6df;
     padding-left: 0.5rem;
 }
 
-input {
+form.create-question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+form.create-question > div.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form.create-question input {
     width: 20rem;
     font-size: 1.2rem;
     background: transparent;
@@ -82,25 +97,27 @@ input {
     border-bottom: 2px solid white;
     padding: 0.5rem;
     color: white;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.4rem;
 }
 
-input:focus {
+form.create-question input:focus {
     outline: none;
     border-color: #67c6df;
 }
 
-input:disabled {
+form.create-question input:disabled {
     background: rgba(0, 0, 0, 0.2);
     color: rgba(255, 255, 255, 0.5);
 }
 
-form > div.input-wrapper > p {
+form.create-question > div.input-wrapper > p {
     margin: 0.5rem 0;
+    text-align: left;
+    font-size: 1.2rem;
 }
 
 button.create-question, button.reset {
-    width: 100%;
+    width: 21rem; /* input width와 동일 */
     background: rgba(0, 140, 255, 0.24);
     border: 2px solid rgba(46, 125, 184, 0.85);
     color: white;
