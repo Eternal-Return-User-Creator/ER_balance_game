@@ -45,7 +45,7 @@ export default function Game() {
   }
 
   useEffect(() => {
-      callGetQuestionAPI();
+      callGetQuestionAPI().then();
   }, []); // 빈 배열로 설정하여 한 번만 호출
 
   return (
