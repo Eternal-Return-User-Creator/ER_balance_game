@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/css/Game.css";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -27,25 +27,29 @@ export default function Game() {
   /**
    * 백엔드 API를 호출하여 다음 질문을 가져옵니다.
    */
-  function callGetQuestionAPI() {
-    fetch(`${ backendURL }/question`, {
+  async function callGetQuestionAPI() {
+    const response = await fetch(`${ backendURL }/question`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          setQuestion(data.question);
-          setQuestionId(data.id);
-          setChoiceA(data.choiceA);
-          setChoiceB(data.choiceB);
-        });
-      } else {
-        throw new Error("Failed to fetch question.");
-      }
     });
+    if (response.ok) {
+      if (response.status === 204) {
+        alert("더 이상 질문이 없습니다.");
+        return;
+      }
+      const data = await response.json();
+      setQuestion(data.questionText);
+      setQuestionId(data.id);
+      setChoiceA(data.choiceA);
+      setChoiceB(data.choiceB);
+    }
   }
+
+  useEffect(() => {
+    callGetQuestionAPI();
+  }, []); // 빈 배열로 설정하여 한 번만 호출
 
   return (
     <div className={ "in-game content-wrapper" }>
