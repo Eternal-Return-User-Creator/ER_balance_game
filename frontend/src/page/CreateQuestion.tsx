@@ -135,7 +135,7 @@ export default function CreateQuestion() {
   }
 
   return (
-    <div className={ "content-wrapper" }>
+    <div className={ "create-question content-wrapper" }>
       <div className={ "wrapper" }>
         <div className={ "wrapper-pattern" }>
           <div className={ "helper-wrapper" }>
@@ -155,20 +155,23 @@ export default function CreateQuestion() {
             </div>
           </div>
           <div className={ "question-wrapper" }>
-            <form onSubmit={ handleSubmit }>
+            <form className={ "create-question" } onSubmit={ handleSubmit }>
               <div className={ "input-wrapper" }>
                 <p>질문</p>
-                <input className={ "question" } type={ "text" } placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
+                <input className={ "question" } type={ "text" }
+                       placeholder={ "질문을 입력해주세요 (100자 이내)" } tabIndex={ 1 }
                        maxLength={ 100 } onFocus={ describeQuestion } value={ question } onChange={ (e) => {
                   setQuestion(e.target.value)
                 } }/>
                 <p>선택지 A</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
+                <input className={ "choice" } type={ "text" }
+                       placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 2 }
                        maxLength={ 100 } onFocus={ describeChoice } value={ choiceA } onChange={ (e) => {
                   setChoiceA(e.target.value)
                 } }/>
                 <p>선택지 B</p>
-                <input className={ "choice" } type={ "text" } placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
+                <input className={ "choice" } type={ "text" }
+                       placeholder={ "선택지를 입력해주세요 (100자 이내)" } tabIndex={ 3 }
                        maxLength={ 100 } onFocus={ describeChoice } value={ choiceB } onChange={ (e) => {
                   setChoiceB(e.target.value)
                 } }/>
