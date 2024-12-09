@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Game() {
   const [ question, setQuestion ] = useState("");
-  const [ questionId, setQuestionId ] = useState(0);
+  const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
 
@@ -36,9 +36,8 @@ export default function Game() {
     });
     if (response.ok) {
       const data = await response.json();
-      // TODO => questionId 어디에 사용할지 결정
       setQuestion(data.questionText);
-      setQuestionId(data.id);
+      questionIdRef.current = data.id;
       setChoiceA(data.choiceA);
       setChoiceB(data.choiceB);
     }
@@ -46,7 +45,7 @@ export default function Game() {
   }
 
   useEffect(() => {
-    callGetQuestionAPI();
+      callGetQuestionAPI();
   }, []); // 빈 배열로 설정하여 한 번만 호출
 
   return (
