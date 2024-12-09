@@ -35,10 +35,6 @@ export default function Game() {
       }
     });
     if (response.ok) {
-      if (response.status === 204) {
-        alert("더 이상 질문이 없습니다.");
-        return;
-      }
       const data = await response.json();
       setQuestion(data.questionText);
       setQuestionId(data.id);
