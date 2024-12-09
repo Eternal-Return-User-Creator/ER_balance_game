@@ -215,22 +215,12 @@ public class QuestionControllerTest {
             }
             questionRepository.save(question);
             given(questionService.getRandom())
-                    .willReturn(Optional.of(question));
+                    .willReturn(question);
 
             mockMvc.perform(get("/api/question"))
                     .andExpect(result -> {
                         assertThat(result.getResponse().getStatus()).isEqualTo(200);
                         assertThat(result.getResponse().getContentAsString()).isNotEmpty();
-                    });
-        }
-
-        @Test
-        public void 랜덤_질문_조회_성공_더_이상_조회할_질문이_없는_경우() throws Exception {
-            given(questionService.getRandom())
-                    .willReturn(Optional.empty());
-            mockMvc.perform(get("/api/question"))
-                    .andExpect(result -> {
-                        assertThat(result.getResponse().getStatus()).isEqualTo(204);
                     });
         }
 

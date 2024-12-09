@@ -36,12 +36,8 @@ public class QuestionController {
     }
 
     @GetMapping("question")
-    public ResponseEntity<?> get() {
-        return questionService.getRandom().map(
-                ResponseEntity::ok
-        ).orElseGet(
-                () -> ResponseEntity.noContent().build()
-        );
+    public Question get() {
+        return questionService.getRandom();
     }
 
     @PatchMapping("question/{id}/choice-count")
