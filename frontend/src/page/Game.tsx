@@ -40,13 +40,14 @@ export default function Game() {
       questionIdRef.current = data.id;
       setChoiceA(data.choiceA);
       setChoiceB(data.choiceB);
+    } else {
+      // TODO => 에러 페이지로 이동 (500)
     }
-    // TODO => 에러 처리
   }
 
   useEffect(() => {
       callGetQuestionAPI().then();
-  }, []); // 빈 배열로 설정하여 한 번만 호출
+  }, []);
 
   return (
     <div className={ "in-game content-wrapper" }>
