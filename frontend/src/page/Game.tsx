@@ -4,10 +4,10 @@ import "../assets/css/Game.css";
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Game() {
-  const [ question, setQuestion ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
+  const [ question, setQuestion ] = useState("");
   const [ questionId, setQuestionId ] = useState(0);
-  const [ choiceA, setChoiceA ] = useState("Lorem");
-  const [ choiceB, setChoiceB ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
+  const [ choiceA, setChoiceA ] = useState("");
+  const [ choiceB, setChoiceB ] = useState("");
 
   /**
    * 사용자가 선택지 A 또는 B를 클릭했을 때의 이벤트 핸들러입니다.
@@ -36,11 +36,13 @@ export default function Game() {
     });
     if (response.ok) {
       const data = await response.json();
+      // TODO => questionId 어디에 사용할지 결정
       setQuestion(data.questionText);
       setQuestionId(data.id);
       setChoiceA(data.choiceA);
       setChoiceB(data.choiceB);
     }
+    // TODO => 에러 처리
   }
 
   useEffect(() => {
