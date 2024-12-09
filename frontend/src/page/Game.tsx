@@ -1,11 +1,19 @@
 import { useState } from "react";
 import "../assets/css/Game.css";
 
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 export default function Game() {
   const [ question, setQuestion ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
+  const [ questionId, setQuestionId ] = useState(0);
   const [ choiceA, setChoiceA ] = useState("Lorem");
   const [ choiceB, setChoiceB ] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque tincidunt justo, non mi.");
 
+  /**
+   * 사용자가 선택지 A 또는 B를 클릭했을 때의 이벤트 핸들러입니다.
+   * 선택지 A 또는 B를 클릭하면 선택지 A와 B의 버튼을 비활성화하고, 선택한 선택지의 버튼에 chosen 클래스를 추가합니다.
+   * @param e - 클릭 이벤트
+   */
   function handleClick(e: any) {
     e.preventDefault();
     const choiceAButton = document.querySelector(".choice[name='choiceA']") as HTMLButtonElement;
@@ -14,6 +22,29 @@ export default function Game() {
     choiceAButton.disabled = true;
     choiceBButton.disabled = true;
     e.target.name === "choiceA" ? choiceAButton.classList.add("chosen") : choiceBButton.classList.add("chosen");
+  }
+
+  /**
+   * 백엔드 API를 호출하여 다음 질문을 가져옵니다.
+   */
+  function callGetQuestionAPI() {
+    fetch(`${ backendURL }/question`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          setQuestion(data.question);
+          setQuestionId(data.id);
+          setChoiceA(data.choiceA);
+          setChoiceB(data.choiceB);
+        });
+      } else {
+        throw new Error("Failed to fetch question.");
+      }
+    });
   }
 
   return (
