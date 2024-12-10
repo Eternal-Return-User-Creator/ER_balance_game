@@ -284,9 +284,15 @@ public class QuestionControllerTest {
 
         @Test
         public void 질문_선택_결과_조회_성공() throws Exception {
-            Map<String, String> choiceResult = new HashMap<>();
-            choiceResult.put("A", "50.01");
-            choiceResult.put("B", "49.99");
+            Map<String, Map<String, String>> choiceResult = new HashMap<>();
+            Map<String, String> choiceAResult = new HashMap<>();
+            Map<String, String> choiceBResult = new HashMap<>();
+            choiceAResult.put("count", "50");
+            choiceAResult.put("ratio", "50.01");
+            choiceBResult.put("count", "49");
+            choiceBResult.put("ratio", "49.99");
+            choiceResult.put("A", choiceAResult);
+            choiceResult.put("B", choiceBResult);
             given(questionService.getChoiceResult(1L))
                     .willReturn(choiceResult);
             mockMvc.perform(get("/api/question/1/choice-result"))

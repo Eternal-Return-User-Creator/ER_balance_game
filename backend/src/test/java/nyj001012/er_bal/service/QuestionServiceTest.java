@@ -250,10 +250,10 @@ public class QuestionServiceTest {
             Optional<Question> savedQuestion = questionRepository.findById(question.getId());
             savedQuestion.ifPresentOrElse(q -> {
                 Map<String, Map<String, String>> result = questionService.getChoiceResult(q.getId());
-                assertThat(result.get("A").get("percentage")).isEqualTo("80.00");
                 assertThat(result.get("A").get("count")).isEqualTo("4");
-                assertThat(result.get("B").get("percentage")).isEqualTo("20.00");
+                assertThat(result.get("A").get("ratio")).isEqualTo("80.00");
                 assertThat(result.get("B").get("count")).isEqualTo("1");
+                assertThat(result.get("B").get("ratio")).isEqualTo("20.00");
             }, Assertions::fail);
         }
 
