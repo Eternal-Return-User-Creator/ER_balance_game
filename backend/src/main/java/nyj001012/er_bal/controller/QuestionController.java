@@ -48,7 +48,7 @@ public class QuestionController {
 
     @GetMapping("question/{id}/choice-result")
     public ResponseEntity<?> getChoiceResult(@PathVariable("id") Long id) {
-        Map<String, String> result = questionService.getChoiceResult(id);
+        Map<String, Map<String, String>> result = questionService.getChoiceResult(id);
         return ResponseEntity.ok(result);
     }
 
