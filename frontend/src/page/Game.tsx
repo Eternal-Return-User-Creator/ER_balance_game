@@ -31,7 +31,30 @@ export default function Game() {
       },
     }).then(async (response) => {
       if (response.ok) {
+        await callGetChoiceResultAPI();
         // TODO => 결과를 확인하는 API를 호출합니다.
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    }).catch(() => {
+      setIsErrorModalOpen(true);
+    });
+  }
+
+  /**
+   * 백엔드 API를 호출하여 선택지 A와 B의 비율을 가져옵니다.
+   */
+  async function callGetChoiceResultAPI() {
+    await fetch(`${ backendURL }/question/${ Number(questionIdRef.current) }/choice-result`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(async (response) => {
+      if (response.ok) {
+        const data = await response.json();
+        setChoiceARatio(data.A);
+        setChoiceBRatio(data.B);
       } else {
         setIsErrorModalOpen(true);
       }
