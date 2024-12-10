@@ -10,6 +10,7 @@ export default function Game() {
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
   const [ isDisabled, setIsDisabled ] = useState(false);
+  const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
 
   /**
@@ -20,9 +21,7 @@ export default function Game() {
   function handleClick(e: any) {
     e.preventDefault();
     setIsDisabled(true);
-    const choiceAButton = document.querySelector(".choice[name='choiceA']") as HTMLButtonElement;
-    const choiceBButton = document.querySelector(".choice[name='choiceB']") as HTMLButtonElement;
-    e.target.name === "choiceA" ? choiceAButton.classList.add("chosen") : choiceBButton.classList.add("chosen");
+    setSelectedChoice(e.target.name);
   }
 
   /**
@@ -60,9 +59,11 @@ export default function Game() {
       </div>
       <div className={ "in-game choice-wrapper" }>
         <form>
-          <button className={ "in-game choice" } type={ "submit" } name={ "choiceA" } tabIndex={ 1 }
+          <button className={ `in-game choice ${ selectedChoice === choiceA ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "choiceA" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
-          <button className={ "in-game choice" } type={ "submit" } name={ "choiceB" } tabIndex={ 2 }
+          <button className={ `in-game choice ${ selectedChoice === choiceB ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "choiceB" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
         </form>
       </div>
