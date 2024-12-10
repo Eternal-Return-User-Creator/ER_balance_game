@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
 import FatalError from "../component/error/FatalError.tsx";
+import { formatNumberWithComma } from "../common/util/format.ts";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -57,8 +58,8 @@ export default function Game() {
         const data = await response.json();
         const aResult = data.A;
         const bResult = data.B;
-        setChoiceAResult(`${ aResult.count } (${ aResult.ratio }%)`);
-        setChoiceBResult(`${ bResult.count } (${ bResult.ratio }%)`);
+        setChoiceAResult(`${ formatNumberWithComma(aResult.count) } (${ aResult.ratio }%)`);
+        setChoiceBResult(`${ formatNumberWithComma(bResult.count) } (${ bResult.ratio }%)`);
       } else {
         setIsErrorModalOpen(true);
       }
