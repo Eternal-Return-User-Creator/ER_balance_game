@@ -1,0 +1,45 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 다른 요소보다 위에 표시 */
+}
+
+div.modal-content {
+    display: flex;
+    border-radius: 8px;
+    width: 40rem;
+    height: fit-content;
+    text-align: left;
+    position: relative;
+    z-index: 1001; /* overlay보다 위에 표시 */
+}
+
+div.modal-character-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div.modal-character-background > p {
+    font-size: 1rem;
+    margin: 0.7rem 0;
+}
+
+div.modal-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    width: 100%;
+}
+
+

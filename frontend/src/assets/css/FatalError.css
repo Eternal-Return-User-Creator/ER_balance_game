@@ -1,0 +1,48 @@
+div.modal-content {
+    background: linear-gradient(120deg, rgba(204, 0, 0, 0.45) 0%, rgba(64, 0, 0, 0.25) 80%);
+}
+
+div.modal-character-background {
+    background-color: rgba(46, 0, 0, 1);
+}
+
+div.modal-character-background > p {
+    color: rgba(255, 65, 65, 0.6);
+}
+
+div.modal-character {
+    background: linear-gradient(
+            to bottom,
+            rgba(46, 0, 0, 0) 10%,
+            rgba(46, 0, 0, 0.4) 50%,
+            rgba(46, 0, 0, 0.6) 70%,
+            rgba(46, 0, 0, 0.8) 90%,
+            rgba(46, 0, 0, 1) 100%),
+    url("../images/character/Nadja/nadja_noise_half.png");
+    background-size: cover;
+    width: 12rem;
+    height: 12rem;
+    opacity: 0.7;
+}
+
+div.modal-text {
+    background: linear-gradient(to right, rgba(104, 51, 51, 0.2) 2px, transparent 2px), /* 수직선 */ linear-gradient(to bottom, rgba(104, 51, 51, 0.2) 2px, transparent 2px); /* 수평선 */
+    background-size: 2.5rem 2.5rem; /* 격자 크기 설정 */
+}
+
+div.fatal-error-modal {
+    width: 100%;
+    color: #dedede;
+}
+
+div.fatal-error-modal > p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+div.fatal-error-modal > h2 {
+    color: rgba(255, 65, 65, 0.73);
+    border-left: 3px solid rgba(255, 65, 65, 0.73);
+    padding-left: 0.5rem;
+    margin: 0 0 2rem 0;
+}

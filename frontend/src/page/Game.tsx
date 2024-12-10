@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
+import FatalError from "../component/error/FatalError.tsx";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -8,6 +9,7 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
 
   /**
    * 사용자가 선택지 A 또는 B를 클릭했을 때의 이벤트 핸들러입니다.
@@ -28,25 +30,28 @@ export default function Game() {
    * 백엔드 API를 호출하여 다음 질문을 가져옵니다.
    */
   async function callGetQuestionAPI() {
-    const response = await fetch(`${ backendURL }/question`, {
+    await fetch(`${ backendURL }/question`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
+    }).then(async (response) => {
+      if (response.ok) {
+        const data = await response.json();
+        setQuestion(data.questionText);
+        questionIdRef.current = data.id;
+        setChoiceA(data.choiceA);
+        setChoiceB(data.choiceB);
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    }).catch(() => {
+      setIsErrorModalOpen(true);
     });
-    if (response.ok) {
-      const data = await response.json();
-      setQuestion(data.questionText);
-      questionIdRef.current = data.id;
-      setChoiceA(data.choiceA);
-      setChoiceB(data.choiceB);
-    } else {
-      // TODO => 에러 페이지로 이동 (500)
-    }
   }
 
   useEffect(() => {
-      callGetQuestionAPI().then();
+    callGetQuestionAPI().then();
   }, []);
 
   return (
@@ -65,6 +70,7 @@ export default function Game() {
       <div className={ "next-button-wrapper" }>
         <button className={ "next-button" } tabIndex={ 3 }>&gt;&gt;</button>
       </div>
+      { isErrorModalOpen && <FatalError isOpen={ isErrorModalOpen }/> }
     </div>
   )
 }
