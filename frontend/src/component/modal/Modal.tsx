@@ -22,7 +22,14 @@ export default function Modal({isOpen, onClose, children}: {
         className="modal-content"
         onClick={ (e) => e.stopPropagation() } // 클릭 이벤트 전파 방지
       >
-        { children }
+        <div className={ "modal-character-background" }>
+          <div className={"modal-character"}>
+          </div>
+          <p>OPERATOR</p>
+        </div>
+        <div className={ "modal-text" }>
+          { children }
+        </div>
       </div>
     </div>,
     document.body // 포탈의 대상 DOM 노드
