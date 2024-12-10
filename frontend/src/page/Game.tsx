@@ -83,18 +83,18 @@ export default function Game() {
         <p className={ "in-game question" }>{ question }</p>
       </div>
       <div className={ "in-game choice-wrapper" }>
-        <form>
+        <form className={"in-game"}>
           <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "A" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={"choice-text"}>A. { choiceA }</span>
-            <span className={"choice-ratio"}>{choiceARatio}%</span>
+            <span className={"choice-ratio"}>{choiceARatio}</span>
           </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={"choice-text"}>B. { choiceB }</span>
-            <span className={"choice-ratio"}>{choiceBRatio}%</span>
+            <span className={"choice-ratio"}>{choiceBRatio}</span>
           </button>
         </form>
       </div>
