@@ -14,6 +14,16 @@ div.in-game.question-wrapper {
     width: 100%;
 }
 
+div.in-game.choice-wrapper {
+    width: 100%;
+}
+
+form.in-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 button.in-game.choice {
     font-size: 1.8rem;
     font-family: "IBMPlexSans-Bold", sans-serif;
@@ -25,7 +35,7 @@ button.in-game.choice {
     box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
     text-align: left;
     margin: 1rem 0;
-    width: 100%;
+    width: 70%;
 }
 
 button.in-game.choice:focus, button.in-game.choice:hover {
@@ -48,7 +58,6 @@ button.in-game.choice.chosen {
 }
 
 button.in-game.choice > span.choice-text {
-    width: 100%;
 }
 
 button.in-game > span.choice-ratio {

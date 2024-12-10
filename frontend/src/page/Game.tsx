@@ -9,8 +9,8 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
-  const [ choiceARatio, setChoiceARatio ] = useState("");
-  const [ choiceBRatio, setChoiceBRatio ] = useState("");
+  const [ choiceAResult, setChoiceAResult ] = useState("");
+  const [ choiceBResult, setChoiceBResult ] = useState("");
   const [ isDisabled, setIsDisabled ] = useState(false);
   const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
@@ -52,8 +52,10 @@ export default function Game() {
     }).then(async (response) => {
       if (response.ok) {
         const data = await response.json();
-        setChoiceARatio(data.A + "%");
-        setChoiceBRatio(data.B + "%");
+        const aResult = data.A;
+        const bResult = data.B;
+        setChoiceAResult(`${ aResult.count } (${ aResult.ratio }%)`);
+        setChoiceBResult(`${ bResult.count } (${ bResult.ratio }%)`);
       } else {
         setIsErrorModalOpen(true);
       }
@@ -92,8 +94,8 @@ export default function Game() {
   async function getNextQuestion() {
     setIsDisabled(false);
     setSelectedChoice(null);
-    setChoiceARatio("");
-    setChoiceBRatio("");
+    setChoiceAResult("");
+    setChoiceBResult("");
     await callGetQuestionAPI();
   }
 
@@ -112,13 +114,13 @@ export default function Game() {
                   name={ "A" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={"choice-text"}>A. { choiceA }</span>
-            <span className={"choice-ratio"}>{choiceARatio}</span>
+            <span className={"choice-ratio"}>{choiceAResult}</span>
           </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={ "choice-text" }>B. { choiceB }</span>
-            <span className={ "choice-ratio" }>{ choiceBRatio }</span>
+            <span className={ "choice-ratio" }>{ choiceBResult }</span>
           </button>
         </form>
       </div>
