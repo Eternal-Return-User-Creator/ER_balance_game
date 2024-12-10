@@ -9,6 +9,8 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const [ choiceARatio, setChoiceARatio ] = useState("");
+  const [ choiceBRatio, setChoiceBRatio ] = useState("");
   const [ isDisabled, setIsDisabled ] = useState(false);
   const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
@@ -29,7 +31,29 @@ export default function Game() {
       },
     }).then(async (response) => {
       if (response.ok) {
-        // TODO => 결과를 확인하는 API를 호출합니다.
+        await callGetChoiceResultAPI();
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    }).catch(() => {
+      setIsErrorModalOpen(true);
+    });
+  }
+
+  /**
+   * 백엔드 API를 호출하여 선택지 A와 B의 비율을 가져옵니다.
+   */
+  async function callGetChoiceResultAPI() {
+    await fetch(`${ backendURL }/question/${ Number(questionIdRef.current) }/choice-result`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(async (response) => {
+      if (response.ok) {
+        const data = await response.json();
+        setChoiceARatio(data.A + "%");
+        setChoiceBRatio(data.B + "%");
       } else {
         setIsErrorModalOpen(true);
       }
@@ -68,6 +92,8 @@ export default function Game() {
   async function getNextQuestion() {
     setIsDisabled(false);
     setSelectedChoice(null);
+    setChoiceARatio("");
+    setChoiceBRatio("");
     await callGetQuestionAPI();
   }
 
@@ -81,13 +107,19 @@ export default function Game() {
         <p className={ "in-game question" }>{ question }</p>
       </div>
       <div className={ "in-game choice-wrapper" }>
-        <form>
+        <form className={"in-game"}>
           <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "A" } tabIndex={ 1 }
-                  onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>
+            <span className={"choice-text"}>A. { choiceA }</span>
+            <span className={"choice-ratio"}>{choiceARatio}</span>
+          </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
-                  onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>
+            <span className={ "choice-text" }>B. { choiceB }</span>
+            <span className={ "choice-ratio" }>{ choiceBRatio }</span>
+          </button>
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
