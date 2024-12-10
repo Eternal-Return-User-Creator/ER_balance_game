@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
 import FatalError from "../component/error/FatalError.tsx";
+import { formatNumberWithComma } from "../common/util/format.ts";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -9,8 +10,8 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
-  const [ choiceARatio, setChoiceARatio ] = useState("");
-  const [ choiceBRatio, setChoiceBRatio ] = useState("");
+  const [ choiceAResult, setChoiceAResult ] = useState("");
+  const [ choiceBResult, setChoiceBResult ] = useState("");
   const [ isDisabled, setIsDisabled ] = useState(false);
   const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
@@ -20,11 +21,14 @@ export default function Game() {
    * 선택지 A 또는 B를 클릭하면 선택지 A와 B의 버튼을 비활성화하고, 선택한 선택지의 버튼에 chosen 클래스를 추가합니다.
    * @param e - 클릭 이벤트
    */
-  async function handleClick(e: any) {
+  async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    const flag: string = e.currentTarget.name;
+
+    console.log(flag);
     e.preventDefault();
     setIsDisabled(true);
-    setSelectedChoice(e.target.name);
-    await fetch(`${ backendURL }/question/${ questionIdRef.current }/choice-count?flag=${ e.target.name }`, {
+    setSelectedChoice(flag);
+    await fetch(`${ backendURL }/question/${ questionIdRef.current }/choice-count?flag=${ flag }`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -52,8 +56,10 @@ export default function Game() {
     }).then(async (response) => {
       if (response.ok) {
         const data = await response.json();
-        setChoiceARatio(data.A + "%");
-        setChoiceBRatio(data.B + "%");
+        const aResult = data.A;
+        const bResult = data.B;
+        setChoiceAResult(`${ formatNumberWithComma(aResult.count) } (${ aResult.ratio }%)`);
+        setChoiceBResult(`${ formatNumberWithComma(bResult.count) } (${ bResult.ratio }%)`);
       } else {
         setIsErrorModalOpen(true);
       }
@@ -92,8 +98,8 @@ export default function Game() {
   async function getNextQuestion() {
     setIsDisabled(false);
     setSelectedChoice(null);
-    setChoiceARatio("");
-    setChoiceBRatio("");
+    setChoiceAResult("");
+    setChoiceBResult("");
     await callGetQuestionAPI();
   }
 
@@ -112,13 +118,13 @@ export default function Game() {
                   name={ "A" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={"choice-text"}>A. { choiceA }</span>
-            <span className={"choice-ratio"}>{choiceARatio}</span>
+            <span className={"choice-ratio"}>{choiceAResult}</span>
           </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>
             <span className={ "choice-text" }>B. { choiceB }</span>
-            <span className={ "choice-ratio" }>{ choiceBRatio }</span>
+            <span className={ "choice-ratio" }>{ choiceBResult }</span>
           </button>
         </form>
       </div>
