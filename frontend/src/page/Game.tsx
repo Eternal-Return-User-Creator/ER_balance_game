@@ -9,6 +9,8 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const [ isDisabled, setIsDisabled ] = useState(false);
+  const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
 
   /**
@@ -16,14 +18,24 @@ export default function Game() {
    * 선택지 A 또는 B를 클릭하면 선택지 A와 B의 버튼을 비활성화하고, 선택한 선택지의 버튼에 chosen 클래스를 추가합니다.
    * @param e - 클릭 이벤트
    */
-  function handleClick(e: any) {
+  async function handleClick(e: any) {
     e.preventDefault();
-    const choiceAButton = document.querySelector(".choice[name='choiceA']") as HTMLButtonElement;
-    const choiceBButton = document.querySelector(".choice[name='choiceB']") as HTMLButtonElement;
-    // TODO => 백엔드 API 호출
-    choiceAButton.disabled = true;
-    choiceBButton.disabled = true;
-    e.target.name === "choiceA" ? choiceAButton.classList.add("chosen") : choiceBButton.classList.add("chosen");
+    setIsDisabled(true);
+    setSelectedChoice(e.target.name);
+    await fetch(`${ backendURL }/question/${ questionIdRef.current }/choice-count?flag=${ e.target.name }`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then(async (response) => {
+      if (response.ok) {
+        // TODO => 결과를 확인하는 API를 호출합니다.
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    }).catch(() => {
+      setIsErrorModalOpen(true);
+    });
   }
 
   /**
@@ -61,10 +73,12 @@ export default function Game() {
       </div>
       <div className={ "in-game choice-wrapper" }>
         <form>
-          <button className={ "in-game choice" } type={ "submit" } name={ "choiceA" } tabIndex={ 1 }
-                  onClick={ handleClick }>A. { choiceA }</button>
-          <button className={ "in-game choice" } type={ "submit" } name={ "choiceB" } tabIndex={ 2 }
-                  onClick={ handleClick }>B. { choiceB }</button>
+          <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "A" } tabIndex={ 1 }
+                  onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
+          <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "B" } tabIndex={ 2 }
+                  onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
