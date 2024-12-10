@@ -18,10 +18,24 @@ export default function Game() {
    * 선택지 A 또는 B를 클릭하면 선택지 A와 B의 버튼을 비활성화하고, 선택한 선택지의 버튼에 chosen 클래스를 추가합니다.
    * @param e - 클릭 이벤트
    */
-  function handleClick(e: any) {
+  async function handleClick(e: any) {
     e.preventDefault();
     setIsDisabled(true);
     setSelectedChoice(e.target.name);
+    await fetch(`${ backendURL }/question/${ questionIdRef.current }/choice-count?flag=${ e.target.name }`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    }).then(async (response) => {
+      if (response.ok) {
+        // TODO => 결과를 확인하는 API를 호출합니다.
+      } else {
+        setIsErrorModalOpen(true);
+      }
+    }).catch(() => {
+      setIsErrorModalOpen(true);
+    });
   }
 
   /**
