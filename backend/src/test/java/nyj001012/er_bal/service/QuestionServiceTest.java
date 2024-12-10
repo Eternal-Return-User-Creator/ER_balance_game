@@ -6,10 +6,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -252,15 +249,11 @@ public class QuestionServiceTest {
 
             Optional<Question> savedQuestion = questionRepository.findById(question.getId());
             savedQuestion.ifPresentOrElse(q -> {
-                questionService.getChoiceResult(q.getId()).forEach((k, v) -> {
-                    if (k.equals("A")) {
-                        assertThat(v).isEqualTo("80.00");
-                    } else if (k.equals("B")) {
-                        assertThat(v).isEqualTo("20.00");
-                    } else {
-                        fail();
-                    }
-                });
+                Map<String, Map<String, String>> result = questionService.getChoiceResult(q.getId());
+                assertThat(result.get("A").get("count")).isEqualTo("4");
+                assertThat(result.get("A").get("ratio")).isEqualTo("80.00");
+                assertThat(result.get("B").get("count")).isEqualTo("1");
+                assertThat(result.get("B").get("ratio")).isEqualTo("20.00");
             }, Assertions::fail);
         }
 
