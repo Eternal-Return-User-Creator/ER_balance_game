@@ -9,6 +9,7 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const [ isDisabled, setIsDisabled ] = useState(false);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
 
   /**
@@ -18,11 +19,9 @@ export default function Game() {
    */
   function handleClick(e: any) {
     e.preventDefault();
+    setIsDisabled(true);
     const choiceAButton = document.querySelector(".choice[name='choiceA']") as HTMLButtonElement;
     const choiceBButton = document.querySelector(".choice[name='choiceB']") as HTMLButtonElement;
-    // TODO => 백엔드 API 호출
-    choiceAButton.disabled = true;
-    choiceBButton.disabled = true;
     e.target.name === "choiceA" ? choiceAButton.classList.add("chosen") : choiceBButton.classList.add("chosen");
   }
 
@@ -62,9 +61,9 @@ export default function Game() {
       <div className={ "in-game choice-wrapper" }>
         <form>
           <button className={ "in-game choice" } type={ "submit" } name={ "choiceA" } tabIndex={ 1 }
-                  onClick={ handleClick }>A. { choiceA }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
           <button className={ "in-game choice" } type={ "submit" } name={ "choiceB" } tabIndex={ 2 }
-                  onClick={ handleClick }>B. { choiceB }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
