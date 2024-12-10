@@ -9,6 +9,8 @@ export default function Game() {
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
   const [ choiceB, setChoiceB ] = useState("");
+  const [ choiceARatio, setChoiceARatio ] = useState("");
+  const [ choiceBRatio, setChoiceBRatio ] = useState("");
   const [ isDisabled, setIsDisabled ] = useState(false);
   const [ selectedChoice, setSelectedChoice ] = useState<string | null>(null);
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
@@ -84,10 +86,16 @@ export default function Game() {
         <form>
           <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "A" } tabIndex={ 1 }
-                  onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>
+            <span className={"choice-text"}>A. { choiceA }</span>
+            <span className={"choice-ratio"}>{choiceARatio}%</span>
+          </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
-                  onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
+                  onClick={ handleClick } disabled={ isDisabled }>
+            <span className={"choice-text"}>B. { choiceB }</span>
+            <span className={"choice-ratio"}>{choiceBRatio}%</span>
+          </button>
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
