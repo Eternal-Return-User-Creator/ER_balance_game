@@ -62,6 +62,15 @@ export default function Game() {
     });
   }
 
+  /**
+   * 다음 질문을 가져오는 함수입니다.
+   */
+  async function getNextQuestion() {
+    setIsDisabled(false);
+    setSelectedChoice(null);
+    await callGetQuestionAPI();
+  }
+
   useEffect(() => {
     callGetQuestionAPI().then();
   }, []);
@@ -82,7 +91,7 @@ export default function Game() {
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
-        <button className={ "next-button" } tabIndex={ 3 }>&gt;&gt;</button>
+        <button className={ "next-button" } tabIndex={ 3 } onClick={ getNextQuestion }>&gt;&gt;</button>
       </div>
       { isErrorModalOpen && <FatalError isOpen={ isErrorModalOpen }/> }
     </div>
