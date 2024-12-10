@@ -59,11 +59,11 @@ export default function Game() {
       </div>
       <div className={ "in-game choice-wrapper" }>
         <form>
-          <button className={ `in-game choice ${ selectedChoice === choiceA ? 'chosen' : '' }` } type={ "submit" }
-                  name={ "choiceA" } tabIndex={ 1 }
+          <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "A" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>A. { choiceA }</button>
-          <button className={ `in-game choice ${ selectedChoice === choiceB ? 'chosen' : '' }` } type={ "submit" }
-                  name={ "choiceB" } tabIndex={ 2 }
+          <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
+                  name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>B. { choiceB }</button>
         </form>
       </div>
