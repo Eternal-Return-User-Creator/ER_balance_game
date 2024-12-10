@@ -32,7 +32,6 @@ export default function Game() {
     }).then(async (response) => {
       if (response.ok) {
         await callGetChoiceResultAPI();
-        // TODO => 결과를 확인하는 API를 호출합니다.
       } else {
         setIsErrorModalOpen(true);
       }
@@ -53,8 +52,8 @@ export default function Game() {
     }).then(async (response) => {
       if (response.ok) {
         const data = await response.json();
-        setChoiceARatio(data.A);
-        setChoiceBRatio(data.B);
+        setChoiceARatio(data.A + "%");
+        setChoiceBRatio(data.B + "%");
       } else {
         setIsErrorModalOpen(true);
       }
@@ -93,6 +92,8 @@ export default function Game() {
   async function getNextQuestion() {
     setIsDisabled(false);
     setSelectedChoice(null);
+    setChoiceARatio("");
+    setChoiceBRatio("");
     await callGetQuestionAPI();
   }
 
