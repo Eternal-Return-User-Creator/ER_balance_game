@@ -117,8 +117,8 @@ export default function Game() {
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>
-            <span className={"choice-text"}>B. { choiceB }</span>
-            <span className={"choice-ratio"}>{choiceBRatio}</span>
+            <span className={ "choice-text" }>B. { choiceB }</span>
+            <span className={ "choice-ratio" }>{ choiceBRatio }</span>
           </button>
         </form>
       </div>

@@ -15,8 +15,6 @@ div.in-game.question-wrapper {
 }
 
 button.in-game.choice {
-    display: flex;
-    justify-content: space-between;
     font-size: 1.8rem;
     font-family: "IBMPlexSans-Bold", sans-serif;
     color: white;
@@ -43,13 +41,19 @@ button.in-game.choice:disabled {
 }
 
 button.in-game.choice.chosen {
-    background-color: rgba(255, 214, 33, 0.8);
+    background-size: 0 100%; /* 초기값: 너비가 0%, 높이가 100% */
+    background: linear-gradient(to right, rgba(255, 214, 33, 0.8), rgba(255, 214, 33, 0.8)) no-repeat;
+    animation: fillBackground 0.7s forwards ; /* 애니메이션 실행 */
     color: black;
 }
 
+button.in-game.choice > span.choice-text {
+    width: 100%;
+}
+
 button.in-game > span.choice-ratio {
+    float: right;
     text-align: right;
-    width: 15rem;
 }
 
 div.next-button-wrapper {
@@ -91,5 +95,14 @@ button.next-button:focus, button.next-button:hover {
     }
     100% {
         transform: translateX(0);
+    }
+}
+
+@keyframes fillBackground {
+    from {
+        background-size: 0 100%; /* 배경 너비가 0% */
+    }
+    to {
+        background-size: 100% 100%; /* 배경 너비가 100% */
     }
 }
