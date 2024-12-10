@@ -6,6 +6,7 @@ import Success from "../assets/images/character/Charlotte/277. A Pure Heart.png"
 import "../assets/css/CreateQuestion.css"
 import { useState } from "react";
 import { charlotteMessages, charlotteErrorMessages } from "../common/message/charlotteMessage.tsx";
+import FatalError from "../component/error/FatalError.tsx";
 
 export default function CreateQuestion() {
   const [ description, setDescription ] = useState(charlotteMessages.defaultDescription);
@@ -16,6 +17,7 @@ export default function CreateQuestion() {
   const [ isDisabled, setIsDisabled ] = useState(false);
   const [ submitButtonDisplay, setSubmitButtonDisplay ] = useState("block");
   const [ resetButtonDisplay, setResetButtonDisplay ] = useState("none");
+  const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
   const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   function describeQuestion() {
@@ -104,6 +106,8 @@ export default function CreateQuestion() {
       }),
     }).then(async (response) => {
       await handleResult(response);
+    }).catch(() => {
+      setIsErrorModalOpen(true);
     });
   }
 
@@ -183,6 +187,7 @@ export default function CreateQuestion() {
           </div>
         </div>
       </div>
+      { isErrorModalOpen && <FatalError isOpen={ isErrorModalOpen }/> }
     </div>
   );
 }
