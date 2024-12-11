@@ -46,20 +46,6 @@ public class QuestionRepository implements IQuestionRepository {
     }
 
     /**
-     * 질문을 포함하는 질문을 조회한다. 즉, 질문A 또는 질문B가 question인 질문을 조회한다.
-     *
-     * @param question 질문
-     * @return 질문을 포함하는 질문
-     */
-    @Override
-    public List<Question> findByQuestion(String question) {
-        String jpql = "SELECT q FROM Question q WHERE q.choiceA = :question OR q.choiceB = :question";
-        return entityManager.createQuery(jpql, Question.class)
-                .setParameter("question", question)
-                .getResultList();
-    }
-
-    /**
      * 질문 내용과 선택지 A, B를 동시에 만족하는 질문을 조회한다.
      * 즉, 질문 내용이 questionText이고, 선택지 A가 choiceA이고 선택지 B가 choiceB 이거나,
      * 질문 내용이 questionText이고, 선택지 A가 choiceB이고 선택지 B가 choiceA인 질문을 조회한다.
@@ -92,18 +78,6 @@ public class QuestionRepository implements IQuestionRepository {
         return entityManager.createQuery(jpql, Question.class)
                 .setMaxResults(1)
                 .getSingleResult();
-    }
-
-    /**
-     * 질문의 총 개수를 조회한다.
-     *
-     * @return 질문의 총 개수
-     */
-    @Override
-    public int count() {
-        return entityManager.createQuery("SELECT COUNT(q) FROM Question q", Long.class)
-                .getSingleResult()
-                .intValue();
     }
 
     /**
