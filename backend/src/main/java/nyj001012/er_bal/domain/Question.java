@@ -1,14 +1,16 @@
 package nyj001012.er_bal.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
+@Builder
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,15 +25,19 @@ public class Question {
     private String choiceB;
 
     @Column(name="created_date")
-    private Date createdDate;
+    @Builder.Default
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate = new Date();
 
     @Column(name="updated_date")
-    private Date updatedDate;
+    @Builder.Default
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedDate = new Date();
 
     @Column(name="choice_a_count")
-    private Long choiceACount;
+    @Builder.Default
+    private Long choiceACount = 0L;
 
     @Column(name="choice_b_count")
-    private Long choiceBCount;
-
+    private Long choiceBCount = 0L;
 }
