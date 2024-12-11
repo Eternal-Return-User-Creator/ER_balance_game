@@ -207,10 +207,6 @@ public class QuestionControllerTest {
                 question.setQuestionText("질문" + i);
                 question.setChoiceA("선택지 A" + i);
                 question.setChoiceB("선택지 B" + i);
-                question.setCreatedDate(new Date());
-                question.setUpdatedDate(new Date());
-                question.setChoiceACount(0L);
-                question.setChoiceBCount(0L);
                 questionRepository.save(question);
             }
             questionRepository.save(question);

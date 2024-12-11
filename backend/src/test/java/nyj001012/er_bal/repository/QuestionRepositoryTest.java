@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Date;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -22,15 +20,10 @@ public class QuestionRepositoryTest {
 
     @Test
     public void 질문_등록_테스트() {
-        Date dateTime = new Date();
         Question question = new Question();
         question.setQuestionText("질문");
         question.setChoiceA("선택지 A");
         question.setChoiceB("선택지 B");
-        question.setCreatedDate(dateTime);
-        question.setUpdatedDate(dateTime);
-        question.setChoiceACount(0L);
-        question.setChoiceBCount(0L);
 
         questionRepository.save(question);
 
@@ -48,10 +41,6 @@ public class QuestionRepositoryTest {
             question.setQuestionText("질문" + i);
             question.setChoiceA("선택지 A" + i);
             question.setChoiceB("선택지 B" + (i + 1));
-            question.setChoiceACount(0L);
-            question.setChoiceBCount(0L);
-            question.setCreatedDate(new Date());
-            question.setUpdatedDate(new Date());
             questionRepository.save(question);
         }
 
@@ -65,10 +54,6 @@ public class QuestionRepositoryTest {
         question.setQuestionText("질문");
         question.setChoiceA("선택지 A");
         question.setChoiceB("선택지 B");
-        question.setChoiceACount(0L);
-        question.setChoiceBCount(0L);
-        question.setCreatedDate(new Date());
-        question.setUpdatedDate(new Date());
         questionRepository.save(question);
 
         // A 선택지 카운트 증가
@@ -92,8 +77,6 @@ public class QuestionRepositoryTest {
         question.setChoiceB("선택지 B");
         question.setChoiceACount(2L);
         question.setChoiceBCount(1L);
-        question.setCreatedDate(new Date());
-        question.setUpdatedDate(new Date());
         questionRepository.save(question);
 
         int choiceACount = questionRepository.countChoiceOfQuestion(question.getId(), 'A');

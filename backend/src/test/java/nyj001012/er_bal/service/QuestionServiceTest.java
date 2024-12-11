@@ -3,14 +3,16 @@ package nyj001012.er_bal.service;
 import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.repository.QuestionRepository;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class QuestionServiceTest {
@@ -26,10 +28,6 @@ public class QuestionServiceTest {
         this.question.setQuestionText("질문");
         this.question.setChoiceA("선택지 A");
         this.question.setChoiceB("선택지 B");
-        this.question.setChoiceACount(0L);
-        this.question.setChoiceBCount(0L);
-        this.question.setCreatedDate(new Date());
-        this.question.setUpdatedDate(new Date());
     }
 
     @AfterEach
@@ -45,56 +43,36 @@ public class QuestionServiceTest {
             questionService.validateQuestionLength(question);
         }
 
-        @Test
-        public void 질문_길이가_100자를_넘는_경우() {
-            // questionText가 101자인 경우
-            question.setQuestionText("q".repeat(101));
+        /**
+         * 100자를 넘는 질문을 제공하는 테스트 메소드
+         *
+         * @return 100자를 넘는 질문
+         */
+        private static Stream<Arguments> provideLongQuestions() {
+            return Stream.of(
+                    Arguments.of("q".repeat(101), "선택지 A", "선택지 B"), // questionText가 101자인 경우
+                    Arguments.of("질문", "a".repeat(101), "선택지 B"), // choiceA가 101자인 경우
+                    Arguments.of("질문", "선택지 A", "b".repeat(101)), // choiceB가 101자인 경우
+                    Arguments.of("q".repeat(101), "a".repeat(101), "b".repeat(101))
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideLongQuestions")
+        public void 질문_길이가_100자를_넘는_경우(String questionText, String choiceA, String choiceB) {
+            question.setQuestionText(questionText);
+            question.setChoiceA(choiceA);
+            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
-
-            // questionText 초기화
-            question.setQuestionText("질문");
-
-            // choiceA가 101자인 경우
-            question.setChoiceA("a".repeat(101));
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
-
-            // choiceA, choiceB가 101자인 경우
-            question.setChoiceA("선택지 A");
-            question.setChoiceB("b".repeat(101));
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
-
-            // choiceB가 101자인 경우
-            question.setChoiceA("a");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
         }
 
-        @Test
-        public void 질문이_비어있을_경우() {
-            // questionText가 비어있는 경우
-            question.setQuestionText("");
+        @ParameterizedTest
+        @EmptySource
+        @ValueSource(strings = {"", " ", "  ", "\t", "\n", "\r", "\r\n"})
+        public void 질문이_비어있을_경우(String questionText) {
+            question.setQuestionText(questionText);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // questionText 초기화
-            question.setQuestionText("질문");
-
-            // choiceA가 비어있는 경우
-            question.setChoiceA("");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // choiceA, choiceB가 비어있는 경우
-            question.setChoiceB("");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // choiceB가 비어있는 경우
-            question.setChoiceA("선택지 A");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
     }
@@ -107,35 +85,55 @@ public class QuestionServiceTest {
             questionService.validateQuestionProfanity(question);
         }
 
-        @Test
-        public void 질문에_비속어가_포함되어_있을_때() {
-            // questionText에 비속어가 포함된 경우
-            question.setQuestionText("ㅆㅂ이라고 욕한다.");
+        /**
+         * 비속어가 포함된 질문을 제공하는 테스트 메소드
+         * @return 비속어가 포함된 질문
+         */
+        private static Stream<Arguments> provideBadWordQuestion() {
+            return Stream.of(
+                    Arguments.of("ㅆㅂ", "선택지 A", "선택지 B"),
+                    Arguments.of("질문", "씨발", "선택지 B"),
+                    Arguments.of("질문", "선택지 A", "씨발"),
+                    Arguments.of("시발", "씨발", "씨발")
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideBadWordQuestion")
+        public void 질문에_비속어가_포함되어_있을_때(String questionText, String choiceA, String choiceB) {
+            question.setQuestionText(questionText);
+            question.setChoiceA(choiceA);
+            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // questionText 초기화
-            question.setQuestionText("질문");
-
-            // choiceA에 비속어가 포함된 경우
-            question.setChoiceA("ㅆㅂ이라고 욕한다.");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // choiceA, choiceB에 비속어가 포함된 경우
-            question.setChoiceB("채팅으로 존나 못하네라고 한다.");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // choiceB에 비속어가 포함된 경우
-            question.setChoiceA("예쁜말..!");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
         }
     }
 
     @Nested
     class 중복_질문_등록_테스트 {
+
+        /**
+         * 중복된 질문을 제공하는 테스트 메소드
+         *
+         * @return 중복된 질문
+         */
+        private static Stream<Arguments> provideDuplicateQuestions() {
+            Question question1 = new Question();
+            question1.setQuestionText("질문"); // setUp()의 question과 같은 질문
+            question1.setChoiceA("선택지 A"); // setUp()의 question과 같은 선택지
+            question1.setChoiceB("선택지 B"); // setUp()의 question과 같은 선택지
+
+            Question question2 = new Question();
+            question2.setQuestionText("질문"); // setUp()의 question과 같은 질문
+            question2.setChoiceA("선택지 B"); // setUp()의 question과 순서만 다른 선택지
+            question2.setChoiceB("선택지 A"); // setUp()의 question과 순서만 다른 선택지
+
+            return Stream.of(
+                    Arguments.of(question1, question1), // 같은 질문, 같은 선택지
+                    Arguments.of(question2, question2) // 같은 질문, 순서만 다른 선택지
+            );
+        }
+
         @Test
         public void 중복_질문_등록_통과() {
             questionService.validateQuestionDuplicate(question);
@@ -149,21 +147,11 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("같은 선택지를 입력할 수 없습니다.");
         }
 
-        @Test
-        public void 이미_등록된_질문인_경우() {
-            question.setQuestionText("이미 등록된 질문");
-            question.setChoiceA("선택지 A");
-            question.setChoiceB("선택지 B");
-            questionRepository.save(question);
-
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
-            assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
-
-            // 질문 내용은 같은데, A와 B가 반대인 경우
-            question.setChoiceA("선택지 B");
-            question.setChoiceB("선택지 A");
-
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
+        @ParameterizedTest
+        @MethodSource("provideDuplicateQuestions")
+        public void 이미_등록된_질문인_경우(Question savedQuestion, Question duplicatedQuestion) {
+            questionRepository.save(savedQuestion);
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(duplicatedQuestion));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
         }
     }
@@ -182,15 +170,10 @@ public class QuestionServiceTest {
     public void 질문을_무작위로_조회() {
         // 저장된 질문이 3개일 때
         for (int i = 0; i < 3; i++) {
-            Date dateTime = new Date();
             Question question = new Question();
             question.setQuestionText("질문" + i);
             question.setChoiceA("선택지 A" + i);
             question.setChoiceB("선택지 B" + (i + 1));
-            question.setCreatedDate(dateTime);
-            question.setUpdatedDate(dateTime);
-            question.setChoiceACount(0L);
-            question.setChoiceBCount(0L);
             questionRepository.save(question);
         }
 
