@@ -47,14 +47,14 @@ public class QuestionService {
      * @param question 중복 검증할 질문 객체
      */
     public void validateQuestionLength(Question question) {
-        if (question.getQuestionText().isEmpty()
-                || question.getChoiceA().isEmpty()
-                || question.getChoiceB().isEmpty()) {
+        String questionText = question.getQuestionText();
+        String choiceA = question.getChoiceA();
+        String choiceB = question.getChoiceB();
+
+        if (questionText.isBlank() || choiceA.isBlank() || choiceB.isBlank()) {
             throw new IllegalArgumentException("질문은 비어있을 수 없습니다.");
         }
-        if (question.getQuestionText().length() > 100
-                || question.getChoiceA().length() > 100
-                || question.getChoiceB().length() > 100) {
+        if (questionText.length() > 100 || choiceA.length() > 100 || choiceB.length() > 100) {
             throw new IllegalArgumentException("질문은 100자 이하이어야 합니다.");
         }
     }
