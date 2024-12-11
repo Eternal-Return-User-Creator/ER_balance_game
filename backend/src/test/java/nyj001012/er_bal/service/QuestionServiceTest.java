@@ -148,7 +148,6 @@ public class QuestionServiceTest {
         }
 
         @ParameterizedTest
-        @DisplayName("선택지 순서에 상관없이 질문이 중복된 경우, IllegalArgumentException 발생")
         @MethodSource("provideDuplicateQuestions")
         public void 이미_등록된_질문인_경우(Question savedQuestion, Question duplicatedQuestion) {
             questionRepository.save(savedQuestion);
