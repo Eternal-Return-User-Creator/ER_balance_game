@@ -4,8 +4,7 @@ import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.repository.QuestionRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -68,25 +67,11 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
         }
 
-        /**
-         * 질문, 선택지 중 하나라도 비어있는 경우를 제공하는 테스트 메소드
-         * @return 질문, 선택지 중 하나라도 비어있는 경우
-         */
-        private static Stream<Arguments> provideShortQuestions() {
-            return Stream.of(
-                    Arguments.of("", "선택지 A", "선택지 B"), // questionText가 비어있는 경우
-                    Arguments.of("질문", "", "선택지 B"), // choiceA가 비어있는 경우
-                    Arguments.of("질문", "선택지 A", ""), // choiceB가 비어있는 경우
-                    Arguments.of("", "", "") // questionText, choiceA, choiceB가 모두 비어있는 경우
-            );
-        }
-
         @ParameterizedTest
-        @MethodSource("provideShortQuestions")
-        public void 질문이_비어있을_경우(String questionText, String choiceA, String choiceB) {
+        @NullAndEmptySource
+        @ValueSource(strings = {"", " ", "  ", "\t", "\n", "\r", "\r\n"})
+        public void 질문이_비어있을_경우(String questionText) {
             question.setQuestionText(questionText);
-            question.setChoiceA(choiceA);
-            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
