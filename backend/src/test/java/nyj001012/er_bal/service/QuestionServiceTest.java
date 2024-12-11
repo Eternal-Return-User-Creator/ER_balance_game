@@ -67,11 +67,26 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
         }
 
+        /**
+         * 비어있는 질문을 제공하는 테스트 메소드
+         * @return 비어있는 질문
+         */
+        private static Stream<Arguments> provideEmptyQuestions() {
+            return Stream.of(
+                    Arguments.of("      ", "선택지 A", "선택지 B"),
+                    Arguments.of("\r\n", "선택지 A", "선택지 B"),
+                    Arguments.of("질문", "", "선택지 B"),
+                    Arguments.of("질문", "\n", "선택지 B"),
+                    Arguments.of("질문", "선택지 A", "\t")
+            );
+        }
+
         @ParameterizedTest
-        @EmptySource
-        @ValueSource(strings = {"", " ", "  ", "\t", "\n", "\r", "\r\n"})
-        public void 질문이_비어있을_경우(String questionText) {
+        @MethodSource("provideEmptyQuestions")
+        public void 질문이_비어있을_경우(String questionText, String choiceA, String choiceB) {
             question.setQuestionText(questionText);
+            question.setChoiceA(choiceA);
+            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
@@ -82,7 +97,7 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_비속어_포함_통과() {
-            questionService.validateQuestionProfanity(question);
+            questionService.validateQuestionBadWord(question);
         }
 
         /**
@@ -104,7 +119,7 @@ public class QuestionServiceTest {
             question.setQuestionText(questionText);
             question.setChoiceA(choiceA);
             question.setChoiceB(choiceB);
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionBadWord(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
         }
     }

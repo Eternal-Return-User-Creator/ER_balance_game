@@ -37,7 +37,7 @@ public class QuestionService {
      */
     public void validateQuestion(Question question) {
         validateQuestionLength(question);
-        validateQuestionProfanity(question);
+        validateQuestionBadWord(question);
         validateQuestionDuplicate(question);
     }
 
@@ -64,7 +64,7 @@ public class QuestionService {
      *
      * @param question 검증할 질문 객체
      */
-    public void validateQuestionProfanity(Question question) {
+    public void validateQuestionBadWord(Question question) {
         BadWordFiltering badWordFiltering = new BadWordFiltering();
 
         if (badWordFiltering.blankCheck(question.getQuestionText())

@@ -3,8 +3,14 @@ package nyj001012.er_bal.repository;
 import nyj001012.er_bal.domain.Question;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,25 +54,22 @@ public class QuestionRepositoryTest {
         assertThat(randomQuestion).isNotNull();
     }
 
-    @Test
-    public void 질문_선택지_카운트_증가_성공() {
+    @ParameterizedTest
+    @ValueSource(chars = {'A', 'B'})
+    public void 선택지_카운트_증가(char flag) {
         Question question = new Question();
-        question.setQuestionText("질문");
+        question.setQuestionText("질문 선택을 위한 테스트 질문");
         question.setChoiceA("선택지 A");
         question.setChoiceB("선택지 B");
         questionRepository.save(question);
-
-        // A 선택지 카운트 증가
-        questionRepository.updateChoiceCount(question.getId(), 'A');
+        questionRepository.updateChoiceCount(question.getId(), flag);
         Question updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
         assertThat(updatedQuestion).isNotNull();
-        assertThat(updatedQuestion.getChoiceACount()).isEqualTo(1L);
-
-        // B 선택지 카운트 증가
-        questionRepository.updateChoiceCount(question.getId(), 'B');
-        updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
-        assertThat(updatedQuestion).isNotNull();
-        assertThat(updatedQuestion.getChoiceBCount()).isEqualTo(1L);
+        if (flag == 'A') {
+            assertThat(updatedQuestion.getChoiceACount()).isEqualTo(1L);
+        } else {
+            assertThat(updatedQuestion.getChoiceBCount()).isEqualTo(1L);
+        }
     }
 
     @Test
@@ -84,5 +87,34 @@ public class QuestionRepositoryTest {
 
         assertThat(choiceACount).isEqualTo(2L);
         assertThat(choiceBCount).isEqualTo(1L);
+    }
+
+    /**
+     * 질문 내용과 선택지 A, B를 제공하는 테스트 메서드
+     *
+     * @return 질문 내용과 선택지 A, B
+     */
+    private static Stream<Arguments> provideQuestionTextAndChoiceAB() {
+        return Stream.of(
+                Arguments.of("질문", "선택지 A", "선택지 B"),
+                Arguments.of("질문", "선택지 B", "선택지 A")
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideQuestionTextAndChoiceAB")
+    public void 질문_내용으로_조회(String questionText, String choiceA, String choiceB) {
+        Question question = new Question();
+        question.setQuestionText("질문");
+        question.setChoiceA("선택지 A");
+        question.setChoiceB("선택지 B");
+        questionRepository.save(question);
+
+        Question foundQuestion = questionRepository.findByQuestionTextAndChoiceAB(
+                questionText,
+                choiceA,
+                choiceB
+        ).orElse(null);
+        assertThat(foundQuestion).isNotNull();
     }
 }
