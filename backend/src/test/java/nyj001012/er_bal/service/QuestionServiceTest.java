@@ -44,6 +44,19 @@ public class QuestionServiceTest {
             questionService.validateQuestionLength(question);
         }
 
+        /**
+         * 100자를 넘는 질문을 제공하는 테스트 메소드
+         * @return 100자를 넘는 질문
+         */
+        private static Stream<Arguments> provideLongQuestions() {
+            return Stream.of(
+                    Arguments.of("q".repeat(101), "선택지 A", "선택지 B"), // questionText가 101자인 경우
+                    Arguments.of("질문", "a".repeat(101), "선택지 B"), // choiceA가 101자인 경우
+                    Arguments.of("질문", "선택지 A", "b".repeat(101)), // choiceB가 101자인 경우
+                    Arguments.of("q".repeat(101), "a".repeat(101), "b".repeat(101))
+            );
+        }
+
         @Test
         public void 질문_길이가_100자를_넘는_경우() {
             // questionText가 101자인 경우
