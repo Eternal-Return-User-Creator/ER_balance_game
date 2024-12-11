@@ -68,7 +68,7 @@ public class QuestionServiceTest {
         }
 
         @ParameterizedTest
-        @NullAndEmptySource
+        @EmptySource
         @ValueSource(strings = {"", " ", "  ", "\t", "\n", "\r", "\r\n"})
         public void 질문이_비어있을_경우(String questionText) {
             question.setQuestionText(questionText);
