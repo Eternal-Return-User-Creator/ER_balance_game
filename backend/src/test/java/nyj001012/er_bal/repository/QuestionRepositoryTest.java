@@ -1,13 +1,14 @@
 package nyj001012.er_bal.repository;
 
-import io.restassured.specification.Argument;
-import io.swagger.v3.oas.annotations.Parameter;
 import nyj001012.er_bal.domain.Question;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Nested;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -55,25 +56,22 @@ public class QuestionRepositoryTest {
         assertThat(randomQuestion).isNotNull();
     }
 
-    @Test
-    public void 질문_선택지_카운트_증가_성공() {
+    @ParameterizedTest
+    @ValueSource(chars = {'A', 'B'})
+    public void 선택지_카운트_증가(char flag) {
         Question question = new Question();
-        question.setQuestionText("질문");
+        question.setQuestionText("질문 선택을 위한 테스트 질문");
         question.setChoiceA("선택지 A");
         question.setChoiceB("선택지 B");
         questionRepository.save(question);
-
-        // A 선택지 카운트 증가
-        questionRepository.updateChoiceCount(question.getId(), 'A');
+        questionRepository.updateChoiceCount(question.getId(), flag);
         Question updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
         assertThat(updatedQuestion).isNotNull();
-        assertThat(updatedQuestion.getChoiceACount()).isEqualTo(1L);
-
-        // B 선택지 카운트 증가
-        questionRepository.updateChoiceCount(question.getId(), 'B');
-        updatedQuestion = questionRepository.findById(question.getId()).orElse(null);
-        assertThat(updatedQuestion).isNotNull();
-        assertThat(updatedQuestion.getChoiceBCount()).isEqualTo(1L);
+        if (flag == 'A') {
+            assertThat(updatedQuestion.getChoiceACount()).isEqualTo(1L);
+        } else {
+            assertThat(updatedQuestion.getChoiceBCount()).isEqualTo(1L);
+        }
     }
 
     @Test
