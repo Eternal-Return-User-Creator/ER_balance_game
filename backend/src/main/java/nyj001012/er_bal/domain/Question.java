@@ -39,5 +39,6 @@ public class Question {
     private Long choiceACount = 0L;
 
     @Column(name="choice_b_count")
+    @Builder.Default
     private Long choiceBCount = 0L;
 }
