@@ -142,22 +142,23 @@ public class QuestionServiceTest {
 
         /**
          * 중복된 질문을 제공하는 테스트 메소드
+         *
          * @return 중복된 질문
          */
         private static Stream<Arguments> provideDuplicateQuestions() {
             Question question1 = new Question();
             question1.setQuestionText("질문"); // setUp()의 question과 같은 질문
-            question1.setChoiceA("A"); // setUp()의 question과 다른 선택지
-            question1.setChoiceB("B"); // setUp()의 question과 다른 선택지
+            question1.setChoiceA("선택지 A"); // setUp()의 question과 같은 선택지
+            question1.setChoiceB("선택지 B"); // setUp()의 question과 같은 선택지
 
             Question question2 = new Question();
-            question2.setQuestionText("질문");
-            question2.setChoiceA("B");
-            question2.setChoiceB("A");
+            question2.setQuestionText("질문"); // setUp()의 question과 같은 질문
+            question2.setChoiceA("선택지 B"); // setUp()의 question과 순서만 다른 선택지
+            question2.setChoiceB("선택지 A"); // setUp()의 question과 순서만 다른 선택지
 
             return Stream.of(
-                    Arguments.of(question1),
-                    Arguments.of(question2)
+                    Arguments.of(question1, question1), // 같은 질문, 같은 선택지
+                    Arguments.of(question2, question2) // 같은 질문, 순서만 다른 선택지
             );
         }
 
@@ -174,21 +175,12 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("같은 선택지를 입력할 수 없습니다.");
         }
 
-        @Test
-        public void 이미_등록된_질문인_경우() {
-            question.setQuestionText("이미 등록된 질문");
-            question.setChoiceA("선택지 A");
-            question.setChoiceB("선택지 B");
-            questionRepository.save(question);
-
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
-            assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
-
-            // 질문 내용은 같은데, A와 B가 반대인 경우
-            question.setChoiceA("선택지 B");
-            question.setChoiceB("선택지 A");
-
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(question));
+        @ParameterizedTest
+        @DisplayName("선택지 순서에 상관없이 질문이 중복된 경우, IllegalArgumentException 발생")
+        @MethodSource("provideDuplicateQuestions")
+        public void 이미_등록된_질문인_경우(Question savedQuestion, Question duplicatedQuestion) {
+            questionRepository.save(savedQuestion);
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionDuplicate(duplicatedQuestion));
             assertThat(e.getMessage()).isEqualTo("이미 등록된 질문입니다.");
         }
     }
