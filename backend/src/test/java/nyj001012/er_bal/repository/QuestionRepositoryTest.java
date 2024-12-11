@@ -77,6 +77,8 @@ public class QuestionRepositoryTest {
         question.setQuestionText("질문");
         question.setChoiceA("선택지 A");
         question.setChoiceB("선택지 B");
+        question.setChoiceACount(2L);
+        question.setChoiceBCount(1L);
         questionRepository.save(question);
 
         int choiceACount = questionRepository.countChoiceOfQuestion(question.getId(), 'A');
