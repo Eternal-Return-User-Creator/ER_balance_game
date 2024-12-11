@@ -85,29 +85,26 @@ public class QuestionServiceTest {
             questionService.validateQuestionProfanity(question);
         }
 
-        @Test
-        public void 질문에_비속어가_포함되어_있을_때() {
-            // questionText에 비속어가 포함된 경우
-            question.setQuestionText("ㅆㅂ이라고 욕한다.");
+        /**
+         * 비속어가 포함된 질문을 제공하는 테스트 메소드
+         * @return 비속어가 포함된 질문
+         */
+        private static Stream<Arguments> provideBadWordQuestion() {
+            return Stream.of(
+                    Arguments.of("ㅆㅂ", "선택지 A", "선택지 B"),
+                    Arguments.of("질문", "씨발", "선택지 B"),
+                    Arguments.of("질문", "선택지 A", "씨발"),
+                    Arguments.of("시발", "씨발", "씨발")
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideBadWordQuestion")
+        public void 질문에_비속어가_포함되어_있을_때(String questionText, String choiceA, String choiceB) {
+            question.setQuestionText(questionText);
+            question.setChoiceA(choiceA);
+            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // questionText 초기화
-            question.setQuestionText("질문");
-
-            // choiceA에 비속어가 포함된 경우
-            question.setChoiceA("ㅆㅂ이라고 욕한다.");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // choiceA, choiceB에 비속어가 포함된 경우
-            question.setChoiceB("채팅으로 존나 못하네라고 한다.");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
-            assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
-
-            // choiceB에 비속어가 포함된 경우
-            question.setChoiceA("예쁜말..!");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
         }
     }
