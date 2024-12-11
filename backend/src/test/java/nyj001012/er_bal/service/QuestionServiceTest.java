@@ -68,29 +68,26 @@ public class QuestionServiceTest {
             assertThat(e.getMessage()).isEqualTo("질문은 100자 이하이어야 합니다.");
         }
 
-        @Test
-        public void 질문이_비어있을_경우() {
-            // questionText가 비어있는 경우
-            question.setQuestionText("");
+        /**
+         * 질문, 선택지 중 하나라도 비어있는 경우를 제공하는 테스트 메소드
+         * @return 질문, 선택지 중 하나라도 비어있는 경우
+         */
+        private static Stream<Arguments> provideShortQuestions() {
+            return Stream.of(
+                    Arguments.of("", "선택지 A", "선택지 B"), // questionText가 비어있는 경우
+                    Arguments.of("질문", "", "선택지 B"), // choiceA가 비어있는 경우
+                    Arguments.of("질문", "선택지 A", ""), // choiceB가 비어있는 경우
+                    Arguments.of("", "", "") // questionText, choiceA, choiceB가 모두 비어있는 경우
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideShortQuestions")
+        public void 질문이_비어있을_경우(String questionText, String choiceA, String choiceB) {
+            question.setQuestionText(questionText);
+            question.setChoiceA(choiceA);
+            question.setChoiceB(choiceB);
             IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // questionText 초기화
-            question.setQuestionText("질문");
-
-            // choiceA가 비어있는 경우
-            question.setChoiceA("");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // choiceA, choiceB가 비어있는 경우
-            question.setChoiceB("");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
-            assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
-
-            // choiceB가 비어있는 경우
-            question.setChoiceA("선택지 A");
-            e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionLength(question));
             assertThat(e.getMessage()).isEqualTo("질문은 비어있을 수 없습니다.");
         }
     }
