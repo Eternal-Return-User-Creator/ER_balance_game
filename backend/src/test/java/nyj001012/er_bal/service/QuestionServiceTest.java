@@ -29,10 +29,6 @@ public class QuestionServiceTest {
         this.question.setQuestionText("질문");
         this.question.setChoiceA("선택지 A");
         this.question.setChoiceB("선택지 B");
-        this.question.setChoiceACount(0L);
-        this.question.setChoiceBCount(0L);
-        this.question.setCreatedDate(new Date());
-        this.question.setUpdatedDate(new Date());
     }
 
     @AfterEach
@@ -199,15 +195,10 @@ public class QuestionServiceTest {
     public void 질문을_무작위로_조회() {
         // 저장된 질문이 3개일 때
         for (int i = 0; i < 3; i++) {
-            Date dateTime = new Date();
             Question question = new Question();
             question.setQuestionText("질문" + i);
             question.setChoiceA("선택지 A" + i);
             question.setChoiceB("선택지 B" + (i + 1));
-            question.setCreatedDate(dateTime);
-            question.setUpdatedDate(dateTime);
-            question.setChoiceACount(0L);
-            question.setChoiceBCount(0L);
             questionRepository.save(question);
         }
 
