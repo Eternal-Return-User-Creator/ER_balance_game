@@ -3,14 +3,17 @@ package nyj001012.er_bal.service;
 import nyj001012.er_bal.domain.Question;
 import nyj001012.er_bal.repository.QuestionRepository;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class QuestionServiceTest {
@@ -136,6 +139,28 @@ public class QuestionServiceTest {
 
     @Nested
     class 중복_질문_등록_테스트 {
+
+        /**
+         * 중복된 질문을 제공하는 테스트 메소드
+         * @return 중복된 질문
+         */
+        private static Stream<Arguments> provideDuplicateQuestions() {
+            Question question1 = new Question();
+            question1.setQuestionText("질문"); // setUp()의 question과 같은 질문
+            question1.setChoiceA("A"); // setUp()의 question과 다른 선택지
+            question1.setChoiceB("B"); // setUp()의 question과 다른 선택지
+
+            Question question2 = new Question();
+            question2.setQuestionText("질문");
+            question2.setChoiceA("B");
+            question2.setChoiceB("A");
+
+            return Stream.of(
+                    Arguments.of(question1),
+                    Arguments.of(question2)
+            );
+        }
+
         @Test
         public void 중복_질문_등록_통과() {
             questionService.validateQuestionDuplicate(question);
