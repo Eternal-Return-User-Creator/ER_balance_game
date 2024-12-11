@@ -82,7 +82,7 @@ public class QuestionServiceTest {
 
         @Test
         public void 질문_비속어_포함_통과() {
-            questionService.validateQuestionProfanity(question);
+            questionService.validateQuestionBadWord(question);
         }
 
         /**
@@ -104,7 +104,7 @@ public class QuestionServiceTest {
             question.setQuestionText(questionText);
             question.setChoiceA(choiceA);
             question.setChoiceB(choiceB);
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionProfanity(question));
+            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> questionService.validateQuestionBadWord(question));
             assertThat(e.getMessage()).isEqualTo("욕설은 사용할 수 없습니다.");
         }
     }
