@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'adoptopenjdk'  # JDK 배포판을 지정
+          distribution: 'temurin'  # JDK 배포판을 지정
           java-package: jdk
           check-latest: false
           server-id: github
