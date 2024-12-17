@@ -1,9 +1,16 @@
-name: Run Backend Tests on PR Branch
+name: Run Backend Tests
 
 on:
+  push:
+    branches:
+      - deploy
+
   pull_request:
     branches:
-      - main # PR이 main 브랜치에 대해 열릴 때
+      - develop # PR이 main 브랜치에 대해 열릴 때
+    types:
+      - opened
+      - synchronize
 
 jobs:
   build:
