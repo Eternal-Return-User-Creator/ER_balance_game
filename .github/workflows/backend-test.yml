@@ -40,6 +40,7 @@ jobs:
       # 의존성 설치 및 테스트 실행
       - name: Run Gradle tests
         run: |
+          cd backend
           ./gradlew test # 또는 적절한 테스트 실행 명령어
           
       # 빌드 후 실패 시 PR 머지 방지
