@@ -1,0 +1,37 @@
+name: [Dev] Test Backend
+
+on:
+  pull_request:
+    branches:
+      - develop # PR 시 테스트를 실행할 기준 브랜치 설정
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 리포지토리를 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. JDK 설정
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11' # Java 버전을 필요한 것으로 설정
+          distribution: 'temurin'
+
+      # 3. Gradle 캐시 설정 (빌드 성능 향상)
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 4. 테스트 실행
+      - name: Run Backend Tests
+        working-directory: backend # backend 디렉토리에서 명령어 실행
+        run: ./gradlew test
+
