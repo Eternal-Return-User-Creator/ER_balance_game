@@ -23,10 +23,10 @@ jobs:
           ref: ${{ github.head_ref }}  # 현재 PR에서 작성한 브랜치 체크아웃
 
       # JDK 설치
-      - name: Set up JDK 17
+      - name: Set up JDK 22
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '22'
           distribution: 'temurin'  # JDK 배포판을 지정
           java-package: jdk
           check-latest: false
