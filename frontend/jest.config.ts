@@ -11,16 +11,12 @@ const config: Config = {
   moduleNameMapper: {
     // 이미지 파일을 import할 때 빈 객체로 대체
     '\\.(png|jpg|jpeg|gif|svg|bmp|webp)$': '<rootDir>/__mocks__/fileMock.ts',
+    // 스타일 파일을 모킹
+    '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
   },
-  testMatch: ['**/*.test.tsx'], // *.test.tsx 파일만 실행
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  testMatch: ["**/?(*.)+(test).tsx"], // *.test.tsx 파일만 실행
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-};
-
-module.exports = {
-  transform: {
-    '^.+\\.(png|jpg|jpeg|gif|svg)$': 'jest-transform-stub',
-  },
 };
 
 export default config;
