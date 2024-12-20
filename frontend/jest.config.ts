@@ -7,6 +7,7 @@ const config: Config = {
   },
   testMatch: ['**/*.test.tsx'], // *.test.tsx 파일만 실행
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
 
 export default config;
