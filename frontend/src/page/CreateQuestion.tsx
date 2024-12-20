@@ -18,7 +18,7 @@ export default function CreateQuestion() {
   const [ submitButtonDisplay, setSubmitButtonDisplay ] = useState("block");
   const [ resetButtonDisplay, setResetButtonDisplay ] = useState("none");
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const backendURL = process.env.VITE_BACKEND_URL;
 
   function describeQuestion() {
     setDescription(charlotteMessages.questionDescription);
