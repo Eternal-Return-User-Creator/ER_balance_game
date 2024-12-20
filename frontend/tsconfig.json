@@ -5,8 +5,15 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
+    "module": "esnext",
     "jsx": "react-jsx",
-    "allowImportingTsExtensions": true
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+    ],
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
   },
   "include": [
     "**/*.ts", "**/*.tsx", "./jest.setup.js"
