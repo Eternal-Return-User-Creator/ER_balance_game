@@ -6,5 +6,12 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
-  }
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    "**/*.ts", "**/*.tsx", "./jest.setup.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
