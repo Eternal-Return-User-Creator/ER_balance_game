@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  testEnvironment: 'jest-environment-jsdom',
+  testEnvironment: 'jsdom',
   transform: {
     // TypeScript 파일과 JS 파일을 변환하도록 설정
     '^.+\\.tsx?$': 'ts-jest',
@@ -15,6 +15,7 @@ const config: Config = {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
   },
   testMatch: ["**/?(*.)+(test).tsx"], // *.test.tsx 파일만 실행
+  moduleDirectories: ['node_modules', '<rootDir>/src'], // Jest가 `node_modules`를 제대로 찾도록 설정
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
