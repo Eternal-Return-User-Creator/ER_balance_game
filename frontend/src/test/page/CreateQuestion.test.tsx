@@ -133,7 +133,7 @@ describe("CreateQuestion Page", () => {
   });
 
   describe("질문 생성 중 기능 테스트", () => {
-    it ("질문 생성", async () => {
+    it ("질문 생성 중 설명 텍스트 검사", async () => {
       const submitButton = screen.getByText('만들기');
       const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
       const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
