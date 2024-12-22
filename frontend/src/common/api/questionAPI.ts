@@ -43,3 +43,15 @@ export async function postSelectChoiceAPI(questionId: number, choice: string) {
     }),
   });
 }
+
+/**
+ * 질문의 선택지 A와 B의 비율을 가져오는 API를 호출합니다.
+ */
+export async function getChoiceResultAPI(questionId: number) {
+  return await fetch(`${ backendURL }/question/${ questionId }/choice-result`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
