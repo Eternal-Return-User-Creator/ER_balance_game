@@ -128,7 +128,7 @@ export default function CreateQuestion({callPostCreateQuestionAPI = postCreateQu
             <div className={ "guide-section" }>
               <div className={ "speech-bubble" }>
                 <p className={ "title" }>질문 만들기</p>
-                <p className={ "description" }>{ description }</p>
+                <p className={ "description" } data-testid={"description"}>{ description }</p>
               </div>
               <div className={ "helper" }>
                 <img src={ image } alt={ "캐릭터 기본 이미지" } className={ "helper-img" }/>
