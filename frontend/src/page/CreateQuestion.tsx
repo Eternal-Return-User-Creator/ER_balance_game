@@ -9,7 +9,7 @@ import { charlotteMessages, charlotteErrorMessages } from "../common/message/cha
 import FatalError from "../component/error/FatalError.tsx";
 import { postCreateQuestionAPI } from "../common/api/questionAPI.ts";
 
-export default function CreateQuestion() {
+export default function CreateQuestion({callPostCreateQuestionAPI = postCreateQuestionAPI}) {
   const [ description, setDescription ] = useState(charlotteMessages.defaultDescription);
   const [ image, setImage ] = useState(Default);
   const [ question, setQuestion ] = useState("");
@@ -99,7 +99,7 @@ export default function CreateQuestion() {
     setDescription(charlotteMessages.createDescription);
     setImage(Default);
     try {
-      const response = await postCreateQuestionAPI(question, choiceA, choiceB);
+      const response = await callPostCreateQuestionAPI(question, choiceA, choiceB);
       await handleResult(response);
     } catch (error) {
       setIsErrorModalOpen(true);
