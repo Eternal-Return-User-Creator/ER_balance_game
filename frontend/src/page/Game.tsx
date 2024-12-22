@@ -5,9 +5,11 @@ import { formatNumberWithComma } from "../common/util/format.ts";
 import { getChoiceResultAPI, getQuestionAPI, postSelectChoiceAPI } from "../common/api/questionAPI.ts";
 
 export default function Game(
-  {callGetQuestionAPI = getQuestionAPI},
-  {callSelectChoiceAPI = postSelectChoiceAPI},
-  {callGetChoiceResultAPI = getChoiceResultAPI}
+  {
+    callGetQuestionAPI = getQuestionAPI,
+    callSelectChoiceAPI = postSelectChoiceAPI,
+    callGetChoiceResultAPI = getChoiceResultAPI
+  }
 ) {
   const [ question, setQuestion ] = useState("");
   const questionIdRef = useRef<number>(0);
