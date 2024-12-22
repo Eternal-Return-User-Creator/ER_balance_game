@@ -150,4 +150,28 @@ describe("CreateQuestion Page", () => {
       expect(description.innerHTML).toContain(responseMessage);
     });
   });
+
+  describe("질문 생성 테스트", () => {
+    it("질문 생성 성공", () => {
+
+    });
+
+    describe("질문 생성 실패", () => {
+      it("욕설 입력", () => {
+
+      });
+
+      it("같은 선택지 입력", () => {
+
+      });
+
+      it("이미 등록된 질문", () => {
+
+      });
+
+      it("서버 에러", () => {
+
+      });
+    });
+  });
 });
