@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
 import FatalError from "../component/error/FatalError.tsx";
 import { formatNumberWithComma } from "../common/util/format.ts";
-import { getQuestionAPI } from "../common/api/questionAPI.ts";
+import { getQuestionAPI, postSelectChoiceAPI } from "../common/api/questionAPI.ts";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-export default function Game({callGetQuestionAPI = getQuestionAPI}) {
+export default function Game({callGetQuestionAPI = getQuestionAPI}, {callSelectChoiceAPI = postSelectChoiceAPI}) {
   const [ question, setQuestion ] = useState("");
   const questionIdRef = useRef<number>(0);
   const [ choiceA, setChoiceA ] = useState("");
@@ -25,30 +25,26 @@ export default function Game({callGetQuestionAPI = getQuestionAPI}) {
   async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     const flag: string = e.currentTarget.name;
 
-    console.log(flag);
     e.preventDefault();
     setIsDisabled(true);
     setSelectedChoice(flag);
-    await fetch(`${ backendURL }/question/${ questionIdRef.current }/choice-count?flag=${ flag }`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-    }).then(async (response) => {
+
+    try {
+      const response = await callSelectChoiceAPI(questionIdRef.current, flag);
       if (response.ok) {
-        await callGetChoiceResultAPI();
+        await getChoiceResult();
       } else {
         setIsErrorModalOpen(true);
       }
-    }).catch(() => {
+    } catch {
       setIsErrorModalOpen(true);
-    });
+    }
   }
 
   /**
    * 백엔드 API를 호출하여 선택지 A와 B의 비율을 가져옵니다.
    */
-  async function callGetChoiceResultAPI() {
+  async function getChoiceResult() {
     await fetch(`${ backendURL }/question/${ Number(questionIdRef.current) }/choice-result`, {
       method: "GET",
       headers: {

@@ -28,3 +28,18 @@ export async function getQuestionAPI() {
     },
   });
 }
+
+/**
+ * 선택지 A 또는 B를 선택하는 API를 호출합니다.
+ */
+export async function postSelectChoiceAPI(questionId: number, choice: string) {
+  return await fetch(`${ backendURL }/question/${ questionId }/choice`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      choice: choice,
+    }),
+  });
+}
