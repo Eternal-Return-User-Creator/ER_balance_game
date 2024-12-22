@@ -7,6 +7,7 @@ import "../assets/css/CreateQuestion.css"
 import { useState } from "react";
 import { charlotteMessages, charlotteErrorMessages } from "../common/message/charlotteMessage.tsx";
 import FatalError from "../component/error/FatalError.tsx";
+import { postCreateQuestionAPI } from "../common/api/questionAPI.ts";
 
 export default function CreateQuestion() {
   const [ description, setDescription ] = useState(charlotteMessages.defaultDescription);
@@ -18,7 +19,6 @@ export default function CreateQuestion() {
   const [ submitButtonDisplay, setSubmitButtonDisplay ] = useState("block");
   const [ resetButtonDisplay, setResetButtonDisplay ] = useState("none");
   const [ isErrorModalOpen, setIsErrorModalOpen ] = useState(false);
-  const backendURL = process.env.VITE_BACKEND_URL;
 
   function describeQuestion() {
     setDescription(charlotteMessages.questionDescription);
@@ -68,7 +68,7 @@ export default function CreateQuestion() {
    * API 요청 결과에 따라 캐릭터 이미지와 설명을 변경합니다.
    * @param response - API 요청 결과
    */
-  async function handleResult(response: any) {
+  async function handleResult(response: Response) {
     if (response.status === 201) {
       setDescription(charlotteMessages.createSuccessDescription);
       setImage(Success);
@@ -89,29 +89,6 @@ export default function CreateQuestion() {
   }
 
   /**
-   * 질문을 생성하는 API를 호출합니다.
-   */
-  async function callCreateQuestionAPI() {
-    setDescription(charlotteMessages.createDescription);
-    setImage(Default);
-    await fetch(`${ backendURL }/question`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        questionText: question,
-        choiceA: choiceA,
-        choiceB: choiceB,
-      }),
-    }).then(async (response) => {
-      await handleResult(response);
-    }).catch(() => {
-      setIsErrorModalOpen(true);
-    });
-  }
-
-  /**
    * form submit 이벤트를 처리합니다.
    * @param event - form submit event
    */
@@ -119,7 +96,14 @@ export default function CreateQuestion() {
     if (!validateContent(event)) {
       return;
     }
-    await callCreateQuestionAPI();
+    setDescription(charlotteMessages.createDescription);
+    setImage(Default);
+    try {
+      const response = await postCreateQuestionAPI(question, choiceA, choiceB);
+      await handleResult(response);
+    } catch (error) {
+      setIsErrorModalOpen(true);
+    }
   }
 
   function reset() {
