@@ -131,7 +131,7 @@ export default function CreateQuestion({callPostCreateQuestionAPI = postCreateQu
                 <p className={ "description" } data-testid={"description"}>{ description }</p>
               </div>
               <div className={ "helper" }>
-                <img src={ image } alt={ "캐릭터 기본 이미지" } className={ "helper-img" }/>
+                <img src={ image } alt={ "캐릭터 기본 이미지" } className={ "helper-img" } data-testid={"helper-img"}/>
                 <hr></hr>
                 <p>Helper. 샬럿</p>
               </div>

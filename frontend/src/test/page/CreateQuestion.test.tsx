@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { act, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CreateQuestion from "../../page/CreateQuestion.tsx";
 import { charlotteErrorMessages, charlotteMessages } from "../../common/message/charlotteMessage.tsx";
 import userEvent from "@testing-library/user-event";
 import { jsxToString } from "../../common/util/format.ts";
+import Success from "../../assets/images/character/Charlotte/277. A Pure Heart.png";
 
 describe("CreateQuestion Page", () => {
   beforeEach(async () => {
@@ -152,8 +153,27 @@ describe("CreateQuestion Page", () => {
   });
 
   describe("질문 생성 테스트", () => {
-    it("질문 생성 성공", () => {
+    it('질문 생성 성공', async () => {
+      const submitButton = screen.getByText('만들기');
+      const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+      const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
+      const mockResponse = {
+        status: 201,
+        json: async () => 12,  // 응답 본문
+      };
 
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+
+      await userEvent.type(questionInput, '질문');
+      await userEvent.type(choiceInputs[0], '선택지 A');
+      await userEvent.type(choiceInputs[1], '선택지 B');
+      await userEvent.click(submitButton);
+
+      const descriptionMessage = jsxToString(charlotteMessages.createSuccessDescription);
+      expect(description.innerHTML).toContain(descriptionMessage);
+      expect(image).toHaveAttribute('src', Success);
     });
 
     describe("질문 생성 실패", () => {
