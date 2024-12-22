@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { act, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CreateQuestion from "../../page/CreateQuestion.tsx";
-import { charlotteErrorMessages } from "../../common/message/charlotteMessage.tsx";
+import { charlotteErrorMessages, charlotteMessages } from "../../common/message/charlotteMessage.tsx";
 import userEvent from "@testing-library/user-event";
 import { jsxToString } from "../../common/util/format.ts";
 
@@ -164,5 +164,27 @@ describe("CreateQuestion Page", () => {
       const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
       expect(choiceInputs[0]).toHaveFocus();
     });
-  })
+  });
+
+  describe("질문 생성 중 기능 테스트", () => {
+    it ("질문 생성", async () => {
+      await act(async () => {
+        render(<CreateQuestion/>);
+      });
+      const submitButton = screen.getByText('만들기');
+      const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+      const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+      const description = screen.getByTestId('description');
+
+      await act(async () => {
+        await userEvent.type(questionInput, '질문');
+        await userEvent.type(choiceInputs[0], '선택지 A');
+        await userEvent.type(choiceInputs[1], '선택지 B');
+        await userEvent.click(submitButton);
+      });
+      const responseMessage = jsxToString(charlotteMessages.createDescription);
+
+      expect(description.innerHTML).toContain(responseMessage);
+    });
+  });
 });
