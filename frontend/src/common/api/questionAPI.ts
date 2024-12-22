@@ -16,3 +16,15 @@ export async function postCreateQuestionAPI(question: string, choiceA: string, c
     }),
   });
 }
+
+/**
+ * 질문을 가져오는 API를 호출합니다.
+ */
+export async function getQuestionAPI() {
+  return await fetch(`${ backendURL }/question`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
