@@ -4,10 +4,17 @@ on:
   push:
     branches:
       - deploy
+    paths:
+      - 'frontend/**'
 
   pull_request:
     branches:
       - develop # PR이 main 브랜치에 대해 열릴 때
+    types:
+      - opened
+      - synchronize
+    paths:
+      - 'frontend/**'
 
 jobs:
   test:
