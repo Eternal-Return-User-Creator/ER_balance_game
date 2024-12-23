@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - deploy
+    paths:
+      - 'backend/**'
 
   pull_request:
     branches:
@@ -11,6 +13,8 @@ on:
     types:
       - opened
       - synchronize
+    paths:
+      - 'backend/**'
 
 jobs:
   build:
