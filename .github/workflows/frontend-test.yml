@@ -26,12 +26,12 @@ jobs:
 
       # 3. 종속성 설치
       - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
+        working-directory: ./frontend
+        run: npm install
 
       # 4. 테스트 실행
       - name: Run tests
+        working-directory: ./frontend
         run: npm run test -- --coverage  # Vitest 스크립트 정의
 
       # 5. 테스트 결과 확인
@@ -39,5 +39,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: vitest-coverage
-          path: ./coverage  # Vitest의 커버리지 파일 경로
+          path: ./frontend/coverage  # Vitest의 커버리지 파일 경로
 
