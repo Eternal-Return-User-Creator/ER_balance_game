@@ -279,12 +279,33 @@ describe("CreateQuestion Page", () => {
         expect(image).toHaveAttribute('src', Fail);
       });
 
-      it("이미 등록된 질문", () => {
+      it("이미 등록된 질문", async () => {
+        const mockResponse = {
+          status: 400,
+          text: async () => "이미 등록된 질문입니다.",
+        };
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
 
+        await act(async () => {
+          render(<CreateQuestion/>);
+        });
+        const submitButton = screen.getByText('만들기');
+        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+        const description = screen.getByTestId('description');
+        const image = screen.getByTestId('helper-img');
+
+        await userEvent.type(questionInput, '질문');
+        await userEvent.type(choiceInputs[0], '선택지 A');
+        await userEvent.type(choiceInputs[1], '선택지 B');
+        await userEvent.click(submitButton);
+
+        const descriptionMessage = jsxToString(charlotteErrorMessages.duplicateQuestion);
+        expect(description.innerHTML).toContain(descriptionMessage);
+        expect(image).toHaveAttribute('src', Fail);
       });
 
       it("서버 에러", () => {
-
       });
     });
   });
