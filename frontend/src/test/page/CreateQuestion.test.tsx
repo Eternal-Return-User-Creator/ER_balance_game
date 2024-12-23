@@ -324,4 +324,24 @@ describe("CreateQuestion Page", () => {
       expect(image).toHaveAttribute('src', Fail);
     });
   });
+
+  it('다시 작성 버튼 클릭 후 입력란 초기화 확인', async () => {
+    await act(async () => {
+      render(<CreateQuestion />);
+    });
+
+    const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+    const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+    const resetButton = screen.getByText('다시 작성');
+
+    await userEvent.type(questionInput, '질문');
+    await userEvent.type(choiceInputs[0], '선택지 A');
+    await userEvent.type(choiceInputs[1], '선택지 B');
+
+    await userEvent.click(resetButton);
+
+    expect(questionInput).toHaveValue('');
+    expect(choiceInputs[0]).toHaveValue('');
+    expect(choiceInputs[1]).toHaveValue('');
+  });
 });
