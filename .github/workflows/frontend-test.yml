@@ -32,12 +32,5 @@ jobs:
       # 4. 테스트 실행
       - name: Run tests
         working-directory: ./frontend
-        run: npm run test -- --coverage  # Vitest 스크립트 정의
-
-      # 5. 테스트 결과 확인
-      - name: Upload test coverage
-        uses: actions/upload-artifact@v3
-        with:
-          name: vitest-coverage
-          path: ./frontend/coverage  # Vitest의 커버리지 파일 경로
+        run: npm run test  # Vitest 스크립트 정의
 
