@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import CreateQuestion from "../../page/CreateQuestion.tsx";
 import { charlotteErrorMessages, charlotteMessages } from "../../common/message/charlotteMessage.tsx";
@@ -7,15 +7,32 @@ import userEvent from "@testing-library/user-event";
 import { jsxToString } from "../../common/util/format.ts";
 import Success from "../../assets/images/character/Charlotte/277. A Pure Heart.png";
 import Fail from "../../assets/images/character/Charlotte/279. Heartbroken.png";
-import { postCreateQuestionAPI } from "../../common/api/questionAPI.ts";
-import FatalError from "../../component/error/FatalError.tsx";
+
+// fetchMock 설정
+const mockFetch = (response: Response) => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(response));
+};
+
+// Form 입력 및 제출
+const submitForm = async (question: string, choices: string[]) => {
+  const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+  const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+  const submitButton = screen.getByText('만들기');
+
+  await userEvent.type(questionInput, question);
+  for (let i = 0; i < choices.length; i++) {
+    await userEvent.type(choiceInputs[i], choices[i]);
+  }
+  await userEvent.click(submitButton);
+};
 
 describe("CreateQuestion Page", () => {
-  beforeEach(async () => {
+  beforeEach(() => {
+    cleanup();
   });
 
   afterEach(() => {
-    cleanup(); // Testing Library에서 DOM 초기화
+    vi.restoreAllMocks();
   });
 
 
@@ -202,135 +219,109 @@ describe("CreateQuestion Page", () => {
 
   describe("질문 생성 테스트", () => {
     it('질문 생성 성공', async () => {
-      await act(async () => {
-        render(<CreateQuestion/>);
-      });
-      const submitButton = screen.getByText('만들기');
-      const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
-      const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
-      const description = screen.getByTestId('description');
-      const image = screen.getByTestId('helper-img');
       const mockResponse = {
         status: 201,
         json: async () => 12,  // 응답 본문
       };
 
-      vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+      mockFetch(mockResponse as Response);
 
-      await userEvent.type(questionInput, '질문');
-      await userEvent.type(choiceInputs[0], '선택지 A');
-      await userEvent.type(choiceInputs[1], '선택지 B');
-      await userEvent.click(submitButton);
+      await act(async () => {
+        render(<CreateQuestion/>);
+      });
 
+      await submitForm('질문', [ '선택지 A', '선택지 B' ]);
+
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
       const descriptionMessage = jsxToString(charlotteMessages.createSuccessDescription);
+
       expect(description.innerHTML).toContain(descriptionMessage);
       expect(image).toHaveAttribute('src', Success);
     });
 
-    describe("질문 생성 실패", () => {
-      it("욕설 입력", async () => {
-        const mockResponse = {
-          status: 400,
-          text: async () => "욕설은 사용할 수 없습니다.",
-        };
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+    it("서버 에러", async () => {
+      const mockResponse = {
+        status: 500,
+        text: async () => "Internal Server Error",
+      };
+      mockFetch(mockResponse as Response);
 
-        await act(async () => {
-          render(<CreateQuestion/>);
-        });
-        const submitButton = screen.getByText('만들기');
-        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
-        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
-        const description = screen.getByTestId('description');
-        const image = screen.getByTestId('helper-img');
-
-        await userEvent.type(questionInput, '욕설 ㅅㅂ');
-        await userEvent.type(choiceInputs[0], '선택지 A');
-        await userEvent.type(choiceInputs[1], '선택지 B');
-        await userEvent.click(submitButton);
-
-        const descriptionMessage = jsxToString(charlotteErrorMessages.badWordInput);
-        expect(description.innerHTML).toContain(descriptionMessage);
-        expect(image).toHaveAttribute('src', Fail);
+      await act(async () => {
+        render(<CreateQuestion/>);
       });
 
-      it("같은 선택지 입력", async () => {
-        const mockResponse = {
-          status: 400,
-          text: async () => "같은 선택지를 입력할 수 없습니다.",
-        };
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+      await submitForm('질문', [ '선택지 A', '선택지 B' ]);
 
-        await act(async () => {
-          render(<CreateQuestion/>);
-        });
-        const submitButton = screen.getByText('만들기');
-        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
-        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
-        const description = screen.getByTestId('description');
-        const image = screen.getByTestId('helper-img');
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
+      const descriptionMessage = jsxToString(charlotteErrorMessages.serverError);
 
-        await userEvent.type(questionInput, '질문');
-        await userEvent.type(choiceInputs[0], '선택지');
-        await userEvent.type(choiceInputs[1], '선택지');
-        await userEvent.click(submitButton);
+      expect(description.innerHTML).toContain(descriptionMessage);
+      expect(image).toHaveAttribute('src', Fail);
+    });
 
-        const descriptionMessage = jsxToString(charlotteErrorMessages.sameChoice);
-        expect(description.innerHTML).toContain(descriptionMessage);
-        expect(image).toHaveAttribute('src', Fail);
+    it("욕설 입력", async () => {
+      const mockResponse = {
+        status: 400,
+        text: async () => "욕설은 사용할 수 없습니다.",
+      };
+      mockFetch(mockResponse as Response);
+
+      await act(async () => {
+        render(<CreateQuestion/>);
       });
 
-      it("이미 등록된 질문", async () => {
-        const mockResponse = {
-          status: 400,
-          text: async () => "이미 등록된 질문입니다.",
-        };
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+      await submitForm('욕설 ㅅㅂ', [ '선택지 A', '선택지 B' ]);
 
-        await act(async () => {
-          render(<CreateQuestion/>);
-        });
-        const submitButton = screen.getByText('만들기');
-        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
-        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
-        const description = screen.getByTestId('description');
-        const image = screen.getByTestId('helper-img');
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
+      const descriptionMessage = jsxToString(charlotteErrorMessages.badWordInput);
 
-        await userEvent.type(questionInput, '질문');
-        await userEvent.type(choiceInputs[0], '선택지 A');
-        await userEvent.type(choiceInputs[1], '선택지 B');
-        await userEvent.click(submitButton);
+      expect(description.innerHTML).toContain(descriptionMessage);
+      expect(image).toHaveAttribute('src', Fail);
+    });
 
-        const descriptionMessage = jsxToString(charlotteErrorMessages.duplicateQuestion);
-        expect(description.innerHTML).toContain(descriptionMessage);
-        expect(image).toHaveAttribute('src', Fail);
+    it("같은 선택지 입력", async () => {
+      const mockResponse = {
+        status: 400,
+        text: async () => "같은 선택지를 입력할 수 없습니다.",
+      };
+      mockFetch(mockResponse as Response);
+
+      await act(async () => {
+        render(<CreateQuestion/>);
       });
 
-      it("서버 에러", async () => {
-        const mockResponse = {
-          status: 500,
-          text: async () => "Internal Server Error",
-        };
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+      await submitForm('질문', [ '선택지', '선택지' ]);
 
-        act(() => {
-          render(<CreateQuestion/>);
-        });
-        const submitButton = screen.getByText('만들기');
-        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
-        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
+      const descriptionMessage = jsxToString(charlotteErrorMessages.sameChoice);
 
-        await userEvent.type(questionInput, '질문');
-        await userEvent.type(choiceInputs[0], '선택지 A');
-        await userEvent.type(choiceInputs[1], '선택지 B');
-        await userEvent.click(submitButton);
+      expect(description.innerHTML).toContain(descriptionMessage);
+      expect(image).toHaveAttribute('src', Fail);
+    });
 
-        const description = screen.getByTestId('description');
-        const image = screen.getByTestId('helper-img');
-        const descriptionMessage = jsxToString(charlotteErrorMessages.serverError);
-        expect(description.innerHTML).toContain(descriptionMessage);
-        expect(image).toHaveAttribute('src', Fail);
+    it("이미 등록된 질문", async () => {
+      const mockResponse = {
+        status: 400,
+        text: async () => "이미 등록된 질문입니다.",
+      };
+      mockFetch(mockResponse as Response);
+
+      await act(async () => {
+        render(<CreateQuestion/>);
       });
+
+      await submitForm('질문', [ '선택지 A', '선택지 B' ]);
+
+      const description = screen.getByTestId('description');
+      const image = screen.getByTestId('helper-img');
+      const descriptionMessage = jsxToString(charlotteErrorMessages.duplicateQuestion);
+
+      expect(description.innerHTML).toContain(descriptionMessage);
+      expect(image).toHaveAttribute('src', Fail);
     });
   });
 });
