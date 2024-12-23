@@ -333,6 +333,7 @@ describe("CreateQuestion Page", () => {
     const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
     const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
     const resetButton = screen.getByText('다시 작성');
+    const submitButton = screen.getByText('만들기');
 
     await userEvent.type(questionInput, '질문');
     await userEvent.type(choiceInputs[0], '선택지 A');
@@ -343,5 +344,6 @@ describe("CreateQuestion Page", () => {
     expect(questionInput).toHaveValue('');
     expect(choiceInputs[0]).toHaveValue('');
     expect(choiceInputs[1]).toHaveValue('');
+    expect(submitButton).toBeEnabled();
   });
 });
