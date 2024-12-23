@@ -253,8 +253,30 @@ describe("CreateQuestion Page", () => {
         expect(image).toHaveAttribute('src', Fail);
       });
 
-      it("같은 선택지 입력", () => {
+      it("같은 선택지 입력", async () => {
+        const mockResponse = {
+          status: 400,
+          text: async () => "같은 선택지를 입력할 수 없습니다.",
+        };
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
 
+        await act(async () => {
+          render(<CreateQuestion/>);
+        });
+        const submitButton = screen.getByText('만들기');
+        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+        const description = screen.getByTestId('description');
+        const image = screen.getByTestId('helper-img');
+
+        await userEvent.type(questionInput, '질문');
+        await userEvent.type(choiceInputs[0], '선택지');
+        await userEvent.type(choiceInputs[1], '선택지');
+        await userEvent.click(submitButton);
+
+        const descriptionMessage = jsxToString(charlotteErrorMessages.sameChoice);
+        expect(description.innerHTML).toContain(descriptionMessage);
+        expect(image).toHaveAttribute('src', Fail);
       });
 
       it("이미 등록된 질문", () => {
