@@ -22,11 +22,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '23'  # Node.js 버전 설정
+          node-version: '23'  # Node.js 버전 설정upload
 
       # 3. 종속성 설치
       - name: Install dependencies
-        run: npm install
+        run: cd frontend && npm install
 
       # 4. 테스트 실행
       - name: Run tests
