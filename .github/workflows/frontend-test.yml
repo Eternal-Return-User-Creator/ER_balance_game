@@ -24,6 +24,8 @@ jobs:
       # 1. 코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
       # 2. Node.js 설정
       - name: Set up Node.js
