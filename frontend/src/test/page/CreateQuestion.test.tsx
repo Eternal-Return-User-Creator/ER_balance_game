@@ -8,6 +8,7 @@ import { jsxToString } from "../../common/util/format.ts";
 import Success from "../../assets/images/character/Charlotte/277. A Pure Heart.png";
 import Fail from "../../assets/images/character/Charlotte/279. Heartbroken.png";
 import { postCreateQuestionAPI } from "../../common/api/questionAPI.ts";
+import FatalError from "../../component/error/FatalError.tsx";
 
 describe("CreateQuestion Page", () => {
   beforeEach(async () => {
@@ -305,7 +306,30 @@ describe("CreateQuestion Page", () => {
         expect(image).toHaveAttribute('src', Fail);
       });
 
-      it("서버 에러", () => {
+      it("서버 에러", async () => {
+        const mockResponse = {
+          status: 500,
+          text: async () => "Internal Server Error",
+        };
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(mockResponse as Response));
+
+        act(() => {
+          render(<CreateQuestion/>);
+        });
+        const submitButton = screen.getByText('만들기');
+        const questionInput = screen.getByPlaceholderText('질문을 입력해주세요 (100자 이내)');
+        const choiceInputs = screen.getAllByPlaceholderText('선택지를 입력해주세요 (100자 이내)');
+
+        await userEvent.type(questionInput, '질문');
+        await userEvent.type(choiceInputs[0], '선택지 A');
+        await userEvent.type(choiceInputs[1], '선택지 B');
+        await userEvent.click(submitButton);
+
+        const description = screen.getByTestId('description');
+        const image = screen.getByTestId('helper-img');
+        const descriptionMessage = jsxToString(charlotteErrorMessages.serverError);
+        expect(description.innerHTML).toContain(descriptionMessage);
+        expect(image).toHaveAttribute('src', Fail);
       });
     });
   });
