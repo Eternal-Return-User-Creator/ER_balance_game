@@ -26,7 +26,9 @@ jobs:
 
       # 3. 종속성 설치
       - name: Install dependencies
-        run: cd frontend && npm install
+        run: |
+          cd frontend
+          npm install
 
       # 4. 테스트 실행
       - name: Run tests
