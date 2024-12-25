@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import "../assets/css/Game.css";
 import FatalError from "../component/error/FatalError.tsx";
 import { formatNumberWithComma } from "../common/util/format.ts";
-import { getChoiceResultAPI, getQuestionAPI, postSelectChoiceAPI } from "../common/api/questionAPI.ts";
+import { getChoiceResultAPI, getQuestionAPI, patchSelectChoiceAPI } from "../common/api/questionAPI.ts";
 
 export default function Game(
   {
     callGetQuestionAPI = getQuestionAPI,
-    callSelectChoiceAPI = postSelectChoiceAPI,
+    callSelectChoiceAPI = patchSelectChoiceAPI,
     callGetChoiceResultAPI = getChoiceResultAPI
   }
 ) {
