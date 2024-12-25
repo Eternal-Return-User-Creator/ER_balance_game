@@ -34,7 +34,6 @@ const mockGetChoiceResultResponse = {
   B: {count: "49", ratio: "49.99"}
 }
 
-
 describe("Game Page", () => {
   beforeEach(() => {
   });
@@ -145,7 +144,65 @@ describe("Game Page", () => {
     expect(mockGetQuestionAPI).toBeCalledTimes(2);
   });
 
-  it("백엔드 API 호출 시 에러가 발생했을 때 에러 모달 노출", async () => {
+  describe("백엔드 API 호출 시 에러가 발생했을 때 에러 모달 노출", async () => {
+    it("질문 가져오기 API 호출 시 에러", async () => {
+      mockGetQuestionAPI.mockRejectedValueOnce(new Error("Network error"));
 
+      render(<Game
+        callGetQuestionAPI={ mockGetQuestionAPI }
+        callSelectChoiceAPI={ mockSelectChoiceAPI }
+        callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+      />);
+
+      const errorModal = await screen.findByText(/Error/);
+      expect(errorModal).toBeInTheDocument();
+    });
+
+    it ("선택지 선택 API 호출 시 에러", async () => {
+      mockGetQuestionAPI.mockResolvedValueOnce({
+        ok: true,
+        json: async () => (mockGetQuestionResponse),
+      });
+      mockSelectChoiceAPI.mockRejectedValueOnce(new Error("Network error"));
+      mockGetChoiceResultAPI.mockResolvedValueOnce({
+        ok: true,
+        json: async () => (mockGetChoiceResultResponse),
+      });
+
+      render(<Game
+        callGetQuestionAPI={ mockGetQuestionAPI }
+        callSelectChoiceAPI={ mockSelectChoiceAPI }
+        callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+      />);
+
+      const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
+      userEvent.click(choiceAButton);
+
+      const errorModal = await screen.findByText(/Error/);
+      expect(errorModal).toBeInTheDocument();
+    });
+
+    it ("선택지 결과 가져오기 API 호출 시 에러", async () => {
+      mockGetQuestionAPI.mockResolvedValueOnce({
+        ok: true,
+        json: async () => (mockGetQuestionResponse),
+      });
+      mockSelectChoiceAPI.mockResolvedValueOnce({
+        ok: true,
+      });
+      mockGetChoiceResultAPI.mockRejectedValueOnce(new Error("Network error"));
+
+      render(<Game
+        callGetQuestionAPI={ mockGetQuestionAPI }
+        callSelectChoiceAPI={ mockSelectChoiceAPI }
+        callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+      />);
+
+      const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
+      userEvent.click(choiceAButton);
+
+      const errorModal = await screen.findByText(/Error/);
+      expect(errorModal).toBeInTheDocument();
+    });
   });
 });
