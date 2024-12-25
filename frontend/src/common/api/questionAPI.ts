@@ -32,7 +32,7 @@ export async function getQuestionAPI() {
 /**
  * 선택지 A 또는 B를 선택하는 API를 호출합니다.
  */
-export async function postSelectChoiceAPI(questionId: number, choice: string) {
+export async function patchSelectChoiceAPI(questionId: number, choice: string) {
   return await fetch(`${ backendURL }/question/${ questionId }/choice-count?flag=${choice}`, {
     method: "PATCH",
     headers: {
