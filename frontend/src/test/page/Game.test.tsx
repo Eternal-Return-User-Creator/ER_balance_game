@@ -1,5 +1,5 @@
 import { describe, expect, vi } from "vitest";
-import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import Game from "../../page/Game.tsx";
 import userEvent from "@testing-library/user-event";
 
@@ -12,6 +12,17 @@ const mockGetQuestionResponse = {
   questionText: "질문1",
   choiceA: "선택지 A1",
   choiceB: "선택지 B1",
+  createdDate: "2024-12-11T04:17:45.752+00:00",
+  updatedDate: "2024-12-11T04:17:45.752+00:00",
+  choiceACount: 0,
+  choiceBCount: 0
+}
+
+const mockNextQuestionResponse = {
+  id: 2,
+  questionText: "질문2",
+  choiceA: "선택지 A2",
+  choiceB: "선택지 B2",
   createdDate: "2024-12-11T04:17:45.752+00:00",
   updatedDate: "2024-12-11T04:17:45.752+00:00",
   choiceACount: 0,
@@ -107,8 +118,31 @@ describe("Game Page", () => {
     });
   });
 
-  it("다음 질문을 가져오는 함수를 호출했을 때", async () => {
+  it("다음 질문을 가져오는 버튼을 클릭했을 때", async () => {
+    // 초기 질문 렌더링을 위한 API 응답 설정
+    mockGetQuestionAPI.mockResolvedValueOnce({
+      ok: true,
+      json: async () => (mockGetQuestionResponse),
+    });
 
+    render(<Game
+      callGetQuestionAPI={ mockGetQuestionAPI }
+      callSelectChoiceAPI={ mockSelectChoiceAPI }
+      callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+    />);
+
+    // 다음 질문 렌더링을 위한 API 응답 설정
+    mockGetQuestionAPI.mockResolvedValueOnce({
+      ok: true,
+      json: async () => (mockNextQuestionResponse),
+    });
+    const nextQuestionButton = screen.getByTestId("next-button");
+    userEvent.click(nextQuestionButton);
+
+    expect(await screen.findByText(new RegExp(mockNextQuestionResponse.questionText))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(mockNextQuestionResponse.choiceA))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(mockNextQuestionResponse.choiceB))).toBeInTheDocument();
+    expect(mockGetQuestionAPI).toBeCalledTimes(2);
   });
 
   it("백엔드 API 호출 시 에러가 발생했을 때 에러 모달 노출", async () => {

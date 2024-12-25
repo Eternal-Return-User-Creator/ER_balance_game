@@ -122,7 +122,7 @@ export default function Game(
         </form>
       </div>
       <div className={ "next-button-wrapper" }>
-        <button className={ "next-button" } tabIndex={ 3 } onClick={ getNextQuestion }>&gt;&gt;</button>
+        <button className={ "next-button" } tabIndex={ 3 } onClick={ getNextQuestion } data-testid={"next-button"}>&gt;&gt;</button>
       </div>
       { isErrorModalOpen && <FatalError isOpen={ isErrorModalOpen }/> }
     </div>
