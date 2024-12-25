@@ -54,64 +54,57 @@ describe("Game Page", () => {
     expect(mockGetQuestionAPI).toBeCalledTimes(1);
   });
 
-  it("선택지 A를 선택했을 때", async () => {
-    mockGetQuestionAPI.mockResolvedValueOnce({
-      ok: true,
-      json: async () => (mockGetQuestionResponse),
-    });
-    mockSelectChoiceAPI.mockResolvedValueOnce({
-      ok: true,
-    });
-    mockGetChoiceResultAPI.mockResolvedValueOnce({
-      ok: true,
-      json: async () => (mockGetChoiceResultResponse),
-    });
+  describe("선택지를 선택했을 때", () => {
+    const setMockResponse = () => {
+      mockGetQuestionAPI.mockResolvedValueOnce({
+        ok: true,
+        json: async () => (mockGetQuestionResponse),
+      });
+      mockSelectChoiceAPI.mockResolvedValueOnce({
+        ok: true,
+      });
+      mockGetChoiceResultAPI.mockResolvedValueOnce({
+        ok: true,
+        json: async () => (mockGetChoiceResultResponse),
+      });
+    }
+    it("선택지 A를 선택", async () => {
+      setMockResponse();
+      render(<Game
+        callGetQuestionAPI={ mockGetQuestionAPI }
+        callSelectChoiceAPI={ mockSelectChoiceAPI }
+        callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+      />);
 
-    render(<Game
-      callGetQuestionAPI={ mockGetQuestionAPI }
-      callSelectChoiceAPI={ mockSelectChoiceAPI }
-      callGetChoiceResultAPI={ mockGetChoiceResultAPI }
-    />);
+      const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
+      userEvent.click(choiceAButton);
 
-    const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
-    userEvent.click(choiceAButton);
-
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
-    expect(mockSelectChoiceAPI).toBeCalledTimes(1);
-    expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
-  });
-
-  it("선택지 B를 선택했을 때", async () => {
-    mockGetQuestionAPI.mockResolvedValueOnce({
-      ok: true,
-      json: async () => (mockGetQuestionResponse),
-    });
-    mockSelectChoiceAPI.mockResolvedValueOnce({
-      ok: true,
-    });
-    mockGetChoiceResultAPI.mockResolvedValueOnce({
-      ok: true,
-      json: async () => (mockGetChoiceResultResponse),
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
+      expect(mockSelectChoiceAPI).toBeCalledTimes(1);
+      expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
     });
 
-    render(<Game
-      callGetQuestionAPI={ mockGetQuestionAPI }
-      callSelectChoiceAPI={ mockSelectChoiceAPI }
-      callGetChoiceResultAPI={ mockGetChoiceResultAPI }
-    />);
+    it("선택지 B를 선택", async () => {
+      setMockResponse();
+      render(<Game
+        callGetQuestionAPI={ mockGetQuestionAPI }
+        callSelectChoiceAPI={ mockSelectChoiceAPI }
+        callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+      />);
 
-    const choiceBButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceB));
-    userEvent.click(choiceBButton);
+      const choiceBButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceB));
+      userEvent.click(choiceBButton);
 
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
-    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
-    expect(mockSelectChoiceAPI).toBeCalledTimes(1);
-    expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
+      expect(mockSelectChoiceAPI).toBeCalledTimes(1);
+      expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
+    });
   });
 
   it("다음 질문을 가져오는 함수를 호출했을 때", async () => {
