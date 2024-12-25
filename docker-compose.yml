@@ -45,4 +45,4 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:./data
+  db_data:
