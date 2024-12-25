@@ -7,6 +7,23 @@ const mockGetQuestionAPI = vi.fn();
 const mockSelectChoiceAPI = vi.fn();
 const mockGetChoiceResultAPI = vi.fn();
 
+const mockGetQuestionResponse = {
+  id: 1,
+  questionText: "질문1",
+  choiceA: "선택지 A1",
+  choiceB: "선택지 B1",
+  createdDate: "2024-12-11T04:17:45.752+00:00",
+  updatedDate: "2024-12-11T04:17:45.752+00:00",
+  choiceACount: 0,
+  choiceBCount: 0
+}
+
+const mockGetChoiceResultResponse = {
+  A: {count: "50", ratio: "50.01"},
+  B: {count: "49", ratio: "49.99"}
+}
+
+
 describe("Game Page", () => {
   beforeEach(() => {
   });
@@ -22,17 +39,7 @@ describe("Game Page", () => {
   it("기본 상태 렌더링", async () => {
     mockGetQuestionAPI.mockResolvedValueOnce({
       ok: true,
-      json: async () => ({
-          id: 2,
-          questionText: "질문2",
-          choiceA: "선택지 A2",
-          choiceB: "선택지 B2",
-          createdDate: "2024-12-11T04:17:45.752+00:00",
-          updatedDate: "2024-12-11T04:17:45.752+00:00",
-          choiceACount: 0,
-          choiceBCount: 0
-        }
-      ),
+      json: async () => (mockGetQuestionResponse),
     });
 
     render(<Game
@@ -41,9 +48,9 @@ describe("Game Page", () => {
       callGetChoiceResultAPI={ mockGetChoiceResultAPI }
     />);
 
-    expect(await screen.findByText(/질문/)).toBeInTheDocument();
-    expect(screen.getByText(/선택지 A2/)).toBeInTheDocument();
-    expect(screen.getByText(/선택지 B2/)).toBeInTheDocument();
+    expect(await screen.findByText(new RegExp(mockGetQuestionResponse.questionText))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(mockGetQuestionResponse.choiceA))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(mockGetQuestionResponse.choiceB))).toBeInTheDocument();
     expect(mockGetQuestionAPI).toBeCalledTimes(1);
   });
 
