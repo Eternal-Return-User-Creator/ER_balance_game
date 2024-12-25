@@ -103,21 +103,21 @@ export default function Game(
   return (
     <div className={ "in-game content-wrapper" }>
       <div className={ "in-game question-wrapper" }>
-        <p className={ "in-game question" }>{ question }</p>
+        <p className={ "in-game question" } data-testid={"question"}>{ question }</p>
       </div>
       <div className={ "in-game choice-wrapper" }>
         <form className={ "in-game" }>
           <button className={ `in-game choice ${ selectedChoice === 'A' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "A" } tabIndex={ 1 }
                   onClick={ handleClick } disabled={ isDisabled }>
-            <span className={ "choice-text" }>A. { choiceA }</span>
-            <span className={ "choice-ratio" }>{ choiceAResult }</span>
+            <span className={ "choice-text" } data-testid={"choice-a"}>A. { choiceA }</span>
+            <span className={ "choice-ratio" } data-testid={"choice-a-ratio"}>{ choiceAResult }</span>
           </button>
           <button className={ `in-game choice ${ selectedChoice === 'B' ? 'chosen' : '' }` } type={ "submit" }
                   name={ "B" } tabIndex={ 2 }
                   onClick={ handleClick } disabled={ isDisabled }>
-            <span className={ "choice-text" }>B. { choiceB }</span>
-            <span className={ "choice-ratio" }>{ choiceBResult }</span>
+            <span className={ "choice-text" } data-testid={"choice-b"}>B. { choiceB }</span>
+            <span className={ "choice-ratio" } data-testid={"choice-b-ratio"}>{ choiceBResult }</span>
           </button>
         </form>
       </div>
