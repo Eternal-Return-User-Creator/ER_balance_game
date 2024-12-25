@@ -68,6 +68,16 @@ describe("Game Page", () => {
         json: async () => (mockGetChoiceResultResponse),
       });
     }
+
+    const expectChoiceResult = async () => {
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
+      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument
+      expect(mockSelectChoiceAPI).toBeCalledTimes(1);
+      expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
+    }
+
     it("선택지 A를 선택", async () => {
       setMockResponse();
       render(<Game
@@ -79,12 +89,7 @@ describe("Game Page", () => {
       const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
       userEvent.click(choiceAButton);
 
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
-      expect(mockSelectChoiceAPI).toBeCalledTimes(1);
-      expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
+      await expectChoiceResult();
     });
 
     it("선택지 B를 선택", async () => {
@@ -98,12 +103,7 @@ describe("Game Page", () => {
       const choiceBButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceB));
       userEvent.click(choiceBButton);
 
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
-      expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
-      expect(mockSelectChoiceAPI).toBeCalledTimes(1);
-      expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
+      await expectChoiceResult();
     });
   });
 
