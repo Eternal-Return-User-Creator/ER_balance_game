@@ -39,3 +39,6 @@ out/
 
 ### BOOT-INF ###
 /BOOT-INF/
+
+### liquibase ###
+liquibase.properties
