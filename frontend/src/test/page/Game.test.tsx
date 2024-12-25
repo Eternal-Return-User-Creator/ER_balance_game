@@ -55,6 +55,33 @@ describe("Game Page", () => {
   });
 
   it("선택지 A를 선택했을 때", async () => {
+    mockGetQuestionAPI.mockResolvedValueOnce({
+      ok: true,
+      json: async () => (mockGetQuestionResponse),
+    });
+    mockSelectChoiceAPI.mockResolvedValueOnce({
+      ok: true,
+    });
+    mockGetChoiceResultAPI.mockResolvedValueOnce({
+      ok: true,
+      json: async () => (mockGetChoiceResultResponse),
+    });
+
+    render(<Game
+      callGetQuestionAPI={ mockGetQuestionAPI }
+      callSelectChoiceAPI={ mockSelectChoiceAPI }
+      callGetChoiceResultAPI={ mockGetChoiceResultAPI }
+    />);
+
+    const choiceAButton = await screen.findByText(new RegExp(mockGetQuestionResponse.choiceA));
+    userEvent.click(choiceAButton);
+
+    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.count))).toBeInTheDocument();
+    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.A.ratio))).toBeInTheDocument();
+    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.count))).toBeInTheDocument();
+    expect(await screen.findByText(new RegExp(mockGetChoiceResultResponse.B.ratio))).toBeInTheDocument();
+    expect(mockSelectChoiceAPI).toBeCalledTimes(1);
+    expect(mockGetChoiceResultAPI).toBeCalledTimes(1);
   });
 
   it("선택지 B를 선택했을 때", async () => {
