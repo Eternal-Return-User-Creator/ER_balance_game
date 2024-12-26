@@ -18,6 +18,8 @@ java {
 
 configurations {
     asciidoctorExt
+    liquibaseRuntime
+    testImplementation.extendsFrom liquibaseRuntime
 }
 
 ext {
