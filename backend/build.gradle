@@ -18,8 +18,6 @@ java {
 
 configurations {
     asciidoctorExt
-    liquibaseRuntime
-    testImplementation.extendsFrom liquibaseRuntime
 }
 
 ext {
@@ -49,9 +47,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.liquibase:liquibase-core:4.21.0'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.liquibase', module: 'liquibase-core'
-    }
 }
 
 tasks.named('test') {
