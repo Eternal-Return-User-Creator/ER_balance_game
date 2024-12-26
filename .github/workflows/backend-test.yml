@@ -41,6 +41,10 @@ jobs:
           job-status: success
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # changelog file 유무 확인
+      - name: Verify changelog file
+        run: ls -R src/main/resources/db/changelog
+
       # 의존성 설치 및 테스트 실행
       - name: Run Gradle tests
         run: |
