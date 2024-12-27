@@ -6,9 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <!-- SQL 파일을 포함 -->
-<!--  추후 스키마 변경 시, changeset 파일 작성 후 아래에 작성  -->
-<!--    <changeSet id="1" author="your_name">-->
-<!--        <sqlFile path="question/changeset-001.sql"/>-->
-<!--    </changeSet>-->
+    <changeSet id="1" author="your_name">
+        <sqlFile path="db/changelog/question/changeset-001.sql"/>
+    </changeSet>
 </databaseChangeLog>
