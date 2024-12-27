@@ -1,19 +1,32 @@
 services:
   frontend:
     build: ./frontend
+    container_name: frontend
     ports:
       - "3000:3000"
+
   backend:
     build: ./backend
+    container_name: backend
     ports:
       - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/my_database
+      SPRING_DATASOURCE_USERNAME: my_user
+      SPRING_DATASOURCE_PASSWORD: my_password
+
   database:
     image: mysql:8.0
+    container_name: database
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: testuser
-      MYSQL_PASSWORD: testpassword
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: er_bal
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
     ports:
       - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
