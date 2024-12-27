@@ -39,3 +39,4 @@ out/
 
 ### BOOT-INF ###
 /BOOT-INF/
+/src/main/resources/application-prod.properties
