@@ -1,9 +1,15 @@
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_URL: ${API_URL}
     container_name: frontend
     ports:
       - "3000:80"
+    networks:
+      - er_bal_test
 
   backend:
     build: ./backend
@@ -13,20 +19,25 @@ services:
     depends_on:
       - database
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/er_bal
-      SPRING_DATASOURCE_USERNAME: my_user
-      SPRING_DATASOURCE_PASSWORD: my_password
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+    command: ["dockerize", "-wait", "tcp://database:3306", "-timeout", "30s", "java", "-jar", "/app.jar"]
+    networks:
+      - er_bal_test
 
   database:
     build: ./database
     container_name: database
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: er_bal
-      MYSQL_USER: my_user
-      MYSQL_PASSWORD: my_password
+    env_file:
+      - .env.test
     ports:
       - "3306:3306"
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - er_bal_test
 
+networks:
+  er_bal_test:
+    name: er_bal_test
