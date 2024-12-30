@@ -1,0 +1,14 @@
+FROM mysql:8.0
+
+# 환경 변수로 전달된 값을 MySQL에 적용
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_DATABASE=${MYSQL_DATABASE}
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+# 초기화 스크립트 추가
+COPY ./init.sql /docker-entrypoint-initdb.d/
+
+# MySQL 포트 설정
+EXPOSE 3306
+

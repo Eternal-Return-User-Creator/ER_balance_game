@@ -46,6 +46,9 @@ jobs:
         run: |
           cd backend
           ./gradlew test # 또는 적절한 테스트 실행 명령어
+        env:
+          SPRING_LIQUIBASE_ENABLED: "false"
+          SPRING_PROFILES_ACTIVE: "test"
           
       # 빌드 후 실패 시 PR 머지 방지
       - name: Prevent merge on failed tests
