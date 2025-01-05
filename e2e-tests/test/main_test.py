@@ -26,3 +26,9 @@ def test_게임_시작_버튼_클릭_시_게임_페이지로_이동(driver):
     game_start_button.click()
     driver.implicitly_wait(10)
     assert driver.current_url == "http://localhost:3000/game"
+
+def test_처음으로_클릭_시_메인_페이지로_이동(driver):
+    back_to_main = driver.find_element(By.ID, "back-to-main-link")
+    back_to_main.click()
+    driver.implicitly_wait(10)
+    assert driver.current_url == "http://localhost:3000/"
