@@ -27,3 +27,6 @@ dist-ssr
 
 # coverage
 coverage/
+
+# buildinfo
+tsconfig.tsbuildinfo
