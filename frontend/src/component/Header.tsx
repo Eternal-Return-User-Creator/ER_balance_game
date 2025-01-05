@@ -8,13 +8,13 @@ export default function Header() {
       <nav>
         <ul>
           <li>
-            <Link to="/">처음으로</Link>
+            <Link to="/" id={"back-to-main-link"}>처음으로</Link>
           </li>
           <li>
-            <Link to="/game">게임시작</Link>
+            <Link to="/game" id={"game-start-link"}>게임시작</Link>
           </li>
           <li>
-            <Link to="/create">만들기</Link>
+            <Link to="/create" id={"create-question-link"}>만들기</Link>
           </li>
         </ul>
       </nav>
