@@ -1,3 +1,4 @@
 /backend/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 /backend/.gradle/buildOutputCleanup/cache.properties
 /backend/.gradle/8.8/checksums/checksums.lock
+.env**

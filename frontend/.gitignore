@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 /.env.development
 /.env.production
+
+# coverage
+coverage/
+
+# buildinfo
+tsconfig.tsbuildinfo
