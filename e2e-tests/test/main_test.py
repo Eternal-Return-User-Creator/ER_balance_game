@@ -11,5 +11,5 @@ def driver():
     yield driver
     driver.quit()
 
-def test_title(driver):
+def test_타이틀_표시(driver):
     assert driver.title == "이터널리턴 밸런스게임"
