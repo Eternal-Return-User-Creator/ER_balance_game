@@ -27,8 +27,20 @@ def test_게임_페이지_표시(driver):
     assert ratios[1].text == ''
     assert next_button.is_displayed()
 
-def test_선택지_클릭_시_결과_표시(driver):
-    pass
+@pytest.mark.parametrize('choice_index', [0, 1])
+def test_선택지_클릭_시_결과_표시(driver, choice_index):
+    driver.get('http://localhost:3000/game')
+    choices = driver.find_elements(By.CLASS_NAME, 'choice-text')
+    ratios = driver.find_elements(By.CLASS_NAME, 'choice-ratio')
+
+    choices[choice_index].click()
+
+    WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.CLASS_NAME, 'choice-ratio'))
+    )
+
+    assert ratios[0].text != ''
+    assert ratios[1].text != ''
 
 def test_다음_질문_버튼_클릭_시_다음_질문_표시(driver):
     pass
