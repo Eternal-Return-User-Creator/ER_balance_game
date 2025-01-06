@@ -38,3 +38,9 @@ def test_게임_시작_클릭_시_게임_페이지로_이동(driver):
     game_start.click()
     driver.implicitly_wait(10)
     assert driver.current_url == "http://localhost:3000/game"
+
+def test_만들기_클릭_시_질문_생성_페이지로_이동(driver):
+    create_question = driver.find_element(By.ID, "create-question-link")
+    create_question.click()
+    driver.implicitly_wait(10)
+    assert driver.current_url == "http://localhost:3000/create"
