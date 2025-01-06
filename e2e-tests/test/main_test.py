@@ -6,12 +6,9 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 @pytest.fixture(scope="module")
-def driver():
-    driver = webdriver.Chrome()
+def driver(driver):
     driver.get("http://localhost:3000")
-    driver.implicitly_wait(10)
     yield driver
-    driver.quit()
 
 def test_타이틀_표시(driver):
     assert driver.title == "이터널리턴 밸런스게임"
