@@ -86,6 +86,7 @@ class Test_질문_생성:
 
             description = driver.find_element(By.CLASS_NAME, 'description')
             assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+
             WebDriverWait(driver, 10).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '욕설이나 무례한 말은 사용하실 수 없어요.\n다시 입력해주세요.')
@@ -108,5 +109,27 @@ class Test_질문_생성:
                     By.CLASS_NAME, 'description'), '선택지가 같아서는 안돼요.\n서로 다른 선택지를 입력해주세요.')
             )
 
-        def test_질문_중복(self, driver):
-            pass
+        @pytest.mark.parametrize(
+            "question, choices",
+            [
+                ('default question', ['choice A', 'choice B']),
+                ('default question', ['choice B', 'choice A']),
+            ]
+        )
+        def test_질문_중복(self, driver, question, choices):
+            driver.get('http://localhost:3000/create')
+            question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
+            question_input.send_keys(question)
+            choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
+            [choice_input.send_keys(choice) for choice_input, choice in zip(choice_inputs, choices)]
+
+            create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
+            create_button.click()
+
+            description = driver.find_element(By.CLASS_NAME, 'description')
+            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '이미 등록된 질문이에요.\n다른 질문을 입력해주세요.')
+            )
