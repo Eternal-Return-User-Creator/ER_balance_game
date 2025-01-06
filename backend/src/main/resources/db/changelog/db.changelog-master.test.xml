@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="nyj001012">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="question"/>
+            </not>
+        </preConditions>
+        <insert tableName="question">
+            <column name="question_text">기본 질문</column>
+            <column name="choice_a">선택지 A</column>
+            <column name="choice_b">선택지 B</column>
+            <column name="created_date">2025-01-06</column>
+            <column name="updated_date">2025-01-06</column>
+        </insert>
+        <sqlFile path="db/changelog/question/changeset-001.sql"/>
+    </changeSet>
+</databaseChangeLog>
