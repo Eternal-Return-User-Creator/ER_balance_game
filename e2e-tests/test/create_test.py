@@ -69,8 +69,29 @@ class Test_질문_생성:
         #     assert not reset_button.is_displayed()
 
     class Test_질문_생성_실패:
-        def test_질문에_욕설_포함(self, driver):
-            pass
+        @pytest.mark.parametrize(
+            "question, choices",
+            [
+                ('ㅆㅂ', ['선택지 A1', '선택지 B1']),
+                ('테스트 질문 2', ['ㅆㅂ', '선택지 B2']),
+                ('테스트 질문 3', ['선택지 A3', 'ㅆㅂ'])
+            ]
+        )
+        def test_질문에_욕설_포함(self, driver, question, choices):
+            question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
+            question_input.send_keys(question)
+            choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
+            [choice_input.send_keys(choice) for choice_input, choice in zip(choice_inputs, choices)]
+
+            create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
+            create_button.click()
+
+            description = driver.find_element(By.CLASS_NAME, 'description')
+            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '욕설이나 무례한 말은 사용하실 수 없어요.\n다시 입력해주세요.')
+            )
 
         def test_선택지_중복(self, driver):
             pass
