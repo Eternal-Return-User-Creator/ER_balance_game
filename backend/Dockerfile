@@ -10,10 +10,8 @@ COPY . .
 # Gradle 빌드
 RUN ./gradlew build -x test --no-daemon
 
-RUN ls -l build/libs
-
 # 빌드 파일 복사
-COPY ./build/libs/*.jar app.jar
+COPY ./build/libs/er_bal-0.0.1-SNAPSHOT.jar app.jar
 
 # 8080 포트 개방
 EXPOSE 8080
