@@ -10,6 +10,8 @@ COPY . .
 # Gradle 빌드
 RUN ./gradlew build -x test --no-daemon
 
+RUN ls -l
+
 # 빌드 파일 복사
 COPY build/libs/*.jar app.jar
 
