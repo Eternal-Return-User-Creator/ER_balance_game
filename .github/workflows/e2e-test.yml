@@ -41,7 +41,7 @@ jobs:
           unzip chrome-linux64.zip -d chrome-linux
 
           # ChromeDriver 다운로드
-          wget https://storage.googleapis.com/chromedriver/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip -d chromedriver-linux
 
           # Chrome 실행 경로 등록
@@ -49,7 +49,7 @@ jobs:
           sudo mv chromedriver-linux/chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chrome /usr/local/bin/chromedriver
 
-          # 설치 확인
+          # 2. 설치 확인
           chrome --version
           chromedriver --version
 
