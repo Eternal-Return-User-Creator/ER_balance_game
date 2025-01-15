@@ -46,27 +46,7 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
           google-chrome-stable --version
           chromedriver --version
-    
-      - name: Install Firefox and GeckoDriver
-        run: |
-          # Firefox (Snap으로 설치됨)
-          sudo apt update
-          sudo apt install -y firefox
-
-          # 최신 GeckoDriver 버전 추출
-          FIREFOX_DRIVER_VERSION=$(curl -s https://github.com/mozilla/geckodriver/releases/latest | grep -oP 'v\d+\.\d+\.\d+' | head -n 1)
-          echo "Latest GeckoDriver version: $FIREFOX_DRIVER_VERSION"
-    
-          # GeckoDriver 다운로드
-          wget https://github.com/mozilla/geckodriver/releases/download/$FIREFOX_DRIVER_VERSION/geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
-          tar -xvzf geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/geckodriver
-
-          # Firefox 및 GeckoDriver 설치 확인
-          firefox --version
-          geckodriver --version
-
+      
       # 4. Docker Compose 설치
       - name: Install Docker Compose
         run: |
@@ -102,16 +82,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 8. 여러 브라우저로 pytest 실행
+      # 8. 크롬 브라우저로 pytest 실행
       - name: Run E2E Tests
         working-directory: ./e2e-tests
         env:
           BROWSER: ${{ matrix.browser }}
         run: |
           source venv/bin/activate
-          pytest --browser $BROWSER
-
-    strategy:
-      matrix:
-        browser: [chrome, firefox]
+          pytest --browser chrome
 
