@@ -44,13 +44,22 @@ jobs:
           sudo ln -s $DOCKER_CONFIG/cli-plugins/docker-compose /usr/local/bin/docker-compose
           docker-compose version
 
-      # 4. Docker 서비스 시작
+      # 4. .env.test 생성
+      - name: Create .env.test file
+        run: |
+          echo "MYSQL_DATABASE=${{ secrets.E2E_MYSQL_DATABASE }}" >> .env.test
+          echo "MYSQL_ROOT=${{ secrets.E2E_MYSQL_ROOT }}" >> .env.test
+          echo "MYSQL_USER=${{ secrets.E2E_MYSQL_USER }}" >> .env.test
+          echo "MYSQL_PASSWORD=${{ secrets.E2E_MYSQL_PASSWORD }}" >> .env.test
+          echo "API_URL=${{ secrets.E2E_API_URL }}" >> .env.test
+
+      # 5. Docker 서비스 시작
       - name: Start Docker
         working-directory: ./backend
         run: |
           docker-compose -f docker-compose.e2e-test.yml --env-file ../.env.test up --build -d
 
-      # 5. E2E 테스트를 위한 패키지 설치
+      # 6. E2E 테스트를 위한 패키지 설치
       - name: Set up E2E Test Environment
         working-directory: ./e2e-tests
         run: |
@@ -59,7 +68,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 6. 여러 브라우저로 pytest 실행
+      # 7. 여러 브라우저로 pytest 실행
       - name: Run E2E Tests
         working-directory: ./e2e-tests
         env:
