@@ -17,9 +17,6 @@ jobs:
       docker:
         image: docker:24.0.6
         options: --privileged
-        ports:
-          - "8080:8080"
-          - "3000:3000"
 
     steps:
       # 1. 리포지토리 체크아웃
