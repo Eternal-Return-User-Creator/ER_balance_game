@@ -38,7 +38,7 @@ jobs:
           sudo apt install -y google-chrome-stable
 
           # 최신 ChromeDriver 버전 추출
-          CHROME_DRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          CHROME_DRIVER_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
           echo "Latest ChromeDriver version: $CHROME_DRIVER_VERSION"
     
           # ChromeDriver 다운로드
