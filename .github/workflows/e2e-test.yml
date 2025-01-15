@@ -32,11 +32,26 @@ jobs:
       # 3. 웹 브라우저 설치 (Chrome)
       - name: Install Chrome and ChromeDriver
         run: |
-          sudo apt update
-          sudo apt install -y google-chrome-stable
+          # ChromeDriver와 매칭되는 Chrome for Testing 다운로드 및 설치
+          CHROME_VERSION="132.0.6834.83"  # 원하는 버전
+          PLATFORM="linux64"
 
-          # 설치된 Chrome 버전 확인
-          google-chrome --version
+          # Chrome for Testing 다운로드
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chrome-linux64.zip
+          unzip chrome-linux64.zip -d chrome-linux
+
+          # ChromeDriver 다운로드
+          wget https://storage.googleapis.com/chromedriver/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip -d chromedriver-linux
+
+          # Chrome 실행 경로 등록
+          sudo mv chrome-linux/chrome /usr/local/bin/
+          sudo mv chromedriver-linux/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chrome /usr/local/bin/chromedriver
+
+          # 설치 확인
+          chrome --version
+          chromedriver --version
 
       # 4. XVFB 설치
       - name: Setup XVFB
