@@ -121,9 +121,11 @@ tasks.register('deployAPIDocs') {
     }
 }
 
-build {
+deployAPIDocs {
     dependsOn 'copyDocs'
-    dependsOn 'deployAPIDocs'
+}
+
+build {
 }
 
 bootJar {
