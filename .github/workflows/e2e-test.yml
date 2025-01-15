@@ -37,6 +37,7 @@ jobs:
           sudo apt install -y wget curl unzip
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          
           # ChromeDriver 설치
           CHROME_DRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
           wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
@@ -45,19 +46,26 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
           google-chrome-stable --version
           chromedriver --version
-
+    
       - name: Install Firefox and GeckoDriver
-        run: |
-          # Firefox 설치
-          sudo apt install -y firefox
-          # GeckoDriver 설치
-          FIREFOX_DRIVER_VERSION=$(curl -s https://github.com/mozilla/geckodriver/releases/latest | grep -oP 'v\d+\.\d+\.\d+' | head -n 1)
-          wget https://github.com/mozilla/geckodriver/releases/download/$FIREFOX_DRIVER_VERSION/geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
-          tar -xvzf geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
-          sudo mv geckodriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/geckodriver
-          firefox --version
-          geckodriver --version
+      run: |
+        # Firefox (Snap으로 설치됨)
+        sudo apt update
+        sudo apt install -y firefox
+
+        # 최신 GeckoDriver 버전 추출
+        FIREFOX_DRIVER_VERSION=$(curl -s https://github.com/mozilla/geckodriver/releases/latest | grep -oP 'v\d+\.\d+\.\d+' | head -n 1)
+        echo "Latest GeckoDriver version: $FIREFOX_DRIVER_VERSION"
+    
+        # GeckoDriver 다운로드
+        wget https://github.com/mozilla/geckodriver/releases/download/$FIREFOX_DRIVER_VERSION/geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
+        tar -xvzf geckodriver-$FIREFOX_DRIVER_VERSION-linux64.tar.gz
+        sudo mv geckodriver /usr/local/bin/
+        sudo chmod +x /usr/local/bin/geckodriver
+
+        # Firefox 및 GeckoDriver 설치 확인
+        firefox --version
+        geckodriver --version
 
       # 4. Docker Compose 설치
       - name: Install Docker Compose
