@@ -1,0 +1,58 @@
+name: E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - deploy
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:24.0.6
+        options: --privileged
+        ports:
+          - "8080:8080"
+          - "3000:3000"
+
+    steps:
+      # 1. 리포지토리 체크아웃
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. 파이썬 설치
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # 3. Docker 서비스 시작
+      - name: Start Docker
+        working-directory: ./backend
+        run: |
+          docker-compose -f docker-compose.e2e-test.yml --env-file .env.test up --build -d
+
+      # 4. E2E 테스트를 위한 패키지 설치
+      - name: Set up E2E Test Environment
+        working-directory: ./e2e-tests
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 5. 여러 브라우저로 pytest 실행
+      - name: Run E2E Tests
+        working-directory: ./e2e-tests
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          source venv/bin/activate
+          pytest --browser $BROWSER
+
+    strategy:
+      matrix:
+        browser: [chrome, firefox, safari]
+
