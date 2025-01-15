@@ -10,10 +10,10 @@ COPY . .
 # Gradle 빌드
 RUN ./gradlew build -x test --no-daemon
 
-RUN ls -l
+RUN ls -l build
 
 # 빌드 파일 복사
-COPY build/libs/*.jar app.jar
+COPY ./build/libs/*.jar app.jar
 
 # 8080 포트 개방
 EXPOSE 8080
