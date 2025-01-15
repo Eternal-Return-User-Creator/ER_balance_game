@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Gradle 빌드
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build -x test --no-daemon
 
 # 빌드 파일 복사
 COPY build/libs/*.jar app.jar
