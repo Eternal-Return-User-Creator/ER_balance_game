@@ -32,13 +32,20 @@ jobs:
         with:
           python-version: 3.9
 
-      # 3. Docker 서비스 시작
+      # 3. Docker Compose 설치
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+          docker-compose version
+
+      # 4. Docker 서비스 시작
       - name: Start Docker
         working-directory: ./backend
         run: |
           docker-compose -f docker-compose.e2e-test.yml --env-file .env.test up --build -d
 
-      # 4. E2E 테스트를 위한 패키지 설치
+      # 5. E2E 테스트를 위한 패키지 설치
       - name: Set up E2E Test Environment
         working-directory: ./e2e-tests
         run: |
@@ -47,7 +54,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 5. 여러 브라우저로 pytest 실행
+      # 6. 여러 브라우저로 pytest 실행
       - name: Run E2E Tests
         working-directory: ./e2e-tests
         env:
