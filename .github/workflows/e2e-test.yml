@@ -32,20 +32,31 @@ jobs:
       # 3. 웹 브라우저 설치 (Chrome)
       - name: Install Chrome and ChromeDriver
         run: |
-          # Chrome 설치
-          sudo apt update
-          sudo apt install -y wget curl unzip
-          sudo apt install -y google-chrome-stable
+          # 1. ChromeDriver 최신 버전 가져오기
+          CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          echo "Latest ChromeDriver Version: $CHROMEDRIVER_VERSION"
 
-          # 최신 ChromeDriver 버전 추출
-          CHROME_DRIVER_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
-          echo "Latest ChromeDriver version: $CHROME_DRIVER_VERSION"
-    
-          # ChromeDriver 다운로드
-          wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
+          # 2. ChromeDriver 다운로드 및 설치
+          wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+
+          # 3. ChromeDriver의 메이저 버전 가져오기
+          CHROME_MAJOR_VERSION=$(echo $CHROMEDRIVER_VERSION | cut -d '.' -f 1)
+          echo "Chrome Major Version for ChromeDriver: $CHROME_MAJOR_VERSION"
+
+          # 4. Chrome 설치
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https software-properties-common
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable=$CHROME_MAJOR_VERSION*
+
+          # 5. 설치된 Chrome 및 ChromeDriver 버전 확인
+          google-chrome --version
+          chromedriver --version
 
       # 4. XVFB 설치
       - name: Setup XVFB
