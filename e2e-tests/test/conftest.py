@@ -1,12 +1,9 @@
-import chromedriver_autoinstaller
 import pytest
 from . import driver_factory
 
 @pytest.fixture(scope="module")
 def driver(request):
     browser = request.config.getoption("browser")
-    if browser == "chrome":
-        chromedriver_autoinstaller.install()
     driver = driver_factory(browser)
     yield driver
     driver.quit()
