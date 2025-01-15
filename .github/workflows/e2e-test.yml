@@ -48,7 +48,7 @@ jobs:
       - name: Start Docker
         working-directory: ./backend
         run: |
-          docker-compose -f docker-compose.e2e-test.yml --env-file .env.test up --build -d
+          docker-compose -f docker-compose.e2e-test.yml --env-file ../.env.test up --build -d
 
       # 5. E2E 테스트를 위한 패키지 설치
       - name: Set up E2E Test Environment
