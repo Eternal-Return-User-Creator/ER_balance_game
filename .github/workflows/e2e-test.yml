@@ -29,29 +29,29 @@ jobs:
         with:
           python-version: 3.9
 
-      # 3. 웹 브라우저 설치 (Chrome, Firefox)
+      # 3. 웹 브라우저 설치 (Chrome)
       - name: Install Chrome and ChromeDriver
         run: |
-          # Google Chrome 설치
+          # Chrome 설치
           sudo apt update
           sudo apt install -y wget curl unzip
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          
-          # ChromeDriver 설치
+          sudo apt install -y google-chrome-stable
+
+          # 최신 ChromeDriver 버전 추출
           CHROME_DRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          echo "Latest ChromeDriver version: $CHROME_DRIVER_VERSION"
+    
+          # ChromeDriver 다운로드
           wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
-          google-chrome-stable --version
-          chromedriver --version
 
       # 4. XVFB 설치
       - name: Setup XVFB
         run: |
           sudo apt-get install -y xvfb
-          Xvfb :99 -ac &
+          nohup Xvfb :99 -screen 0 1280x1024x24 &
           export DISPLAY=:99
       
       # 5. Docker Compose 설치
