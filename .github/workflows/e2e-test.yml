@@ -42,17 +42,15 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-          # 3. ChromeDriver의 메이저 버전 가져오기
-          CHROME_MAJOR_VERSION=$(echo $CHROMEDRIVER_VERSION | cut -d '.' -f 1)
-          echo "Chrome Major Version for ChromeDriver: $CHROME_MAJOR_VERSION"
+          # 3. ChromeDriver와 호환되는 Chrome 버전 가져오기
+          CHROME_VERSION=$(curl -s https://omahaproxy.appspot.com/deps.json | jq -r ".chromedriver[$CHROMEDRIVER_VERSION].chromium_version")
+          CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+          echo "Compatible Chrome Version: $CHROME_VERSION (Major: $CHROME_MAJOR_VERSION)"
 
           # 4. Chrome 설치
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb
           sudo apt-get update
-          sudo apt-get install -y wget apt-transport-https software-properties-common
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable=$CHROME_MAJOR_VERSION*
+          sudo apt-get install -y ./google-chrome-stable_${CHROME_VERSION}_amd64.deb
 
           # 5. 설치된 Chrome 및 ChromeDriver 버전 확인
           google-chrome --version
