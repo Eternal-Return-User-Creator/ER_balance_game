@@ -12,16 +12,22 @@ def driver(request):
         webdriver.Chrome()
         option = chromeOptions()
         option.add_argument("--headless")
+        option.add_argument("--no-sandbox")
+        option.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         webdriver.Firefox()
         option = firefoxOptions()
         option.add_argument("--headless")
+        option.add_argument("--no-sandbox")
+        option.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Firefox(options=option)
     elif browser == "safari":
         webdriver.Safari()
         option = safariOptions()
         option.add_argument("--headless")
+        option.add_argument("--no-sandbox")
+        option.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Safari(options=option)
     else:
         raise ValueError(f"Unsupported browser: {browser}")
