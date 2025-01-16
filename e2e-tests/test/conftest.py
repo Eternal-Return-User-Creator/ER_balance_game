@@ -10,6 +10,8 @@ def driver(request):
         option = chromeOptions()
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
+        option.add_argument("--disable-gpu")
+        option.add_argument("--remote-debugging-port=9222")
         option.add_argument("--no-default-browser-check")
         option.add_argument("--no-first-run")
         driver = webdriver.Chrome(options=option)
