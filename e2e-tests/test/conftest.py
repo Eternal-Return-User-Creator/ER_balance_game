@@ -1,5 +1,3 @@
-import tempfile
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chromeOptions
 from selenium.webdriver.firefox.options import Options as firefoxOptions
@@ -9,12 +7,10 @@ import pytest
 def driver(request):
     browser = request.config.getoption("browser")
     if browser == "chrome":
-        user_data_dir = tempfile.mkdtemp()
         option = chromeOptions()
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        option.add_argument(f"--user-data-dir={user_data_dir}")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         option = firefoxOptions()
