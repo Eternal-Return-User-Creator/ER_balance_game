@@ -38,19 +38,19 @@ jobs:
 
           # Chrome for Testing 다운로드
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chrome-linux64.zip
-          unzip chrome-linux64.zip -d chrome-linux
+          unzip chrome-linux64.zip -d /opt/chrome-linux
 
           # ChromeDriver 다운로드
-          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip
-          unzip chromedriver-linux64.zip -d chromedriver-linux
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip -d /opt/chromedriver-linux
 
           # Chrome 실행 경로 등록
-          sudo mv chrome-linux/chrome /usr/local/bin/
-          sudo mv chromedriver-linux/chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chrome /usr/local/bin/chromedriver
+          sudo ln -s /opt/chrome-linux/chrome /usr/local/bin/google-chrome
+          sudo ln -s /opt/chromedriver-linux/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/google-chrome /usr/local/bin/chromedriver
 
-          # 2. 설치 확인
-          chrome --version
+          # 설치 확인
+          google-chrome --version
           chromedriver --version
 
       # 4. XVFB 설치
