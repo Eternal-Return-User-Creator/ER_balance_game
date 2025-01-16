@@ -9,22 +9,18 @@ from . import driver_factory
 def driver(request):
     browser = request.config.getoption("browser")
     if browser == "chrome":
-        webdriver.Chrome()
         option = chromeOptions()
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        option.add_argument("--user-data-dir=/tmp/chrome-user-data")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
-        webdriver.Firefox()
         option = firefoxOptions()
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Firefox(options=option)
     elif browser == "safari":
-        webdriver.Safari()
         option = safariOptions()
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
