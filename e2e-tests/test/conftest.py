@@ -1,3 +1,5 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as chromeOptions
 from selenium.webdriver.firefox.options import Options as firefoxOptions
@@ -15,6 +17,8 @@ def driver(request):
         option.add_argument("--no-default-browser-check")
         option.add_argument("--no-first-run")
         option.add_argument("--guest")
+        option.add_argument("--disable-backgrounding-occluded-windows")
+        option.add_argument(f"--user-data-dir=/tmp/chrome-user-data-{os.getpid()}")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         option = firefoxOptions()
