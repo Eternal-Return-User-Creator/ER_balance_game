@@ -40,13 +40,15 @@ jobs:
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chrome-linux64.zip
           unzip chrome-linux64.zip -d /opt
 
+          ls -l /opt/chrome-${PLATFORM}/chrome
+
           # ChromeDriver 다운로드
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip -d /opt
           
           # 파일 복사
-          sudo cp /opt/chrome-${PLATFORM}/chrome /usr/bin/google-chrome
-          sudo cp /opt/chromedriver-${PLATFORM}/chromedriver /usr/bin/chromedriver
+          sudo cp -r /opt/chrome-${PLATFORM}/chrome /usr/bin/google-chrome
+          sudo cp -r /opt/chromedriver-${PLATFORM}/chromedriver /usr/bin/chromedriver
 
           # 파일 권한 설정
           sudo chmod +x /usr/bin/google-chrome /usr/bin/chromedriver
