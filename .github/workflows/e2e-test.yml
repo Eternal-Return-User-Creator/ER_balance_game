@@ -32,9 +32,6 @@ jobs:
       # 3. 웹 브라우저 설치 (Chrome)
       - name: Install Chrome and ChromeDriver
         run: |
-          # 기존 설치된 Chrome 제거
-          sudo snap remove chromium
-
           # ChromeDriver와 매칭되는 Chrome for Testing 다운로드 및 설치
           CHROME_VERSION="132.0.6834.83"  # 원하는 버전
           PLATFORM="linux64"
