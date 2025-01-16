@@ -13,6 +13,7 @@ def driver(request):
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
+        option.add_argument("--verbose")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         option = firefoxOptions()
