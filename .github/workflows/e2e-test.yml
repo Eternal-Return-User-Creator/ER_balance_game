@@ -39,12 +39,10 @@ jobs:
           # Chrome for Testing 다운로드
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chrome-linux64.zip
           unzip chrome-linux64.zip -d /opt
-          ls /opt/chrome-linux64
 
           # ChromeDriver 다운로드
           wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
           unzip chromedriver-linux64.zip -d /opt
-          ls /opt/chromedriver-linux64
           
           # 파일 복사
           sudo cp /opt/chrome-${PLATFORM}/chrome /usr/bin/google-chrome
