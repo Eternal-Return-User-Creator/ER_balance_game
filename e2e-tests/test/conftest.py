@@ -14,7 +14,7 @@ def driver(request):
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        option.add_argument("--remote-debugging-port=9222")
+        option.add_argument("--user-data-dir=/tmp/chrome-user-data")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         webdriver.Firefox()
@@ -22,7 +22,6 @@ def driver(request):
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        option.add_argument("--remote-debugging-port=9222")
         driver = webdriver.Firefox(options=option)
     elif browser == "safari":
         webdriver.Safari()
@@ -30,7 +29,6 @@ def driver(request):
         option.add_argument("--headless")
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
-        option.add_argument("--remote-debugging-port=9222")
         driver = webdriver.Safari(options=option)
     else:
         raise ValueError(f"Unsupported browser: {browser}")
