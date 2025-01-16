@@ -83,7 +83,12 @@ jobs:
         run: |
           docker-compose -f docker-compose.e2e-test.yml --env-file .env.test up --build -d
 
-      # 7. E2E 테스트를 위한 패키지 설치
+      # 7. XVFB 설치
+      - name: Setup XVFB
+        run: |
+          sudo apt-get install -y xvfb
+
+      # 8. E2E 테스트를 위한 패키지 설치 및 테스트 실행
       - name: Set up E2E Test Environment
         working-directory: ./e2e-tests
         run: |
@@ -91,10 +96,5 @@ jobs:
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-
-      # 8. XVFB 설치 및 pytest 실행
-      - name: Setup XVFB and Run pytest
-        run: |
-          sudo apt-get install -y xvfb
           xvfb-run --server-args="-screen 0 1280x1024x24" pytest --browser chrome
 
