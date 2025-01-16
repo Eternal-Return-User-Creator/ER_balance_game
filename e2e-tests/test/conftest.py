@@ -14,6 +14,7 @@ def driver(request):
         option.add_argument("--remote-debugging-port=9222")
         option.add_argument("--no-default-browser-check")
         option.add_argument("--no-first-run")
+        option.add_argument("--guest")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         option = firefoxOptions()
