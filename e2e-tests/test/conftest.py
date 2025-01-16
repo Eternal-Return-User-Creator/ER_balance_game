@@ -11,6 +11,7 @@ def driver(request):
         option.add_argument("--no-sandbox")
         option.add_argument("--disable-dev-shm-usage")
         option.add_argument("--no-default-browser-check")
+        option.add_argument("--no-first-run")
         driver = webdriver.Chrome(options=option)
     elif browser == "firefox":
         option = firefoxOptions()
