@@ -55,6 +55,12 @@ jobs:
           google-chrome --version
           chromedriver --version
 
+          # 크롬 세션 확인
+          ps aux | grep chrome
+          
+          # 크롬 세션 종료
+          pkill chrome
+
       # 4. XVFB 설치
       - name: Setup XVFB
         run: |
