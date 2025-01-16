@@ -21,11 +21,7 @@ def driver(request):
         option.add_argument("--disable-dev-shm-usage")
         driver = webdriver.Firefox(options=option)
     elif browser == "safari":
-        option = safariOptions()
-        option.add_argument("--headless")
-        option.add_argument("--no-sandbox")
-        option.add_argument("--disable-dev-shm-usage")
-        driver = webdriver.Safari(options=option)
+        driver = webdriver.Safari()
     else:
         raise ValueError(f"Unsupported browser: {browser}")
     yield driver
