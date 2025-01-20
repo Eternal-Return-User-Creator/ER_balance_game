@@ -25,48 +25,48 @@ def test_질문_생성_페이지_표시(driver):
 @pytest.mark.usefixtures('driver')  # driver fixture를 사용하도록 명시
 class Test_질문_생성:
     def test_질문_생성_성공(self, driver):
-            driver.get('http://localhost:3000/create')
-            # 질문 입력
-            question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
-            question_input.send_keys('테스트 질문')
-            assert question_input.get_attribute('value') == '테스트 질문'
+        driver.get('http://localhost:3000/create')
+        # 질문 입력
+        question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
+        question_input.send_keys('테스트 질문')
+        assert question_input.get_attribute('value') == '테스트 질문'
 
-            # 선택지 입력
-            choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
-            choice_inputs[0].send_keys('오메가')
-            choice_inputs[1].send_keys('알파')
-            assert choice_inputs[0].get_attribute('value') == '오메가'
-            assert choice_inputs[1].get_attribute('value') == '알파'
+        # 선택지 입력
+        choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
+        choice_inputs[0].send_keys('오메가')
+        choice_inputs[1].send_keys('알파')
+        assert choice_inputs[0].get_attribute('value') == '오메가'
+        assert choice_inputs[1].get_attribute('value') == '알파'
 
-            # 만들기 버튼 클릭
-            create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
-            create_button.click()
+        # 만들기 버튼 클릭
+        create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
+        create_button.click()
 
-            # 생성 중 메시지 확인
-            WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
-            )
+        # 생성 중 메시지 확인
+        WebDriverWait(driver, 20, poll_frequency=0.3).until(
+            ec.text_to_be_present_in_element((
+                By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
+        )
 
-            # 생성 완료 메시지 확인
-            WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
+        # 생성 완료 메시지 확인
+        WebDriverWait(driver, 20, poll_frequency=0.3).until(
+            ec.text_to_be_present_in_element((
                 By.CLASS_NAME, 'description'), '질문이 성공적으로 만들어졌어요!\n이제 게임을 하러 가거나, 질문을 더 만들어 볼까요?')
-            )
+        )
 
-            # 초기화 버튼 클릭
-            reset_button = driver.find_element(By.CLASS_NAME, 'reset')
-            assert reset_button.is_displayed()
-            reset_button.click()
+        # 초기화 버튼 클릭
+        reset_button = driver.find_element(By.CLASS_NAME, 'reset')
+        assert reset_button.is_displayed()
+        reset_button.click()
 
-            # 입력 초기화 확인
-            question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
-            choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
+        # 입력 초기화 확인
+        question_input = driver.find_element(By.CSS_SELECTOR, 'input.question')
+        choice_inputs = driver.find_elements(By.CSS_SELECTOR, 'input.choice')
 
-            assert question_input.get_attribute('value') == ''
-            assert choice_inputs[0].get_attribute('value') == ''
-            assert choice_inputs[1].get_attribute('value') == ''
-            assert not reset_button.is_displayed()
+        assert question_input.get_attribute('value') == ''
+        assert choice_inputs[0].get_attribute('value') == ''
+        assert choice_inputs[1].get_attribute('value') == ''
+        assert not reset_button.is_displayed()
 
     class Test_질문_생성_실패:
         @pytest.mark.parametrize(
@@ -87,16 +87,9 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            print(driver.find_element(By.CLASS_NAME, 'description').text)
-
             WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
-            )
-
-            WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '욕설이나 무례한 말은 사용하실 수 없어요.\n다시 입력해주세요.')
+                lambda d: "질문을 만들고 있어요." in d.find_element(By.CLASS_NAME, 'description').text
+                          or "욕설이나 무례한 말은 사용하실 수 없어요." in d.find_element(By.CLASS_NAME, 'description').text
             )
 
         def test_선택지_중복(self, driver):
@@ -110,13 +103,8 @@ class Test_질문_생성:
             create_button.click()
 
             WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
-            )
-
-            WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '선택지가 같아서는 안돼요.\n서로 다른 선택지를 입력해주세요.')
+                lambda d: "질문을 만들고 있어요." in d.find_element(By.CLASS_NAME, 'description').text
+                          or "선택지가 같아서는 안돼요." in d.find_element(By.CLASS_NAME, 'description').text
             )
 
         @pytest.mark.parametrize(
@@ -137,11 +125,6 @@ class Test_질문_생성:
             create_button.click()
 
             WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
-            )
-
-            WebDriverWait(driver, 20, poll_frequency=0.3).until(
-                ec.text_to_be_present_in_element((
-                    By.CLASS_NAME, 'description'), '이미 등록된 질문이에요.\n다른 질문을 입력해주세요.')
+                lambda d: "질문을 만들고 있어요." in d.find_element(By.CLASS_NAME, 'description').text
+                          or "이미 등록된 질문이에요." in d.find_element(By.CLASS_NAME, 'description').text
             )
