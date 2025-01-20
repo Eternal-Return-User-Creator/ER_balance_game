@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='function')
 def driver(driver):
     driver.get('http://localhost:3000/create')
     yield driver
