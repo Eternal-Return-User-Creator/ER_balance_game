@@ -1,0 +1,101 @@
+name: Run E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - deploy
+    types:
+      - opened
+      - synchronize
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-22.04
+
+    services:
+      docker:
+        image: docker:24.0.6
+        options: --privileged
+
+    steps:
+      # 1. 리포지토리 체크아웃
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. 파이썬 설치
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      # 3. 웹 브라우저 설치 (Chrome)
+      - name: Install Chrome and ChromeDriver
+        run: |
+          # ChromeDriver와 매칭되는 Chrome for Testing 다운로드 및 설치
+          CHROME_VERSION="132.0.6834.83"  # 원하는 버전
+          PLATFORM="linux64"
+
+          # Chrome for Testing 다운로드
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chrome-linux64.zip
+          unzip chrome-linux64.zip -d /opt
+
+          ls -l /opt/chrome-${PLATFORM}/chrome
+
+          # ChromeDriver 다운로드
+          wget https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/${PLATFORM}/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip -d /opt
+          
+          # 심볼릭 링크 생성
+          sudo ln -sf /opt/chrome-${PLATFORM}/chrome /usr/bin/google-chrome
+          sudo ln -sf /opt/chromedriver-${PLATFORM}/chromedriver /usr/bin/chromedriver
+
+          # 파일 권한 설정
+          sudo chmod +x /usr/bin/google-chrome /usr/bin/chromedriver
+
+          # 설치 확인
+          google-chrome --version
+          chromedriver --version
+      
+      # 4. Docker Compose 설치
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+          DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+          mkdir -p $DOCKER_CONFIG/cli-plugins
+          curl -SL https://github.com/docker/compose/releases/download/v2.32.3/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+          sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+          sudo ln -s $DOCKER_CONFIG/cli-plugins/docker-compose /usr/local/bin/docker-compose
+          docker-compose version
+
+      # 5. .env.test 생성
+      - name: Create .env.test file
+        run: |
+          echo "MYSQL_DATABASE=${{ secrets.E2E_MYSQL_DATABASE }}" >> .env.test
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.E2E_MYSQL_ROOT_PASSWORD }}" >> .env.test
+          echo "MYSQL_USER=${{ secrets.E2E_MYSQL_USER }}" >> .env.test
+          echo "MYSQL_PASSWORD=${{ secrets.E2E_MYSQL_PASSWORD }}" >> .env.test
+          echo "API_URL=${{ secrets.E2E_API_URL }}" >> .env.test
+
+      # 6. Docker 서비스 시작
+      - name: Start Docker
+        run: |
+          docker-compose -f docker-compose.e2e-test.yml --env-file .env.test up --build -d
+
+      # 7. XVFB 설치
+      - name: Setup XVFB
+        run: |
+          sudo apt-get install -y xvfb
+
+      # 8. E2E 테스트를 위한 패키지 설치 및 테스트 실행
+      - name: Set up E2E Test Environment
+        working-directory: ./e2e-tests
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          xvfb-run --server-args="-screen 0 1280x1024x24" pytest --browser chrome
+

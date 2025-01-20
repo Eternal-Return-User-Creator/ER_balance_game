@@ -17,6 +17,8 @@ services:
   backend:
     build: ./backend
     container_name: backend
+    env_file:
+      - .env.test
     ports:
       - "8080:8080"
     depends_on:
@@ -45,6 +47,7 @@ services:
       - er_bal_test
     healthcheck:
         test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        interval: 5s
         timeout: 20s
         retries: 10
     restart: on-failure

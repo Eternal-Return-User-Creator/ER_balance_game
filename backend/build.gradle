@@ -73,6 +73,8 @@ tasks.register('copyDocs', Copy) {
 
 // API 페이지 용 깃허브 서브트리인 er-bal-api.github.io 저장소에 커밋 및 푸시
 tasks.register('deployAPIDocs') {
+    dependsOn('copyDocs')
+
     doLast {
         def apiRepository = 'https://github.com/Eternal-Return-User-Creator/er-bal-api.github.io.git'
         def apiDir = file('src/main/resources/static/docs')
@@ -122,14 +124,7 @@ tasks.register('deployAPIDocs') {
 }
 
 build {
-    dependsOn 'copyDocs'
-    dependsOn 'deployAPIDocs'
 }
 
 bootJar {
-    dependsOn asciidoctor
-    copy {
-        from "${asciidoctor.outputDir}"
-        into "BOOT-INF/classes/static/docs"
-    }
 }
