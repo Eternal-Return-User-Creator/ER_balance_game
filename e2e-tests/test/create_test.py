@@ -43,9 +43,12 @@ class Test_질문_생성:
             create_button.click()
 
             # 생성 중 메시지 확인
-            description = driver.find_element(By.CLASS_NAME, 'description')
-            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
+            )
 
+            # 생성 완료 메시지 확인
             WebDriverWait(driver, 10).until(
                 ec.text_to_be_present_in_element((
                 By.CLASS_NAME, 'description'), '질문이 성공적으로 만들어졌어요!\n이제 게임을 하러 가거나, 질문을 더 만들어 볼까요?')
@@ -84,8 +87,10 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            description = driver.find_element(By.CLASS_NAME, 'description')
-            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
+            )
 
             WebDriverWait(driver, 10).until(
                 ec.text_to_be_present_in_element((
@@ -102,8 +107,11 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            description = driver.find_element(By.CLASS_NAME, 'description')
-            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
+            )
+
             WebDriverWait(driver, 10).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '선택지가 같아서는 안돼요.\n서로 다른 선택지를 입력해주세요.')
@@ -126,8 +134,10 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            description = driver.find_element(By.CLASS_NAME, 'description')
-            assert description.text == '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...'
+            WebDriverWait(driver, 10).until(
+                ec.text_to_be_present_in_element((
+                    By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
+            )
 
             WebDriverWait(driver, 10).until(
                 ec.text_to_be_present_in_element((
