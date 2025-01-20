@@ -87,6 +87,8 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
+            print(driver.find_element(By.CLASS_NAME, 'description').text)
+
             WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
