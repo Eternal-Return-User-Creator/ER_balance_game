@@ -13,7 +13,7 @@ def check_initial_texts(question, choices, ratios):
     assert ratios[0].text == ''
     assert ratios[1].text == ''
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def driver(driver):
     driver.get("http://localhost:3000/game")
     driver.implicitly_wait(10)
