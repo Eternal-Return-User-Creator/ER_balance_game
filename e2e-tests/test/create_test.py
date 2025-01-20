@@ -43,13 +43,13 @@ class Test_질문_생성:
             create_button.click()
 
             # 생성 중 메시지 확인
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
             )
 
             # 생성 완료 메시지 확인
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                 By.CLASS_NAME, 'description'), '질문이 성공적으로 만들어졌어요!\n이제 게임을 하러 가거나, 질문을 더 만들어 볼까요?')
             )
@@ -87,12 +87,12 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
             )
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '욕설이나 무례한 말은 사용하실 수 없어요.\n다시 입력해주세요.')
             )
@@ -107,12 +107,12 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
             )
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '선택지가 같아서는 안돼요.\n서로 다른 선택지를 입력해주세요.')
             )
@@ -134,12 +134,12 @@ class Test_질문_생성:
             create_button = driver.find_element(By.CSS_SELECTOR, 'button.create-question')
             create_button.click()
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '질문을 만들고 있어요.\n루미아 섬에 잘 전달되었으면...')
             )
 
-            WebDriverWait(driver, 15).until(
+            WebDriverWait(driver, 20, poll_frequency=0.3).until(
                 ec.text_to_be_present_in_element((
                     By.CLASS_NAME, 'description'), '이미 등록된 질문이에요.\n다른 질문을 입력해주세요.')
             )
