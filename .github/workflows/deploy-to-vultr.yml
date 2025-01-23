@@ -25,12 +25,18 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # 3. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
+      # 3. SSH 키를 known_host에 추가
+      - name: Add known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VULTR_IP }} >> ~/.ssh/known_hosts
+
+      # 4. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
       - name: Copy files to Vultr server
         run: |
           scp -r ./ ubuntu@${{ secrets.VULTR_IP }}:/home/ubuntu/ER_BAL
 
-      # 4. Vultr 서버에 접속하여 docker-compose 실행
+      # 5. Vultr 서버에 접속하여 docker-compose 실행
       - name: Run docker-compose on Vultr server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.VULTR_IP }} << 'EOF'
