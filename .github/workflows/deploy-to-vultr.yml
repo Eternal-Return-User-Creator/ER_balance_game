@@ -1,0 +1,35 @@
+name: Deploy to Vultr
+
+on:
+  push:
+    branches:
+      - deploy  # 'deploy' 브랜치에 푸시될 때만 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. GitHub 레포지토리 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. SSH 키 설정 (GitHub Secrets에 저장된 SSH_PRIVATE_KEY를 사용)
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # 3. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
+      - name: Copy files to Vultr server
+        run: |
+          scp -r ./ ubuntu@${{ secrets.VULTR_IP }}:/home/ubuntu/ER_BAL
+
+      # 4. Vultr 서버에 접속하여 docker-compose 실행
+      - name: Run docker-compose on Vultr server
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.VULTR_IP }} << 'EOF'
+            cd /home/ubuntu/ER_BAL
+            docker-compose pull  # 새로 업데이트된 이미지를 받음
+            docker-compose up -d  # 백그라운드에서 컨테이너 실행
+          EOF
+
