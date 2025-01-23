@@ -1,0 +1,132 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'org.ajoberstar.grgit' version '5.2.2'
+    id 'org.liquibase.gradle' version '2.0.4'
+}
+
+group = 'nyj001012'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+configurations {
+    asciidoctorExt
+}
+
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
+    implementation 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.liquibase:liquibase-core:4.21.0'
+    implementation 'com.datadoghq:dd-trace-api:1.+'
+    implementation 'com.datadoghq:dd-trace-ot:1.+'
+}
+
+tasks.named('test') {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+asciidoctor {
+    baseDirFollowsSourceDir()
+    inputs.dir snippetsDir
+    dependsOn test
+    attributes 'snippets': snippetsDir, 'toc': 'left'
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+tasks.register('copyDocs', Copy) {
+    dependsOn asciidoctor
+    from file('build/docs/asciidoc')
+    into file('src/main/resources/static/docs')
+}
+
+// API 페이지 용 깃허브 서브트리인 er-bal-api.github.io 저장소에 커밋 및 푸시
+tasks.register('deployAPIDocs') {
+    dependsOn('copyDocs')
+
+    doLast {
+        def apiRepository = 'https://github.com/Eternal-Return-User-Creator/er-bal-api.github.io.git'
+        def apiDir = file('src/main/resources/static/docs')
+
+        println('>> Deploying API Docs')
+
+        // .git 폴더가 있는 최상위 디렉터리를 명시적으로 설정
+        def gitRootDir = file(rootDir.parentFile)
+
+        // 변경 사항 확인
+        def changes = new ByteArrayOutputStream()
+        exec {
+            workingDir gitRootDir
+            commandLine 'git', 'status', '--porcelain', apiDir
+            standardOutput = changes
+        }
+
+        println(changes.toString())
+
+        if (changes.toString().isEmpty()) {
+            println('* No changes to commit')
+        } else {
+            exec {
+                workingDir gitRootDir
+                commandLine 'git', 'add', apiDir
+            }
+
+            exec {
+                workingDir gitRootDir
+                commandLine 'git', 'commit', '-m', 'Update API Docs'
+            }
+
+            try {
+                exec {
+                    workingDir gitRootDir
+                    commandLine 'git', 'subtree', 'push', '--prefix=backend/src/main/resources/static/docs', apiRepository, 'main'
+                }
+            } catch (e) {
+                println('* Failed to push API Docs ' + e)
+                if (e.message.contains('CONFLICT')) {
+                    println('* Merge conflict detected. Please resolve conflicts manually.')
+                }
+                throw e
+            }
+        }
+    }
+}
+
+build {
+}
+
+bootJar {
+}

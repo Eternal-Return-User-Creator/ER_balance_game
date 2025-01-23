@@ -1,0 +1,117 @@
+main {
+    padding: 0 10rem;
+}
+
+div.in-game.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    font-family: "IBMPlexSans-Bold", sans-serif;
+}
+
+div.in-game.question-wrapper {
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+div.in-game.choice-wrapper {
+    width: 100%;
+}
+
+form.in-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button.in-game.choice {
+    font-size: 1.8rem;
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
+    text-align: left;
+    margin: 1rem 0;
+    width: 70%;
+}
+
+button.in-game.choice:focus, button.in-game.choice:hover {
+    color: black;
+    background-color: rgba(255, 214, 33, 0.8);
+    box-shadow: 0.2rem 0.2rem 0 0 #0a0a0a;
+}
+
+button.in-game.choice:disabled {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: unset;
+}
+
+button.in-game.choice.chosen {
+    background-size: 0 100%; /* 초기값: 너비가 0%, 높이가 100% */
+    background: linear-gradient(to right, rgba(255, 214, 33, 0.8), rgba(255, 214, 33, 0.8)) no-repeat;
+    animation: fillBackground 0.7s forwards ; /* 애니메이션 실행 */
+    color: black;
+}
+
+button.in-game.choice > span.choice-text {
+}
+
+button.in-game > span.choice-ratio {
+    float: right;
+    text-align: right;
+}
+
+div.next-button-wrapper {
+    position: fixed;
+    right: 2rem;
+    top: calc(50% - 3rem);
+}
+
+button.next-button {
+    animation: shake 1500ms ease-in-out infinite;
+    user-select: none;
+    -webkit-user-drag: none;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 4rem;
+    width: 6rem;
+    height: 6rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #dedede;
+}
+
+button.next-button:focus, button.next-button:hover {
+    animation-play-state: paused;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fillBackground {
+    from {
+        background-size: 0 100%; /* 배경 너비가 0% */
+    }
+    to {
+        background-size: 100% 100%; /* 배경 너비가 100% */
+    }
+}

@@ -1,0 +1,102 @@
+== POST /api/question
+질문을 등록한다.
+
+=== 1. Curl Request
+include::{snippets}/질문_등록_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/질문_등록_성공/http-request.adoc[]
+
+=== 3. HTTP Request Body
+include::{snippets}/질문_등록_성공/request-body.adoc[]
+
+=== 4. HTTP Response
+등록된 질문의 ID를 반환한다.
+include::{snippets}/질문_등록_성공/http-response.adoc[]
+
+질문의 길이가 0인 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_등록_실패_질문이_비어있는_경우/http-response.adoc[]
+
+질문의 길이가 100자를 넘을 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_등록_실패_질문의_길이가_100자를_넘을_경우/http-response.adoc[]
+
+질문에 비속어가 포함된 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_등록_실패_질문에_비속어가_포함된_경우/http-response.adoc[]
+
+질문이 이미 존재하는 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_등록_실패_질문이_중복된_경우/http-response.adoc[]
+
+등록하려는 질문의 선택지가 서로 같은 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_등록_실패_질문이_서로_같은_경우/http-response.adoc[]
+
+RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+include::{snippets}/질문_등록_실패_500번대/http-response.adoc[]
+
+=== 5. HTTP Response Body
+include::{snippets}/질문_등록_성공/response-body.adoc[]
+
+== GET /api/question
+질문을 무작위로 조회한다.
+
+=== 1. Curl Request
+include::{snippets}/랜덤_질문_조회_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/랜덤_질문_조회_성공/http-request.adoc[]
+
+=== 3. HTTP Response
+조회한 질문을 반환한다.
+include::{snippets}/랜덤_질문_조회_성공/http-response.adoc[]
+
+RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+include::{snippets}/랜덤_질문_조회_실패_500번대/http-response.adoc[]
+
+=== 4. HTTP Response Body
+include::{snippets}/랜덤_질문_조회_성공/response-body.adoc[]
+
+== PATCH /api/question/{id}/choice-count
+질문의 선택지 카운트를 증가시킨다.
+
+=== 1. Curl Request
+include::{snippets}/질문_선택_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/질문_선택_성공/http-request.adoc[]
+
+=== 3. HTTP Response
+성공 시, 200 OK를 반환한다.
+include::{snippets}/질문_선택_성공/http-response.adoc[]
+
+존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_선택_시_존재하지_않는_질문/http-response.adoc[]
+
+질문 선택 플래그가 잘못된 경우, 400 Bad Request를 반환한다.
+include::{snippets}/질문_선택_플래그가_잘못된_경우/http-response.adoc[]
+
+RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+include::{snippets}/질문_선택_실패_500번대/http-response.adoc[]
+
+=== 4. HTTP Response Body
+include::{snippets}/질문_선택_성공/response-body.adoc[]
+
+== GET /api/question/{id}/choice-result
+질문의 선택 결과를 조회한다.
+
+=== 1. Curl Request
+include::{snippets}/질문_선택_결과_조회_성공/curl-request.adoc[]
+
+=== 2. HTTP Request
+include::{snippets}/질문_선택_결과_조회_성공/http-request.adoc[]
+
+=== 3. HTTP Response
+성공 시, 조회한 질문의 선택 결과를 반환한다.
+include::{snippets}/질문_선택_결과_조회_성공/http-response.adoc[]
+
+존재하지 않는 질문에 대한 요청일 경우, 400 Bad Request를 반환한다.
+include::{snippets}/존재하지_않는_질문_선택_결과_조회/http-response.adoc[]
+
+RuntimeException이 발생한 경우, 500 Internal Server Error를 반환한다.
+include::{snippets}/질문_선택_결과_조회_실패_500번대/http-response.adoc[]
+
+=== 4. HTTP Response Body
+include::{snippets}/질문_선택_결과_조회_성공/response-body.adoc[]

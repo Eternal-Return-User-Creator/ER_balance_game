@@ -1,0 +1,25 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "types": [
+      "@testing-library/jest-dom",
+      "vitest/globals"
+    ],
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "composite": true,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+  },
+  "include": [],
+  "exclude": [
+    "node_modules"
+  ]
+}

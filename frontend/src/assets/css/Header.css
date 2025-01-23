@@ -1,0 +1,37 @@
+header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 2rem;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+header h1 {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 1.8rem;
+}
+
+header h1:first-child {
+    margin-top: 0.6rem;
+    color: #ffd621;
+}
+
+header nav ul {
+    font-family: "IBMPlexSans-Bold", sans-serif;
+    display: flex;
+    list-style: none;
+}
+
+header nav ul li {
+    margin-right: 1.3rem;
+}
+
+header nav ul li a {
+    color: white;
+    font-size: 1.5rem;
+}
+
+header nav ul li a:hover {
+    color: #ffd621;
+}

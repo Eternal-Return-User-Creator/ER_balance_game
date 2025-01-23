@@ -1,0 +1,139 @@
+div.create-question.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "IBMPlexSans", sans-serif;
+}
+
+div.wrapper {
+    display: flex;
+    justify-content: center;
+    max-width: 60rem;
+    width: fit-content;
+    padding: 1rem;
+    background: linear-gradient(70deg, rgba(0, 140, 255, 0.45) 0%, rgba(0, 0, 0, 0) 40%);
+}
+
+div.wrapper-pattern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+            linear-gradient(to right, rgba(51, 72, 104, 0.2) 2px, transparent 2px), /* 수직선 */
+            linear-gradient(to bottom, rgba(51, 72, 104, 0.2) 2px, transparent 2px); /* 수평선 */
+    background-size: 2.5rem 2.5rem; /* 격자 크기 설정 */
+    width: fit-content;
+    height: 100%;
+}
+
+div.helper-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-right: 3rem;
+}
+
+div.icon-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    height: 100%;
+    padding: 1rem 1rem 1rem 0rem;
+    border-right: 4px solid rgba(91, 104, 126, 0.67);
+}
+
+img.helper-icon {
+    width: 2rem;
+}
+
+div.guide-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem;
+    text-align: center;
+}
+
+div.speech-bubble {
+    margin-bottom: 1rem;
+}
+
+div.speech-bubble p {
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: left;
+    margin: 0 0 1rem 0;
+}
+
+div.speech-bubble p.title {
+    color: #67c6df;
+    border-left: 3px solid #67c6df;
+    padding-left: 0.5rem;
+}
+
+form.create-question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+form.create-question > div.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form.create-question input {
+    width: 20rem;
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    padding: 0.5rem;
+    color: white;
+    margin-bottom: 1.4rem;
+}
+
+form.create-question input:focus {
+    outline: none;
+    border-color: #67c6df;
+}
+
+form.create-question input:disabled {
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+form.create-question > div.input-wrapper > p {
+    margin: 0.5rem 0;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+button.create-question, button.reset {
+    width: 21rem; /* input width와 동일 */
+    background: rgba(0, 140, 255, 0.24);
+    border: 2px solid rgba(46, 125, 184, 0.85);
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+button.create-question:hover, button.create-question:focus,
+button.reset:hover, button.reset:focus {
+    outline: none;
+    background: #008CFF72;
+    border-color: rgb(97, 183, 255);
+}
+
+button.reset {
+    display: none;
+}

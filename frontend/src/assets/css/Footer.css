@@ -1,0 +1,17 @@
+footer {
+    background-color: #0a0a0a;
+    padding: 1rem 2rem;
+    width: 100%;
+    z-index: 1000;
+    font-size: 0.8rem;
+}
+
+footer p {
+    color: #aaaaaa;
+    margin: 0;
+}
+
+footer a {
+    color: #dedede;
+    text-decoration: none;
+}
