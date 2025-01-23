@@ -1,6 +1,12 @@
 name: Deploy to Vultr
 
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
   push:
     branches:
       - deploy  # 'deploy' 브랜치에 푸시될 때만 실행
