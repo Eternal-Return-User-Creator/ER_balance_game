@@ -50,12 +50,17 @@ jobs:
           DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
           EOF
 
-      # 5. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
+      # 5. 데이터베이스의 데이터를 저장할 data 디렉터리 생성
+      - name: Make data directory
+        run: |
+          mkdir -p ./database/data
+
+      # 6. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
       - name: Copy files to Vultr server
         run: |
           scp -o StrictHostKeyChecking=no -r ./ ubuntu@${{ secrets.VULTR_IP }}:/home/ubuntu/ER_BAL
 
-      # 6. Vultr 서버에 접속하여 docker-compose 실행
+      # 7. Vultr 서버에 접속하여 docker-compose 실행
       - name: Run docker-compose on Vultr server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.VULTR_IP }} << 'EOF'
