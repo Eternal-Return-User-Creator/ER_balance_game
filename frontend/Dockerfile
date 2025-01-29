@@ -25,6 +25,13 @@ RUN npm run build
 # nginx 이미지 선택
 FROM nginx:latest
 
+# certbot 설치
+RUN apt update && apt install -y certbot python3-certbot-nginx
+
+# 인증서 갱신 스크립트 복사
+COPY certbot-renew.sh /usr/local/bin/certbot-renew.sh
+RUN chmod +x /usr/local/bin/certbot-renew.sh
+
 # 빌드된 파일들 nginx 디렉터리로 이동
 COPY --from=build /app/dist /usr/share/nginx/html
 
