@@ -32,9 +32,6 @@ RUN apt update && apt install -y certbot python3-certbot-nginx
 COPY certbot-renew.sh /usr/local/bin/certbot-renew.sh
 RUN chmod +x /usr/local/bin/certbot-renew.sh
 
-# 인증서 갱신 스크립트 크론에 등록
-RUN echo "0 3 * * * /usr/local/bin/certbot-renew.sh >> /var/log/cron.log 2>&1" | crontab -
-
 # 빌드된 파일들 nginx 디렉터리로 이동
 COPY --from=build /app/dist /usr/share/nginx/html
 
