@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         // 모든 경로에 대해 모든 메소드를 허용
         registry.addMapping("/api/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")  // 필요한 HTTP 메서드 허용
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000")
+                .allowedOrigins("http://localhost:5173", "http://localhost:3000", "https://www.er-bal.com", "https://er-bal.com")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

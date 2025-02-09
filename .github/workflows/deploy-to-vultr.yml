@@ -31,12 +31,36 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.VULTR_IP }} >> ~/.ssh/known_hosts
 
-      # 4. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
+      # 4. .env 파일 생성
+      - name: Create .env file locally
+        run: |
+          cat <<EOF > .env
+          MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_USER=${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+
+          API_URL=${{ secrets.API_URL }}
+
+          # DATADOG
+          DD_API_KEY=${{ secrets.DD_API_KEY }}
+          DD_SITE=${{ secrets.DD_SITE }}
+          DD_LOGS_ENABLED=true
+          DD_APM_ENABLED=true
+          DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+          EOF
+
+      # 5. 데이터베이스의 데이터를 저장할 data 디렉터리 생성
+      - name: Make data directory
+        run: |
+          mkdir -p ./database/data
+
+      # 6. 서버에 코드 복사 (scp 명령어로 서버로 코드 전송)
       - name: Copy files to Vultr server
         run: |
           scp -o StrictHostKeyChecking=no -r ./ ubuntu@${{ secrets.VULTR_IP }}:/home/ubuntu/ER_BAL
 
-      # 5. Vultr 서버에 접속하여 docker-compose 실행
+      # 7. Vultr 서버에 접속하여 docker-compose 실행
       - name: Run docker-compose on Vultr server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.VULTR_IP }} << 'EOF'
